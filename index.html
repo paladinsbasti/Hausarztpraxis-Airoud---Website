@@ -24,20 +24,32 @@
                 <i class="fas fa-user-md"></i>
                 <span>Dr. Airoud</span>
             </div>
-            <button class="contact-btn" onclick="scrollToSection('contact')">
-                <i class="fas fa-calendar-alt"></i>
-                Kontakt
-            </button>
+            <div class="nav-actions">
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="de">DE</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ar">عربي</button>
+                </div>
+                <button class="contact-btn" onclick="scrollToSection('contact')">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span data-translate="nav.contact">Kontakt</span>
+                </button>
+            </div>
         </div>
         
         <!-- Mobile Menu -->
         <div class="mobile-menu" id="mobile-menu">
-            <a href="#intro" onclick="scrollToSection('intro')">Startseite</a>
-            <a href="#services" onclick="scrollToSection('services')">Leistungen</a>
-            <a href="#about" onclick="scrollToSection('about')">Über uns</a>
-            <a href="#contact" onclick="scrollToSection('contact')">Kontakt</a>
-            <a href="#impressum" onclick="scrollToSection('impressum')">Impressum</a>
-            <a href="#datenschutz" onclick="scrollToSection('datenschutz')">Datenschutz</a>
+            <a href="#intro" onclick="scrollToSection('intro')" data-translate="nav.home">Startseite</a>
+            <a href="#services" onclick="scrollToSection('services')" data-translate="nav.services">Leistungen</a>
+            <a href="#about" onclick="scrollToSection('about')" data-translate="nav.about">Über uns</a>
+            <a href="#contact" onclick="scrollToSection('contact')" data-translate="nav.contact">Kontakt</a>
+            <a href="#impressum" onclick="scrollToSection('impressum')" data-translate="nav.imprint">Impressum</a>
+            <a href="#datenschutz" onclick="scrollToSection('datenschutz')" data-translate="nav.privacy">Datenschutz</a>
+            <div class="mobile-lang-switcher">
+                <button class="lang-btn active" data-lang="de">DE</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="ar">عربي</button>
+            </div>
         </div>
     </nav>
 
@@ -46,28 +58,28 @@
         <div class="intro-background"></div>
         <div class="intro-content">
             <div class="intro-text">
-                <h1>Willkommen in der Hausarztpraxis Dr. Airoud</h1>
-                <p class="intro-subtitle">Ihre Gesundheit liegt uns am Herzen</p>
+                <h1 data-translate="intro.title">Willkommen in der Hausarztpraxis Dr. Airoud</h1>
+                <p class="intro-subtitle" data-translate="intro.subtitle">Ihre Gesundheit liegt uns am Herzen</p>
                 <div class="intro-features">
                     <div class="feature">
                         <i class="fas fa-clock"></i>
-                        <span>Flexible Sprechzeiten</span>
+                        <span data-translate="intro.feature1">Flexible Sprechzeiten</span>
                     </div>
                     <div class="feature">
                         <i class="fas fa-user-md"></i>
-                        <span>Erfahrenes Team</span>
+                        <span data-translate="intro.feature2">Erfahrenes Team</span>
                     </div>
                     <div class="feature">
                         <i class="fas fa-heart"></i>
-                        <span>Persönliche Betreuung</span>
+                        <span data-translate="intro.feature3">Persönliche Betreuung</span>
                     </div>
                 </div>
-                <p class="intro-description">
+                <p class="intro-description" data-translate="intro.description">
                     Seit über 15 Jahren stehen wir Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. 
                     In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung 
                     und neuesten Behandlungsmethoden.
                 </p>
-                <button class="cta-button" onclick="scrollToSection('contact')">
+                <button class="cta-button" onclick="scrollToSection('contact')" data-translate="intro.cta">
                     Termin vereinbaren
                 </button>
             </div>
@@ -84,48 +96,48 @@
     <!-- Section 2: Services -->
     <section id="services" class="services-section">
         <div class="container">
-            <h2>Unsere Leistungen</h2>
-            <p class="section-subtitle">Umfassende medizinische Versorgung für die ganze Familie</p>
+            <h2 data-translate="services.title">Unsere Leistungen</h2>
+            <p class="section-subtitle" data-translate="services.subtitle">Umfassende medizinische Versorgung für die ganze Familie</p>
             
             <div class="services-grid">
                 <div class="service-card" onclick="openModal('modal-hausarzt')">
                     <div class="service-icon">
                         <i class="fas fa-stethoscope"></i>
                     </div>
-                    <h3>Hausarztmedizin</h3>
-                    <p>Allgemeine Diagnostik und Behandlung</p>
+                    <h3 data-translate="services.general">Hausarztmedizin</h3>
+                    <p data-translate="services.general.desc">Allgemeine Diagnostik und Behandlung</p>
                 </div>
 
                 <div class="service-card" onclick="openModal('modal-vorsorge')">
                     <div class="service-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>Vorsorgeuntersuchungen</h3>
-                    <p>Präventive Gesundheitschecks</p>
+                    <h3 data-translate="services.prevention">Vorsorgeuntersuchungen</h3>
+                    <p data-translate="services.prevention.desc">Präventive Gesundheitschecks</p>
                 </div>
 
                 <div class="service-card" onclick="openModal('modal-labor')">
                     <div class="service-icon">
                         <i class="fas fa-flask"></i>
                     </div>
-                    <h3>Labordiagnostik</h3>
-                    <p>Moderne Analyseverfahren</p>
+                    <h3 data-translate="services.lab">Labordiagnostik</h3>
+                    <p data-translate="services.lab.desc">Moderne Analyseverfahren</p>
                 </div>
 
                 <div class="service-card" onclick="openModal('modal-impfung')">
                     <div class="service-icon">
                         <i class="fas fa-syringe"></i>
                     </div>
-                    <h3>Impfungen</h3>
-                    <p>Schutz für alle Altersgruppen</p>
+                    <h3 data-translate="services.vaccination">Impfungen</h3>
+                    <p data-translate="services.vaccination.desc">Schutz für alle Altersgruppen</p>
                 </div>
 
                 <div class="service-card" onclick="openModal('modal-notfall')">
                     <div class="service-icon">
                         <i class="fas fa-ambulance"></i>
                     </div>
-                    <h3>Notfallversorgung</h3>
-                    <p>Schnelle Hilfe in Notfällen</p>
+                    <h3 data-translate="services.emergency">Notfallversorgung</h3>
+                    <p data-translate="services.emergency.desc">Schnelle Hilfe in Notfällen</p>
                 </div>
             </div>
         </div>
@@ -513,6 +525,7 @@
         </div>
     </footer>
 
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -5,6 +5,57 @@ const navbar = document.getElementById('navbar');
 const doctorImage = document.getElementById('doctor-image');
 const contactForm = document.getElementById('contact-form');
 
+// Language Management
+let currentLanguage = 'de';
+
+// Initialize language buttons
+function initializeLanguageSwitcher() {
+    const langButtons = document.querySelectorAll('.lang-btn');
+    
+    langButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const newLang = this.getAttribute('data-lang');
+            changeLanguage(newLang);
+        });
+    });
+}
+
+// Change language function
+function changeLanguage(lang) {
+    currentLanguage = lang;
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Update all translatable elements
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        if (translations[lang] && translations[lang][key]) {
+            element.textContent = translations[lang][key];
+        }
+    });
+    
+    // Update HTML direction for Arabic
+    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    document.documentElement.setAttribute('lang', lang);
+    
+    // Store preference
+    localStorage.setItem('preferredLanguage', lang);
+}
+
+// Load saved language preference
+function loadLanguagePreference() {
+    const savedLang = localStorage.getItem('preferredLanguage');
+    if (savedLang && translations[savedLang]) {
+        changeLanguage(savedLang);
+    }
+}
+
 // Mobile Menu Toggle
 hamburgerMenu.addEventListener('click', function() {
     hamburgerMenu.classList.toggle('active');
@@ -432,6 +483,10 @@ document.addEventListener('keydown', function(e) {
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Hausarztpraxis Dr. Airoud - Website geladen');
+    
+    // Initialize language switcher
+    initializeLanguageSwitcher();
+    loadLanguagePreference();
     
     // Add active class to navigation based on scroll position
     window.addEventListener('scroll', function() {

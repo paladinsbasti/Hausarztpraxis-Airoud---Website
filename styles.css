@@ -37,9 +37,10 @@ body {
 
 /* Container */
 .container {
-    max-width: 1200px;
+    max-width: 95%;
+    width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 2.5%;
 }
 
 /* Navigation */
@@ -57,9 +58,10 @@ body {
 }
 
 .nav-container {
-    max-width: 1200px;
+    max-width: 95%;
+    width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 2.5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -104,6 +106,51 @@ body {
 .logo i {
     margin-right: 10px;
     font-size: 1.8rem;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.language-switcher {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(74, 144, 164, 0.1);
+    padding: 5px;
+    border-radius: 20px;
+}
+
+.lang-btn {
+    background: transparent;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.lang-btn:hover {
+    background: rgba(74, 144, 164, 0.2);
+}
+
+.lang-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.mobile-lang-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gray-light);
 }
 
 .contact-btn {
@@ -186,12 +233,13 @@ body {
 .intro-content {
     position: relative;
     z-index: 2;
-    max-width: 1200px;
+    max-width: 95%;
+    width: 100%;
     margin: 0 auto;
-    padding: 100px 20px 50px;
+    padding: 100px 2.5% 50px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    gap: 80px;
     align-items: center;
 }
 
@@ -898,10 +946,24 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .nav-actions {
+        display: none;
+    }
+    
+    .container {
+        max-width: 95%;
+        padding: 0 2.5%;
+    }
+    
+    .nav-container {
+        max-width: 95%;
+        padding: 0 2.5%;
+    }
+    
     .intro-content {
         grid-template-columns: 1fr;
         gap: 40px;
-        padding: 120px 20px 50px;
+        padding: 120px 2.5% 50px;
         text-align: center;
     }
     
@@ -982,5 +1044,112 @@ body {
     
     .logo i {
         font-size: 1.5rem;
+    }
+}
+
+/* RTL Support for Arabic */
+[dir="rtl"] {
+    text-align: right;
+}
+
+[dir="rtl"] .nav-container {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-actions {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .intro-content {
+    grid-template-columns: 1fr 1fr;
+    text-align: right;
+}
+
+[dir="rtl"] .about-content {
+    grid-template-columns: 1fr 1fr;
+    text-align: right;
+}
+
+[dir="rtl"] .contact-content {
+    grid-template-columns: 1fr 1fr;
+    direction: rtl;
+}
+
+[dir="rtl"] .feature {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .info-item {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .footer-content {
+    text-align: right;
+}
+
+[dir="rtl"] .logo {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .logo i {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+[dir="rtl"] .contact-btn {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .submit-btn {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hours-item {
+    flex-direction: row-reverse;
+}
+
+/* Responsive adjustments for larger screens */
+@media (min-width: 1600px) {
+    .container {
+        max-width: 96%;
+        padding: 0 2%;
+    }
+    
+    .nav-container {
+        max-width: 96%;
+        padding: 0 2%;
+    }
+    
+    .intro-content {
+        max-width: 96%;
+        padding: 100px 2% 50px;
+        gap: 120px;
+    }
+    
+    .intro-text h1 {
+        font-size: 4.2rem;
+    }
+}
+
+@media (min-width: 2000px) {
+    .container {
+        max-width: 97%;
+        padding: 0 1.5%;
+    }
+    
+    .nav-container {
+        max-width: 97%;
+        padding: 0 1.5%;
+    }
+    
+    .intro-content {
+        max-width: 97%;
+        padding: 100px 1.5% 50px;
+        gap: 150px;
+    }
+    
+    .intro-text h1 {
+        font-size: 4.8rem;
     }
 }
