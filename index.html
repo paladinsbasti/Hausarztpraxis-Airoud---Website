@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hausarztpraxis Dr. Airoud - Ihre Gesundheit ist unser Anliegen</title>
+    <meta name="description" content="Moderne Hausarztpraxis Dr. Airoud - Umfassende medizinische Betreuung in vertrauensvoller Atmosphäre. Termine online buchbar.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Fixed Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="hamburger-menu" id="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="logo">
+                <i class="fas fa-user-md"></i>
+                <span>Dr. Airoud</span>
+            </div>
+            <button class="contact-btn" onclick="scrollToSection('contact')">
+                <i class="fas fa-calendar-alt"></i>
+                Kontakt
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#intro" onclick="scrollToSection('intro')">Startseite</a>
+            <a href="#services" onclick="scrollToSection('services')">Leistungen</a>
+            <a href="#about" onclick="scrollToSection('about')">Über uns</a>
+            <a href="#contact" onclick="scrollToSection('contact')">Kontakt</a>
+            <a href="#impressum" onclick="scrollToSection('impressum')">Impressum</a>
+            <a href="#datenschutz" onclick="scrollToSection('datenschutz')">Datenschutz</a>
+        </div>
+    </nav>
+
+    <!-- Section 1: Intro -->
+    <section id="intro" class="intro-section">
+        <div class="intro-background"></div>
+        <div class="intro-content">
+            <div class="intro-text">
+                <h1>Willkommen in der Hausarztpraxis Dr. Airoud</h1>
+                <p class="intro-subtitle">Ihre Gesundheit liegt uns am Herzen</p>
+                <div class="intro-features">
+                    <div class="feature">
+                        <i class="fas fa-clock"></i>
+                        <span>Flexible Sprechzeiten</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-user-md"></i>
+                        <span>Erfahrenes Team</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-heart"></i>
+                        <span>Persönliche Betreuung</span>
+                    </div>
+                </div>
+                <p class="intro-description">
+                    Seit über 15 Jahren stehen wir Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. 
+                    In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung 
+                    und neuesten Behandlungsmethoden.
+                </p>
+                <button class="cta-button" onclick="scrollToSection('contact')">
+                    Termin vereinbaren
+                </button>
+            </div>
+            <div class="doctor-image-container">
+                <img src="https://via.placeholder.com/400x500/4a90a4/ffffff?text=Dr.+Airoud" 
+                     alt="Dr. Airoud" 
+                     class="doctor-image"
+                     id="doctor-image">
+                <div class="image-overlay"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Services -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <h2>Unsere Leistungen</h2>
+            <p class="section-subtitle">Umfassende medizinische Versorgung für die ganze Familie</p>
+            
+            <div class="services-grid">
+                <div class="service-card" onclick="openModal('modal-hausarzt')">
+                    <div class="service-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <h3>Hausarztmedizin</h3>
+                    <p>Allgemeine Diagnostik und Behandlung</p>
+                </div>
+
+                <div class="service-card" onclick="openModal('modal-vorsorge')">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Vorsorgeuntersuchungen</h3>
+                    <p>Präventive Gesundheitschecks</p>
+                </div>
+
+                <div class="service-card" onclick="openModal('modal-labor')">
+                    <div class="service-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>Labordiagnostik</h3>
+                    <p>Moderne Analyseverfahren</p>
+                </div>
+
+                <div class="service-card" onclick="openModal('modal-impfung')">
+                    <div class="service-icon">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <h3>Impfungen</h3>
+                    <p>Schutz für alle Altersgruppen</p>
+                </div>
+
+                <div class="service-card" onclick="openModal('modal-notfall')">
+                    <div class="service-icon">
+                        <i class="fas fa-ambulance"></i>
+                    </div>
+                    <h3>Notfallversorgung</h3>
+                    <p>Schnelle Hilfe in Notfällen</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: About Us -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Über uns</h2>
+                    <h3>Dr. med. Ahmad Airoud</h3>
+                    <p class="qualification">Facharzt für Allgemeinmedizin</p>
+                    
+                    <p>
+                        Herzlich willkommen in unserer Hausarztpraxis! Seit der Gründung im Jahr 2008 
+                        stehen wir unseren Patienten mit medizinischer Expertise und menschlicher Wärme zur Seite.
+                    </p>
+                    
+                    <div class="qualifications">
+                        <h4>Qualifikationen & Schwerpunkte:</h4>
+                        <ul>
+                            <li>Studium der Humanmedizin an der Universität München</li>
+                            <li>Facharztausbildung in renommierten Kliniken</li>
+                            <li>Fortbildungen in Präventivmedizin</li>
+                            <li>Zertifizierte Reisemedizin</li>
+                            <li>Mitglied im Deutschen Hausärzteverband</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="team-info">
+                        <h4>Unser Team</h4>
+                        <p>
+                            Unser engagiertes Team aus erfahrenen medizinischen Fachangestellten 
+                            sorgt dafür, dass Sie sich in unserer Praxis wohlfühlen und optimal 
+                            betreut werden.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="team-image-container">
+                    <img src="https://via.placeholder.com/500x400/4a90a4/ffffff?text=Unser+Team" 
+                         alt="Unser Praxisteam" 
+                         class="team-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Contact -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Kontakt & Terminbuchung</h2>
+            <p class="section-subtitle">Vereinbaren Sie Ihren Termin - wir sind für Sie da</p>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-card">
+                        <h3>Kontaktdaten</h3>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Adresse</strong>
+                                <p>Musterstraße 123<br>12345 Musterstadt</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Telefon</strong>
+                                <p>+49 (0) 123 456789</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>E-Mail</strong>
+                                <p>info@praxis-airoud.de</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Sprechzeiten</h3>
+                        <div class="opening-hours">
+                            <div class="hours-item">
+                                <span>Montag - Freitag:</span>
+                                <span>08:00 - 18:00 Uhr</span>
+                            </div>
+                            <div class="hours-item">
+                                <span>Samstag:</span>
+                                <span>09:00 - 12:00 Uhr</span>
+                            </div>
+                            <div class="hours-item">
+                                <span>Sonntag:</span>
+                                <span>Geschlossen</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contact-form">
+                        <h3>Termin vereinbaren</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstname">Vorname *</label>
+                                <input type="text" id="firstname" name="firstname" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname">Nachname *</label>
+                                <input type="text" id="lastname" name="lastname" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">E-Mail-Adresse *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Telefonnummer</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="date">Wunschtermin</label>
+                                <input type="date" id="date" name="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="time">Uhrzeit</label>
+                                <select id="time" name="time">
+                                    <option value="">Bitte wählen</option>
+                                    <option value="08:00">08:00</option>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reason">Grund des Besuchs</label>
+                            <select id="reason" name="reason">
+                                <option value="">Bitte wählen</option>
+                                <option value="routine">Routineuntersuchung</option>
+                                <option value="acute">Akute Beschwerden</option>
+                                <option value="followup">Nachkontrolle</option>
+                                <option value="vaccination">Impfung</option>
+                                <option value="checkup">Vorsorgeuntersuchung</option>
+                                <option value="other">Sonstiges</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Nachricht (optional)</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Beschreiben Sie kurz Ihr Anliegen..."></textarea>
+                        </div>
+                        
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="privacy" name="privacy" required>
+                            <label for="privacy">
+                                Ich habe die <a href="#datenschutz">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu. *
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Terminanfrage senden
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Modals -->
+    <div id="modal-hausarzt" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Hausarztmedizin</h3>
+            <div class="modal-body">
+                <img src="https://via.placeholder.com/600x300/4a90a4/ffffff?text=Hausarztmedizin" alt="Hausarztmedizin">
+                <p>Als Ihr Hausarzt sind wir Ihr erster Ansprechpartner für alle gesundheitlichen Fragen. Wir bieten eine umfassende medizinische Grundversorgung für Patienten jeden Alters.</p>
+                <h4>Unsere Leistungen umfassen:</h4>
+                <ul>
+                    <li>Allgemeine Diagnostik und Behandlung</li>
+                    <li>Gesundheitsberatung und Präventionsmedizin</li>
+                    <li>Chronische Krankheiten (Diabetes, Bluthochdruck, etc.)</li>
+                    <li>Akute Erkrankungen und Verletzungen</li>
+                    <li>Koordination mit Fachärzten</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-vorsorge" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Vorsorgeuntersuchungen</h3>
+            <div class="modal-body">
+                <img src="https://via.placeholder.com/600x300/4a90a4/ffffff?text=Vorsorge" alt="Vorsorgeuntersuchungen">
+                <p>Vorbeugung ist der beste Schutz vor Krankheiten. Unsere umfassenden Vorsorgeuntersuchungen helfen dabei, Gesundheitsrisiken frühzeitig zu erkennen.</p>
+                <h4>Unser Vorsorgeprogramm:</h4>
+                <ul>
+                    <li>Check-up 35+ (alle 3 Jahre kostenlos)</li>
+                    <li>Krebsvorsorgeuntersuchungen</li>
+                    <li>Herz-Kreislauf-Diagnostik</li>
+                    <li>Hautkrebsscreening</li>
+                    <li>Impfberatung und Reisemedizin</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-labor" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Labordiagnostik</h3>
+            <div class="modal-body">
+                <img src="https://via.placeholder.com/600x300/4a90a4/ffffff?text=Labor" alt="Labordiagnostik">
+                <p>Moderne Labordiagnostik direkt in unserer Praxis ermöglicht schnelle und präzise Ergebnisse für eine optimale Behandlung.</p>
+                <h4>Unsere Laborleistungen:</h4>
+                <ul>
+                    <li>Blutuntersuchungen (Blutbild, Blutzucker, Cholesterin)</li>
+                    <li>Urindiagnostik</li>
+                    <li>Schnelltests (CRP, Troponin, D-Dimer)</li>
+                    <li>Infektionsdiagnostik</li>
+                    <li>Hormonbestimmungen</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-impfung" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Impfungen</h3>
+            <div class="modal-body">
+                <img src="https://via.placeholder.com/600x300/4a90a4/ffffff?text=Impfungen" alt="Impfungen">
+                <p>Schutzimpfungen sind eine der wichtigsten Maßnahmen zur Verhütung von Infektionskrankheiten. Wir bieten alle empfohlenen Impfungen für alle Altersgruppen.</p>
+                <h4>Unser Impfangebot:</h4>
+                <ul>
+                    <li>STIKO-empfohlene Standardimpfungen</li>
+                    <li>Auffrischungsimpfungen</li>
+                    <li>Reiseimpfungen und Beratung</li>
+                    <li>Grippeimpfung (saisonal)</li>
+                    <li>COVID-19 Impfungen</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-notfall" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Notfallversorgung</h3>
+            <div class="modal-body">
+                <img src="https://via.placeholder.com/600x300/4a90a4/ffffff?text=Notfall" alt="Notfallversorgung">
+                <p>In medizinischen Notfällen sind wir für unsere Patienten da. Unsere Praxis ist für die Erstversorgung von Notfällen ausgestattet.</p>
+                <h4>Notfall-Services:</h4>
+                <ul>
+                    <li>Akute Krankheitsfälle</li>
+                    <li>Kleine Verletzungen und Wundversorgung</li>
+                    <li>EKG und Blutdruckmessung</li>
+                    <li>Koordination mit Rettungsdienst bei Bedarf</li>
+                    <li>24h-Bereitschaftsdienst-Vermittlung</li>
+                </ul>
+                <div class="emergency-info">
+                    <p><strong>Bei lebensbedrohlichen Notfällen wählen Sie bitte sofort den Notruf 112!</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legal Sections -->
+    <section id="impressum" class="legal-section">
+        <div class="container">
+            <h2>Impressum</h2>
+            <div class="legal-content">
+                <h3>Angaben gemäß § 5 TMG</h3>
+                <p>
+                    Dr. med. Ahmad Airoud<br>
+                    Hausarztpraxis<br>
+                    Musterstraße 123<br>
+                    12345 Musterstadt
+                </p>
+                
+                <h3>Kontakt</h3>
+                <p>
+                    Telefon: +49 (0) 123 456789<br>
+                    E-Mail: info@praxis-airoud.de
+                </p>
+                
+                <h3>Berufsbezeichnung und berufsrechtliche Regelungen</h3>
+                <p>
+                    Berufsbezeichnung: Arzt (verliehen in Deutschland)<br>
+                    Zuständige Kammer: Ärztekammer [Bundesland]<br>
+                    Kassenzulassung: Kassenärztliche Vereinigung [Bundesland]
+                </p>
+                
+                <h3>Aufsichtsbehörde</h3>
+                <p>Ärztekammer [Bundesland]</p>
+                
+                <h3>Berufsrechtliche Regelungen</h3>
+                <ul>
+                    <li>Berufsordnung für Ärzte</li>
+                    <li>Heilberufsgesetz des Landes [Bundesland]</li>
+                </ul>
+                
+                <h3>Redaktionell verantwortlich</h3>
+                <p>Dr. med. Ahmad Airoud</p>
+                
+                <h3>Haftung für Inhalte</h3>
+                <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="datenschutz" class="legal-section">
+        <div class="container">
+            <h2>Datenschutzerklärung</h2>
+            <div class="legal-content">
+                <h3>1. Datenschutz auf einen Blick</h3>
+                <h4>Allgemeine Hinweise</h4>
+                <p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen.</p>
+                
+                <h3>2. Allgemeine Hinweise und Pflichtinformationen</h3>
+                <h4>Datenschutz</h4>
+                <p>Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Datenschutzbestimmungen sowie dieser Datenschutzerklärung.</p>
+                
+                <h3>3. Datenerfassung auf dieser Website</h3>
+                <h4>Kontaktformular</h4>
+                <p>Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert.</p>
+                
+                <h3>4. Ihre Rechte</h3>
+                <p>Sie haben jederzeit das Recht:</p>
+                <ul>
+                    <li>gemäß Art. 15 DSGVO Auskunft über Ihre von uns verarbeiteten personenbezogenen Daten zu verlangen</li>
+                    <li>gemäß Art. 16 DSGVO unverzüglich die Berichtigung unrichtiger oder Vervollständigung Ihrer bei uns gespeicherten personenbezogenen Daten zu verlangen</li>
+                    <li>gemäß Art. 17 DSGVO die Löschung Ihrer bei uns gespeicherten personenbezogenen Daten zu verlangen</li>
+                    <li>gemäß Art. 18 DSGVO die Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen</li>
+                </ul>
+                
+                <h3>5. Kontakt Datenschutzbeauftragter</h3>
+                <p>
+                    Bei Fragen zum Datenschutz wenden Sie sich bitte an:<br>
+                    Dr. med. Ahmad Airoud<br>
+                    E-Mail: datenschutz@praxis-airoud.de
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Hausarztpraxis Dr. Airoud</h4>
+                    <p>Ihre Gesundheit liegt uns am Herzen</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Schnelllinks</h4>
+                    <a href="#intro">Startseite</a>
+                    <a href="#services">Leistungen</a>
+                    <a href="#about">Über uns</a>
+                    <a href="#contact">Kontakt</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Rechtliches</h4>
+                    <a href="#impressum">Impressum</a>
+                    <a href="#datenschutz">Datenschutz</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Hausarztpraxis Dr. Airoud. Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
