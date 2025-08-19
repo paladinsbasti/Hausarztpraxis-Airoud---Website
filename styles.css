@@ -37,10 +37,10 @@ body {
 
 /* Container */
 .container {
-    max-width: 95%;
+    max-width: 98%;
     width: 100%;
     margin: 0 auto;
-    padding: 0 2.5%;
+    padding: 0 1%;
 }
 
 /* Navigation */
@@ -58,10 +58,10 @@ body {
 }
 
 .nav-container {
-    max-width: 95%;
+    max-width: 98%;
     width: 100%;
     margin: 0 auto;
-    padding: 0 2.5%;
+    padding: 0 1%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -233,10 +233,10 @@ body {
 .intro-content {
     position: relative;
     z-index: 2;
-    max-width: 95%;
+    max-width: 98%;
     width: 100%;
     margin: 0 auto;
-    padding: 100px 2.5% 50px;
+    padding: 100px 1% 50px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 80px;
@@ -951,19 +951,19 @@ body {
     }
     
     .container {
-        max-width: 95%;
-        padding: 0 2.5%;
+        max-width: 98%;
+        padding: 0 1%;
     }
     
     .nav-container {
-        max-width: 95%;
-        padding: 0 2.5%;
+        max-width: 98%;
+        padding: 0 1%;
     }
     
     .intro-content {
         grid-template-columns: 1fr;
         gap: 40px;
-        padding: 120px 2.5% 50px;
+        padding: 120px 1% 50px;
         text-align: center;
     }
     
@@ -1112,18 +1112,18 @@ body {
 /* Responsive adjustments for larger screens */
 @media (min-width: 1600px) {
     .container {
-        max-width: 96%;
-        padding: 0 2%;
+        max-width: 99%;
+        padding: 0 0.5%;
     }
     
     .nav-container {
-        max-width: 96%;
-        padding: 0 2%;
+        max-width: 99%;
+        padding: 0 0.5%;
     }
     
     .intro-content {
-        max-width: 96%;
-        padding: 100px 2% 50px;
+        max-width: 99%;
+        padding: 100px 0.5% 50px;
         gap: 120px;
     }
     
@@ -1134,18 +1134,18 @@ body {
 
 @media (min-width: 2000px) {
     .container {
-        max-width: 97%;
-        padding: 0 1.5%;
+        max-width: 99.5%;
+        padding: 0 0.25%;
     }
     
     .nav-container {
-        max-width: 97%;
-        padding: 0 1.5%;
+        max-width: 99.5%;
+        padding: 0 0.25%;
     }
     
     .intro-content {
-        max-width: 97%;
-        padding: 100px 1.5% 50px;
+        max-width: 99.5%;
+        padding: 100px 0.25% 50px;
         gap: 150px;
     }
     
