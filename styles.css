@@ -587,7 +587,10 @@ section {
 }
 
 .contact-section .container {
-    padding: 0 30px;
+    max-width: 98%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 80px 1% 30px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -609,43 +612,38 @@ section {
     justify-content: center;
     gap: 40px;
     margin-top: 0;
-    max-width: 1000px; /* Wider container */
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 20px;
+    width: 100%;
 }
 
 .contact-info {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px; /* More generous spacing */
+    gap: 80px;
     width: 100%;
-    max-width: 900px; /* Wider grid */
-    justify-items: center; /* Center the cards within their columns */
+    padding: 0 30px;
 }
 
 .info-card {
     background: var(--background-light);
-    padding: 25px; /* More generous padding */
+    padding: 25px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-light);
     width: 100%;
-    max-width: 400px; /* Consistent max width */
 }
 
 .info-card h3 {
-    font-size: 1.2rem; /* Slightly larger heading */
+    font-size: 1.2rem;
     font-weight: 600;
     color: var(--text-dark);
-    margin-bottom: 20px; /* More space below heading */
-    text-align: center; /* Center the heading */
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .info-item {
     display: flex;
     align-items: flex-start;
-    gap: 15px; /* More generous gap */
-    margin-bottom: 18px; /* More space between items */
+    gap: 15px;
+    margin-bottom: 18px;
 }
 
 .info-item:last-child {
@@ -694,17 +692,15 @@ section {
 /* Legal References */
 .legal-references {
     width: 100%;
-    max-width: 600px; /* Wider for better centering */
-    margin: 0 auto; /* Center the entire legal references section */
+    margin: 40px 0 0 0;
 }
 
 .legal-links {
     display: flex;
     justify-content: center;
-    gap: 50px; /* More generous spacing between links */
-    padding: 30px 20px 20px; /* More top padding, side padding for mobile */
+    gap: 60px;
+    padding: 40px 30px 40px;
     border-top: 1px solid var(--gray-light);
-    margin-top: 10px;
 }
 
 .legal-link {
@@ -1059,26 +1055,21 @@ section {
     }
 
     .contact-content {
-        gap: 30px; /* Good spacing on mobile */
-        padding: 0 15px; /* Side padding for mobile */
+        gap: 30px;
+        padding: 0;
     }
     
     .contact-info {
         grid-template-columns: 1fr;
-        gap: 25px; /* Good spacing between cards */
-        max-width: 100%; /* Full width on mobile */
-    }
-    
-    .info-card {
-        max-width: 100%; /* Full width on mobile */
-        padding: 20px; /* Adequate padding on mobile */
+        gap: 25px;
+        padding: 0 30px;
     }
     
     .legal-links {
         flex-direction: column;
-        gap: 20px; /* More generous spacing between stacked links */
+        gap: 25px;
         align-items: center;
-        padding: 25px 15px 15px; /* Adjusted padding for mobile */
+        padding: 40px 30px 40px;
     }
     
     .services-grid {
