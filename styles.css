@@ -26,6 +26,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
 }
 
 body {
@@ -33,6 +34,11 @@ body {
     line-height: 1.6;
     color: var(--text-dark);
     overflow-x: hidden;
+}
+
+/* Full viewport sections with scroll snap */
+section {
+    scroll-snap-align: start;
 }
 
 /* Container */
@@ -211,7 +217,7 @@ body {
 
 /* Intro Section */
 .intro-section {
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     position: relative;
@@ -236,7 +242,7 @@ body {
     max-width: 98%;
     width: 100%;
     margin: 0 auto;
-    padding: 100px 1% 50px;
+    padding: 80px 1% 30px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 80px;
@@ -251,7 +257,7 @@ body {
     font-size: 3.2rem;
     font-weight: 700;
     color: var(--text-dark);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     line-height: 1.2;
 }
 
@@ -259,14 +265,14 @@ body {
     font-size: 1.4rem;
     color: var(--primary-color);
     font-weight: 500;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .intro-features {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-bottom: 30px;
+    gap: 12px;
+    margin-bottom: 25px;
 }
 
 .feature {
@@ -286,7 +292,7 @@ body {
 .intro-description {
     font-size: 1.1rem;
     color: var(--text-light);
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     line-height: 1.8;
 }
 
@@ -350,12 +356,19 @@ body {
 
 /* Services Section */
 .services-section {
-    padding: 100px 0;
+    height: 100vh;
     background: var(--white);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
 }
 
 .services-section .container {
     padding: 0 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .services-section h2 {
@@ -363,14 +376,14 @@ body {
     font-size: 2.8rem;
     font-weight: 700;
     color: var(--text-dark);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .section-subtitle {
     text-align: center;
     font-size: 1.2rem;
     color: var(--text-light);
-    margin-bottom: 60px;
+    margin-bottom: 40px;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
@@ -380,7 +393,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 30px;
-    margin-top: 60px;
+    margin-top: 30px;
     max-width: calc(5 * 220px + 4 * 30px); /* Max width for 5 cards */
     margin-left: auto;
     margin-right: auto;
@@ -388,14 +401,14 @@ body {
 
 .service-card {
     background: var(--white);
-    padding: 30px 20px;
+    padding: 25px 20px;
     border-radius: var(--border-radius);
     text-align: center;
     box-shadow: var(--shadow-light);
     transition: var(--transition);
     cursor: pointer;
     border: 2px solid transparent;
-    height: 300px;
+    height: 280px;
     width: 100%;
     min-width: 220px;
     max-width: 280px;
@@ -461,12 +474,19 @@ body {
 
 /* About Section */
 .about-section {
-    padding: 100px 0;
+    height: 100vh;
     background: var(--background-light);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
 }
 
 .about-section .container {
     padding: 0 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .about-content {
@@ -554,12 +574,19 @@ body {
 
 /* Contact Section */
 .contact-section {
-    padding: 100px 0;
+    height: 100vh;
     background: var(--white);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
 }
 
 .contact-section .container {
     padding: 0 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .contact-section h2 {
@@ -1035,6 +1062,10 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    html {
+        scroll-snap-type: none; /* Disable scroll snap on mobile */
+    }
+    
     .nav-actions {
         display: none;
     }
@@ -1051,8 +1082,8 @@ body {
     
     .intro-content {
         grid-template-columns: 1fr;
-        gap: 40px;
-        padding: 120px 1% 50px;
+        gap: 30px;
+        padding: 90px 1% 30px;
         text-align: center;
     }
     
@@ -1062,13 +1093,13 @@ body {
     
     .about-content {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 30px;
         text-align: center;
     }
     
     .contact-content {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 30px;
     }
     
     .form-row {
@@ -1085,7 +1116,7 @@ body {
     .service-card {
         min-width: 180px;
         max-width: 220px;
-        height: 260px;
+        height: 240px;
         padding: 20px 15px;
     }
     
@@ -1168,8 +1199,8 @@ body {
     .service-card {
         min-width: 150px;
         max-width: 200px;
-        height: 240px;
-        padding: 18px 12px;
+        height: 220px;
+        padding: 16px 12px;
     }
     
     .service-card p {
@@ -1274,7 +1305,7 @@ body {
     
     .intro-content {
         max-width: 99%;
-        padding: 100px 0.5% 50px;
+        padding: 80px 0.5% 30px;
         gap: 120px;
     }
     
@@ -1291,7 +1322,7 @@ body {
     .service-card {
         min-width: 240px;
         max-width: 280px;
-        height: 320px;
+        height: 300px;
     }
 }
 
@@ -1315,13 +1346,13 @@ body {
     .service-card {
         min-width: 260px;
         max-width: 300px;
-        height: 340px;
+        height: 320px;
         padding: 35px 25px;
     }
     
     .intro-content {
         max-width: 99.5%;
-        padding: 100px 0.25% 50px;
+        padding: 80px 0.25% 30px;
         gap: 150px;
     }
     
