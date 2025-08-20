@@ -492,51 +492,51 @@ section {
 .about-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    gap: 40px;
     align-items: center;
 }
 
 .about-text {
-    padding: 0 30px;
+    padding: 0 20px;
 }
 
 .about-text h2 {
-    font-size: 2.8rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: var(--text-dark);
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .about-text h3 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: var(--primary-color);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .qualification {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--text-light);
     font-style: italic;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .about-text p {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--text-light);
-    line-height: 1.8;
-    margin-bottom: 30px;
+    line-height: 1.6;
+    margin-bottom: 20px;
 }
 
 .qualifications, .team-info {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .qualifications h4, .team-info h4 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-dark);
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .qualifications ul {
@@ -545,10 +545,11 @@ section {
 }
 
 .qualifications li {
-    padding: 8px 0;
+    padding: 6px 0;
     color: var(--text-light);
     position: relative;
-    padding-left: 25px;
+    padding-left: 20px;
+    font-size: 0.95rem;
 }
 
 .qualifications li::before {
@@ -566,7 +567,7 @@ section {
 
 .team-image {
     width: 100%;
-    max-width: 500px;
+    max-width: 350px;
     height: auto;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
@@ -591,44 +592,44 @@ section {
 
 .contact-section h2 {
     text-align: center;
-    font-size: 2.8rem;
+    font-size: 2.2rem;
     font-weight: 700;
     color: var(--text-dark);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .contact-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    margin-top: 60px;
+    gap: 40px;
+    margin-top: 30px;
 }
 
 .contact-info {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
 }
 
 .info-card {
     background: var(--background-light);
-    padding: 30px;
+    padding: 20px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-light);
 }
 
 .info-card h3 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: var(--text-dark);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .info-item {
     display: flex;
     align-items: flex-start;
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
 .info-item:last-child {
@@ -674,44 +675,45 @@ section {
 /* Contact Form */
 .contact-form-container {
     background: var(--background-light);
-    padding: 40px;
+    padding: 25px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-light);
 }
 
 .contact-form h3 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: var(--text-dark);
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 15px;
 }
 
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 18px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     font-weight: 500;
     color: var(--text-dark);
+    font-size: 0.9rem;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 12px 16px;
+    padding: 10px 14px;
     border: 2px solid var(--gray-light);
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     transition: var(--transition);
     font-family: inherit;
 }
@@ -754,8 +756,8 @@ section {
     background: var(--primary-color);
     color: var(--white);
     border: none;
-    padding: 16px 32px;
-    font-size: 1.1rem;
+    padding: 12px 24px;
+    font-size: 1rem;
     font-weight: 600;
     border-radius: var(--border-radius);
     cursor: pointer;
@@ -763,7 +765,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .submit-btn:hover {
@@ -1090,16 +1092,15 @@ section {
     .intro-text h1 {
         font-size: 2.5rem;
     }
-    
-    .about-content {
+     .about-content {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 25px;
         text-align: center;
     }
-    
+
     .contact-content {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 25px;
     }
     
     .form-row {
@@ -1132,7 +1133,7 @@ section {
     }
     
     .contact-form-container {
-        padding: 30px 20px;
+        padding: 20px 15px;
     }
     
     .legal-content {
@@ -1161,17 +1162,17 @@ section {
     }
     
     .intro-text {
-        padding: 0 15px;
+        padding: 0 10px;
     }
     
     .about-text {
-        padding: 0 15px;
+        padding: 0 10px;
     }
     
     .services-section .container,
     .contact-section .container,
     .about-section .container {
-        padding: 0 15px;
+        padding: 0 10px;
     }
 }
 
@@ -1187,7 +1188,7 @@ section {
     .services-section h2,
     .about-section h2,
     .contact-section h2 {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
     }
     
     .services-grid {
