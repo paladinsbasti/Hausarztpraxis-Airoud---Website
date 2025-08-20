@@ -381,9 +381,9 @@ section {
 
 .section-subtitle {
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--text-light);
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
@@ -489,54 +489,58 @@ section {
     justify-content: center;
 }
 
+.about-section h2 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    text-align: center;
+    width: 100%;
+}
+
 .about-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 30px;
     align-items: center;
 }
 
 .about-text {
-    padding: 0 20px;
-}
-
-.about-text h2 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 20px;
+    padding: 0 15px;
+    align-items: center;
+    justify-content: center;
 }
 
 .about-text h3 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--primary-color);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .qualification {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--text-light);
     font-style: italic;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .about-text p {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--text-light);
-    line-height: 1.6;
-    margin-bottom: 20px;
+    line-height: 1.5;
+    margin-bottom: 15px;
 }
 
 .qualifications, .team-info {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .qualifications h4, .team-info h4 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--text-dark);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .qualifications ul {
@@ -545,11 +549,11 @@ section {
 }
 
 .qualifications li {
-    padding: 6px 0;
+    padding: 4px 0;
     color: var(--text-light);
     position: relative;
-    padding-left: 20px;
-    font-size: 0.95rem;
+    padding-left: 18px;
+    font-size: 0.85rem;
 }
 
 .qualifications li::before {
@@ -567,7 +571,7 @@ section {
 
 .team-image {
     width: 100%;
-    max-width: 350px;
+    max-width: 280px;
     height: auto;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
@@ -592,44 +596,56 @@ section {
 
 .contact-section h2 {
     text-align: center;
-    font-size: 2.2rem;
+    font-size: 1.9rem;
     font-weight: 700;
     color: var(--text-dark);
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .contact-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 40px;
-    margin-top: 30px;
+    margin-top: 0;
+    max-width: 1000px; /* Wider container */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
 }
 
 .contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px; /* More generous spacing */
+    width: 100%;
+    max-width: 900px; /* Wider grid */
+    justify-items: center; /* Center the cards within their columns */
 }
 
 .info-card {
     background: var(--background-light);
-    padding: 20px;
+    padding: 25px; /* More generous padding */
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-light);
+    width: 100%;
+    max-width: 400px; /* Consistent max width */
 }
 
 .info-card h3 {
-    font-size: 1.2rem;
+    font-size: 1.2rem; /* Slightly larger heading */
     font-weight: 600;
     color: var(--text-dark);
-    margin-bottom: 15px;
+    margin-bottom: 20px; /* More space below heading */
+    text-align: center; /* Center the heading */
 }
 
 .info-item {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 15px;
+    gap: 15px; /* More generous gap */
+    margin-bottom: 18px; /* More space between items */
 }
 
 .info-item:last-child {
@@ -638,140 +654,79 @@ section {
 
 .info-item i {
     color: var(--primary-color);
-    font-size: 1.2rem;
-    margin-top: 3px;
-    width: 20px;
+    font-size: 1.1rem;
+    margin-top: 2px;
+    width: 18px;
     flex-shrink: 0;
 }
 
 .info-item strong {
     color: var(--text-dark);
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
+    font-size: 0.9rem;
 }
 
 .info-item p {
     color: var(--text-light);
     margin: 0;
+    font-size: 0.85rem;
 }
 
 .opening-hours {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
 }
 
 .hours-item {
     display: flex;
     justify-content: space-between;
-    padding: 8px 0;
+    padding: 6px 0;
     border-bottom: 1px solid var(--gray-light);
+    font-size: 0.85rem;
 }
 
 .hours-item:last-child {
     border-bottom: none;
 }
 
-/* Contact Form */
-.contact-form-container {
-    background: var(--background-light);
-    padding: 25px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-}
-
-.contact-form h3 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.form-group {
-    margin-bottom: 18px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 500;
-    color: var(--text-dark);
-    font-size: 0.9rem;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
+/* Legal References */
+.legal-references {
     width: 100%;
-    padding: 10px 14px;
-    border: 2px solid var(--gray-light);
-    border-radius: 8px;
-    font-size: 0.9rem;
-    transition: var(--transition);
-    font-family: inherit;
+    max-width: 600px; /* Wider for better centering */
+    margin: 0 auto; /* Center the entire legal references section */
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(74, 144, 164, 0.1);
-}
-
-.checkbox-group {
+.legal-links {
     display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    justify-content: center;
+    gap: 50px; /* More generous spacing between links */
+    padding: 30px 20px 20px; /* More top padding, side padding for mobile */
+    border-top: 1px solid var(--gray-light);
+    margin-top: 10px;
 }
 
-.checkbox-group input[type="checkbox"] {
-    width: auto;
-    margin-top: 3px;
-}
-
-.checkbox-group label {
-    margin-bottom: 0;
-    line-height: 1.6;
-}
-
-.checkbox-group a {
-    color: var(--primary-color);
-    text-decoration: none;
-}
-
-.checkbox-group a:hover {
-    text-decoration: underline;
-}
-
-.submit-btn {
-    width: 100%;
-    background: var(--primary-color);
-    color: var(--white);
-    border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: var(--transition);
+.legal-link {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
 }
 
-.submit-btn:hover {
-    background: var(--secondary-color);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-medium);
+.legal-link:hover {
+    background: var(--gray-light);
+    color: var(--secondary-color);
+}
+
+.legal-link i {
+    font-size: 0.85rem;
 }
 
 /* Modals */
@@ -1056,6 +1011,11 @@ section {
         margin-bottom: 15px;
     }
     
+    .contact-info {
+        gap: 30px; /* Generous spacing on tablets */
+        max-width: 800px; /* Wider on tablets */
+    }
+    
     .modal-content {
         width: 95%;
         min-width: 500px;
@@ -1099,13 +1059,26 @@ section {
     }
 
     .contact-content {
-        grid-template-columns: 1fr;
-        gap: 25px;
+        gap: 30px; /* Good spacing on mobile */
+        padding: 0 15px; /* Side padding for mobile */
     }
     
-    .form-row {
+    .contact-info {
         grid-template-columns: 1fr;
-        gap: 0;
+        gap: 25px; /* Good spacing between cards */
+        max-width: 100%; /* Full width on mobile */
+    }
+    
+    .info-card {
+        max-width: 100%; /* Full width on mobile */
+        padding: 20px; /* Adequate padding on mobile */
+    }
+    
+    .legal-links {
+        flex-direction: column;
+        gap: 20px; /* More generous spacing between stacked links */
+        align-items: center;
+        padding: 25px 15px 15px; /* Adjusted padding for mobile */
     }
     
     .services-grid {
@@ -1130,10 +1103,6 @@ section {
         width: 50px;
         height: 50px;
         margin-bottom: 12px;
-    }
-    
-    .contact-form-container {
-        padding: 20px 15px;
     }
     
     .legal-content {
