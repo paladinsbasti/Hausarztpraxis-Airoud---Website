@@ -34,6 +34,9 @@ body {
     line-height: 1.6;
     color: var(--text-dark);
     overflow-x: hidden;
+    /* Begrenzt Scrolling auf 4 Sections */
+    height: 400vh;
+    max-height: 400vh;
 }
 
 /* Improved scrolling */
@@ -640,6 +643,9 @@ section {
     display: flex;
     align-items: center;
     overflow: hidden;
+    /* Als letzte Section - verhindert weiteres Scrollen */
+    scroll-snap-align: end;
+    scroll-snap-stop: always;
 }
 
 .contact-section .container {
