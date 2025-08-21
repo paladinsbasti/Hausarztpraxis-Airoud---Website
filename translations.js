@@ -15,7 +15,7 @@ const translations = {
         'intro.feature1': 'Flexible Sprechzeiten',
         'intro.feature2': 'Erfahrenes Team',
         'intro.feature3': 'Persönliche Betreuung',
-        'intro.description': 'Seit über 15 Jahren stehen wir Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.',
+        'intro.description': 'In unserer modernen Praxis verbinden wir medizinische Expertise mit individueller Betreuung und neuesten Behandlungsmethoden.',
         'intro.cta': 'Termin vereinbaren',
         
         // Services Section
@@ -168,7 +168,7 @@ const translations = {
         'intro.feature1': 'Flexible Office Hours',
         'intro.feature2': 'Experienced Team',
         'intro.feature3': 'Personal Care',
-        'intro.description': 'For over 15 years, we have been your competent partner for your health. In our modern practice, we combine medical expertise with personal care and the latest treatment methods.',
+        'intro.description': 'In our modern practice, we combine medical expertise with individual care and the latest treatment methods.',
         'intro.cta': 'Book Appointment',
         
         // Services Section
@@ -321,7 +321,7 @@ const translations = {
         'intro.feature1': 'مواعيد مرنة',
         'intro.feature2': 'فريق خبير',
         'intro.feature3': 'رعاية شخصية',
-        'intro.description': 'منذ أكثر من 15 عاماً، نحن شريككم المختص في مجال الصحة. في عيادتنا الحديثة، نجمع بين الخبرة الطبية والرعاية الشخصية وأحدث طرق العلاج.',
+        'intro.description': 'في عيادتنا الحديثة، نجمع بين الخبرة الطبية والرعاية الفردية وأحدث طرق العلاج.',
         'intro.cta': 'حجز موعد',
         
         // Services Section
@@ -480,7 +480,7 @@ const translations = {
         'intro.feature1': 'Orari Flessibili',
         'intro.feature2': 'Team Esperto',
         'intro.feature3': 'Assistenza Personale',
-        'intro.description': 'Da oltre 15 anni siamo il vostro partner competente per la salute. Nel nostro studio moderno combiniamo competenza medica con assistenza personale e metodi di trattamento all\'avanguardia.',
+        'intro.description': 'Nel nostro studio moderno combiniamo competenza medica con assistenza individuale e metodi di trattamento all\'avanguardia.',
         'intro.cta': 'Prenota Appuntamento',
         
         // Services Section
