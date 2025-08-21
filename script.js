@@ -148,7 +148,7 @@ function scrollToSection(sectionId) {
     // Close mobile menu if open
     hamburgerMenu.classList.remove('active');
     mobileMenu.classList.remove('active');
-    document.body.style.overflow = 'auto';
+    // Kein overflow reset nötig - Scrollbar bleibt immer sichtbar
 }
 
 // Navbar scroll effect
@@ -634,7 +634,7 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
         hamburgerMenu.classList.remove('active');
         mobileMenu.classList.remove('active');
-        document.body.style.overflow = 'auto';
+        // Kein overflow reset nötig - Scrollbar bleibt immer sichtbar
     }
     
     // Navigate with Tab key
