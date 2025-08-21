@@ -28,6 +28,7 @@
                 <div class="language-switcher">
                     <button class="lang-btn active" data-lang="de">DE</button>
                     <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="it">IT</button>
                     <button class="lang-btn" data-lang="ar">عربي</button>
                 </div>
                 <button class="contact-btn" onclick="scrollToSection('contact')">
@@ -48,6 +49,7 @@
             <div class="mobile-lang-switcher">
                 <button class="lang-btn active" data-lang="de">DE</button>
                 <button class="lang-btn" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="it">IT</button>
                 <button class="lang-btn" data-lang="ar">عربي</button>
             </div>
         </div>
@@ -154,25 +156,25 @@
     <!-- Section 3: About Us -->
     <section id="about" class="about-section">
         <div class="container">
-            <h2>Über uns</h2>
+            <h2 data-translate="about.title">Über uns</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <h3>Abdullah Airoud</h3>
-                    <p class="qualification">Facharzt für Innere Medizin-Notfallmedizin</p>
+                    <h3 data-translate="about.doctor">Abdullah Airoud</h3>
+                    <p class="qualification" data-translate="about.qualification">Facharzt für Innere Medizin-Notfallmedizin</p>
                     
-                    <p>
+                    <p data-translate="about.welcome">
                         Herzlich willkommen in unserer Hausarztpraxis! Mit Kompetenz und Mitgefühl 
                         stehen wir unseren Patienten zur Seite. Ihre Gesundheit ist unsere Priorität.
                     </p>
                     
                     <div class="qualifications">
-                        <h4>Sprachkenntnisse:</h4>
-                        <p>Wir sprechen deutsch, englisch, arabisch und italienisch.</p>
+                        <h4 data-translate="about.languages.title">Sprachkenntnisse:</h4>
+                        <p data-translate="about.languages.desc">Wir sprechen deutsch, englisch, arabisch und italienisch.</p>
                     </div>
                     
                     <div class="team-info">
-                        <h4>Unser Team</h4>
-                        <p>
+                        <h4 data-translate="about.team.title">Unser Team</h4>
+                        <p data-translate="about.team.desc">
                             Unser engagiertes Team sorgt dafür, dass Sie sich in unserer Praxis 
                             wohlfühlen und optimal betreut werden. Wir nehmen uns Zeit für Ihre 
                             Anliegen und behandeln jeden Patienten individuell.
@@ -192,39 +194,39 @@
     <!-- Section 4: Contact -->
     <section id="contact" class="contact-section">
         <div class="container">
-            <h2>Kontakt</h2>
-            <p class="section-subtitle">Wir sind für Sie da - kontaktieren Sie uns</p>
+            <h2 data-translate="contact.title">Kontakt</h2>
+            <p class="section-subtitle" data-translate="contact.subtitle">Wir sind für Sie da - kontaktieren Sie uns</p>
             
             <div class="contact-content">
                 <div class="contact-info">
                     <div class="info-card">
                         <div class="info-section">
-                            <h3>Kontaktdaten</h3>
+                            <h3 data-translate="contact.info">Kontaktdaten</h3>
                             <div class="info-item">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <div>
-                                    <strong>Adresse</strong>
+                                    <strong data-translate="contact.address">Adresse</strong>
                                     <p>Eschenstr. 138<br>42283 Wuppertal</p>
                                 </div>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-phone"></i>
                                 <div>
-                                    <strong>Telefon</strong>
+                                    <strong data-translate="contact.phone">Telefon</strong>
                                     <p>0202 25 350 880</p>
                                 </div>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-envelope"></i>
                                 <div>
-                                    <strong>E-Mail</strong>
+                                    <strong data-translate="contact.email">E-Mail</strong>
                                     <p>info@hausarztpraxis-airoud.de</p>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="info-section">
-                            <h3>Sprechzeiten</h3>
+                            <h3 data-translate="contact.hours">Sprechzeiten</h3>
                             <div class="opening-hours">
                                 <div class="hours-item">
                                     <span>Mo | Di:</span>

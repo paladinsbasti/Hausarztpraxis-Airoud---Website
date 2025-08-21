@@ -40,6 +40,14 @@ function initializeLanguageSwitcher() {
 
 // Change language function
 function changeLanguage(lang) {
+    console.log('🌍 Changing language to:', lang);
+    
+    // Check if language exists
+    if (!translations[lang]) {
+        console.error('❌ Language not found:', lang);
+        return;
+    }
+    
     currentLanguage = lang;
     
     // Update active button
@@ -47,16 +55,32 @@ function changeLanguage(lang) {
         btn.classList.remove('active');
         if (btn.getAttribute('data-lang') === lang) {
             btn.classList.add('active');
+            console.log('✅ Active button updated for:', lang);
         }
     });
     
+    // Count translatable elements
+    const translatableElements = document.querySelectorAll('[data-translate]');
+    console.log('📄 Found', translatableElements.length, 'translatable elements');
+    
+    let translated = 0;
+    let missing = 0;
+    
     // Update all translatable elements
-    document.querySelectorAll('[data-translate]').forEach(element => {
+    translatableElements.forEach(element => {
         const key = element.getAttribute('data-translate');
+        
         if (translations[lang] && translations[lang][key]) {
             element.textContent = translations[lang][key];
+            translated++;
+        } else {
+            console.warn('⚠️ Missing translation for key:', key, 'in language:', lang);
+            missing++;
         }
     });
+    
+    console.log('✅ Translated:', translated, 'elements');
+    console.log('⚠️ Missing:', missing, 'translations');
     
     // Update HTML direction for Arabic
     document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -64,6 +88,8 @@ function changeLanguage(lang) {
     
     // Store preference
     localStorage.setItem('preferredLanguage', lang);
+    
+    console.log('🎉 Language change completed for:', lang);
 }
 
 // Load saved language preference
