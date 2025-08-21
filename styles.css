@@ -36,9 +36,59 @@ body {
     overflow-x: hidden;
 }
 
+/* Improved scrolling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(248, 249, 250, 0.8);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #4a90a4, #357a8a);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #357a8a, #2c5f70);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(135deg, #2c5f70, #1a4a5a);
+}
+
+/* Custom scroll behavior classes */
+body.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+body.instant-scroll {
+    scroll-behavior: auto;
+}
+
+body.snap-scroll {
+    scroll-snap-type: y mandatory;
+}
+
+body.no-snap {
+    scroll-snap-type: none;
+}
+
 /* Full viewport sections with scroll snap */
 section {
     scroll-snap-align: start;
+}
+
+/* Section scroll snap behavior */
+.intro-section,
+.services-section,
+.about-section,
+.contact-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
 }
 
 /* Container */
