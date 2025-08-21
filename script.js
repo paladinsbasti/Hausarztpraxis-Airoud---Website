@@ -8,6 +8,24 @@ const contactForm = document.getElementById('contact-form');
 // Language Management
 let currentLanguage = 'de';
 
+// Custom Scroll Behavior Setup
+let isScrollbarDragging = false;
+let isMouseWheelScrolling = false;
+let scrollTimeout;
+let lastScrollTime = 0;
+let currentSectionIndex = 0;
+
+// Define sections for snapping
+const sections = [
+    { id: 'intro', element: null },
+    { id: 'services', element: null },
+    { id: 'about', element: null },
+    { id: 'contact', element: null }
+];
+
+// Check if we're on the main page
+const isMainPage = document.getElementById('intro') !== null;
+
 // Initialize language buttons
 function initializeLanguageSwitcher() {
     const langButtons = document.querySelectorAll('.lang-btn');
@@ -72,15 +90,33 @@ document.querySelectorAll('.mobile-menu a').forEach(link => {
     });
 });
 
-// Smooth scrolling function
+// Smooth scrolling function (legacy for navigation links)
 function scrollToSection(sectionId) {
-    const element = document.getElementById(sectionId);
-    if (element) {
-        const offsetTop = element.offsetTop - 80; // Account for fixed navbar
-        window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-        });
+    // If it's a string (section ID), handle legacy navigation
+    if (typeof sectionId === 'string') {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            // Find the section index for the new scrolling system
+            const sectionIndex = sections.findIndex(section => section.id === sectionId);
+            if (sectionIndex !== -1 && isMainPage) {
+                currentSectionIndex = sectionIndex;
+                scrollToSectionSmooth(element);
+            } else {
+                // Fallback for non-main pages
+                const offsetTop = element.offsetTop - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    } 
+    // If it's a number (index), use new scrolling system
+    else if (typeof sectionId === 'number') {
+        if (sectionId >= 0 && sectionId < sections.length && sections[sectionId].element) {
+            currentSectionIndex = sectionId;
+            scrollToSectionSmooth(sections[sectionId].element);
+        }
     }
     
     // Close mobile menu if open
@@ -488,6 +524,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeLanguageSwitcher();
     loadLanguagePreference();
     
+    // Initialize sections and custom scrolling
+    if (isMainPage) {
+        initializeCustomScrolling();
+    }
+    
     // Add active class to navigation based on scroll position
     window.addEventListener('scroll', function() {
         const sections = document.querySelectorAll('section[id]');
@@ -504,3 +545,137 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Initialize sections after DOM is loaded
+function initializeCustomScrolling() {
+    // Populate section elements
+    sections.forEach(section => {
+        section.element = document.getElementById(section.id);
+    });
+    
+    // Initialize scroll behavior
+    document.body.classList.add('smooth-scroll', 'snap-scroll');
+    
+    // Mouse wheel event listener for custom scrolling
+    document.addEventListener('wheel', handleWheelScroll, { passive: false });
+    
+    // Touch events for mobile
+    let touchStartY = 0;
+    let touchEndY = 0;
+    
+    document.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    
+    document.addEventListener('touchend', (e) => {
+        touchEndY = e.changedTouches[0].clientY;
+        const deltaY = touchStartY - touchEndY;
+        
+        if (Math.abs(deltaY) > 50) {
+            handleTouchScroll(deltaY);
+        }
+    }, { passive: true });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+            e.preventDefault();
+            scrollToNext();
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+            e.preventDefault();
+            scrollToPrevious();
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            scrollToSection(0);
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            scrollToSection(sections.length - 1);
+        }
+    });
+    
+    // Update current section on scroll
+    window.addEventListener('scroll', updateCurrentSection, { passive: true });
+    
+    // Initial section update
+    updateCurrentSection();
+}
+
+function handleWheelScroll(e) {
+    if (isScrollbarDragging) return;
+    
+    const now = Date.now();
+    if (now - lastScrollTime < 100) return; // Throttle
+    
+    e.preventDefault();
+    
+    const delta = e.deltaY;
+    lastScrollTime = now;
+    
+    clearTimeout(scrollTimeout);
+    
+    isMouseWheelScrolling = true;
+    
+    scrollTimeout = setTimeout(() => {
+        if (delta > 0) {
+            scrollToNext();
+        } else {
+            scrollToPrevious();
+        }
+        
+        setTimeout(() => {
+            isMouseWheelScrolling = false;
+        }, 500);
+    }, 50);
+}
+
+function handleTouchScroll(deltaY) {
+    if (deltaY > 0) {
+        scrollToNext();
+    } else {
+        scrollToPrevious();
+    }
+}
+
+function scrollToNext() {
+    if (currentSectionIndex < sections.length - 1) {
+        scrollToSection(currentSectionIndex + 1);
+    }
+}
+
+function scrollToPrevious() {
+    if (currentSectionIndex > 0) {
+        scrollToSection(currentSectionIndex - 1);
+    }
+}
+
+function scrollToSectionSmooth(sectionElement) {
+    sectionElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+function updateCurrentSection() {
+    if (isMouseWheelScrolling) return;
+    
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    
+    let newIndex = 0;
+    let minDistance = Infinity;
+    
+    sections.forEach((section, index) => {
+        if (section.element) {
+            const sectionTop = section.element.offsetTop;
+            const distance = Math.abs(scrollY - sectionTop);
+            
+            if (distance < minDistance) {
+                minDistance = distance;
+                newIndex = index;
+            }
+        }
+    });
+    
+    currentSectionIndex = newIndex;
+    currentSectionIndex = newIndex;
+}
