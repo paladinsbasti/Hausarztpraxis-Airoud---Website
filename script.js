@@ -104,7 +104,7 @@ function loadLanguagePreference() {
 hamburgerMenu.addEventListener('click', function() {
     hamburgerMenu.classList.toggle('active');
     mobileMenu.classList.toggle('active');
-    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+    // Scrollbar bleibt sichtbar - kein overflow hidden
 });
 
 // Close mobile menu when clicking on a link
@@ -112,7 +112,7 @@ document.querySelectorAll('.mobile-menu a').forEach(link => {
     link.addEventListener('click', function() {
         hamburgerMenu.classList.remove('active');
         mobileMenu.classList.remove('active');
-        document.body.style.overflow = 'auto';
+        // Kein overflow reset nötig - Scrollbar bleibt immer sichtbar
     });
 });
 
