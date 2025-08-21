@@ -119,8 +119,9 @@ section {
     margin: 0 auto;
     padding: 0 1%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .hamburger-menu {
@@ -128,6 +129,10 @@ section {
     flex-direction: column;
     cursor: pointer;
     padding: 5px;
+    position: absolute;
+    left: 1%;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .hamburger-menu span {
@@ -168,6 +173,10 @@ section {
     display: flex;
     align-items: center;
     gap: 20px;
+    position: absolute;
+    right: 1%;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .language-switcher {
