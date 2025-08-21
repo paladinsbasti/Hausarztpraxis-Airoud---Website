@@ -604,16 +604,48 @@ function handleWheelScroll(e) {
     if (isScrollbarDragging) return;
     
     const now = Date.now();
-    if (now - lastScrollTime < 100) return; // Throttle
     
+    // Detect platform and input device
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const isTrackpad = Math.abs(e.deltaX) > 0 || (Math.abs(e.deltaY) < 50 && e.deltaMode === 0);
+    
+    // On macOS with trackpad, allow natural scrolling
+    if (isMac && isTrackpad) {
+        // Don't prevent default - let natural macOS scrolling work
+        return;
+    }
+    
+    // Different throttling for different platforms/devices
+    let throttleTime = 100;
+    if (isMac && isTrackpad) {
+        throttleTime = 150; // Longer throttle for Mac trackpad
+    }
+    
+    if (now - lastScrollTime < throttleTime) return;
+    
+    // Only prevent default for non-trackpad or non-Mac
     e.preventDefault();
     
     const delta = e.deltaY;
+    
+    // Different delta thresholds for different platforms
+    let deltaThreshold = 0;
+    if (isMac && isTrackpad) {
+        deltaThreshold = 30; // Higher threshold for Mac trackpad
+    } else {
+        deltaThreshold = 0; // Windows mouse or other devices
+    }
+    
+    if (Math.abs(delta) < deltaThreshold) return;
+    
     lastScrollTime = now;
     
     clearTimeout(scrollTimeout);
     
     isMouseWheelScrolling = true;
+    
+    // Different delay for different platforms
+    const scrollDelay = isMac && isTrackpad ? 100 : 50;
     
     scrollTimeout = setTimeout(() => {
         if (delta > 0) {
@@ -625,7 +657,7 @@ function handleWheelScroll(e) {
         setTimeout(() => {
             isMouseWheelScrolling = false;
         }, 500);
-    }, 50);
+    }, scrollDelay);
 }
 
 function handleTouchScroll(deltaY) {
