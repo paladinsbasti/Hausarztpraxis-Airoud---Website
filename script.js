@@ -187,40 +187,114 @@ if (doctorImage) {
     });
 }
 
-// Modal functionality with scroll lock (Scrollbar bleibt sichtbar)
+// Modal functionality - Immervue-style scroll lock system
+class ScrollLock {
+    constructor() {
+        this.scrollPosition = 0;
+        this.isLocked = false;
+        this.handlers = new Map();
+    }
+
+    // Verhindert alle Scroll-Events (Immervue-Ansatz)
+    preventScrollEvent(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        return false;
+    }
+
+    // Verhindert Tastatur-Navigation
+    preventKeyboardScroll(e) {
+        // Alle Scroll-relevanten Tasten
+        const scrollKeys = {
+            32: 'Space',
+            33: 'PageUp', 
+            34: 'PageDown',
+            35: 'End',
+            36: 'Home',
+            37: 'ArrowLeft',
+            38: 'ArrowUp',
+            39: 'ArrowRight',
+            40: 'ArrowDown'
+        };
+        
+        if (scrollKeys[e.keyCode] || scrollKeys[e.key]) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            return false;
+        }
+    }
+
+    lock() {
+        if (this.isLocked) return;
+
+        // Speichere aktuelle Scroll-Position
+        this.scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Setze Body-Position für Immervue-Style Fixierung
+        document.body.style.top = `-${this.scrollPosition}px`;
+        document.body.classList.add('modal-open');
+
+        // Erstelle Event-Handler
+        const wheelHandler = this.preventScrollEvent.bind(this);
+        const touchHandler = this.preventScrollEvent.bind(this);
+        const keyHandler = this.preventKeyboardScroll.bind(this);
+
+        // Speichere Handler-Referenzen
+        this.handlers.set('wheel', wheelHandler);
+        this.handlers.set('touchmove', touchHandler);
+        this.handlers.set('touchstart', touchHandler);
+        this.handlers.set('keydown', keyHandler);
+        this.handlers.set('DOMMouseScroll', wheelHandler);
+
+        // Füge alle Event-Listener hinzu (Immervue-Methode)
+        const options = { passive: false, capture: true };
+        document.addEventListener('wheel', wheelHandler, options);
+        document.addEventListener('touchmove', touchHandler, options);
+        document.addEventListener('touchstart', touchHandler, options);
+        document.addEventListener('keydown', keyHandler, options);
+        document.addEventListener('DOMMouseScroll', wheelHandler, options);
+
+        // Zusätzliche Sicherheitsmaßnahmen
+        window.addEventListener('scroll', this.preventScrollEvent, options);
+        
+        this.isLocked = true;
+    }
+
+    unlock() {
+        if (!this.isLocked) return;
+
+        // Entferne alle Event-Listener
+        const options = { passive: false, capture: true };
+        this.handlers.forEach((handler, event) => {
+            document.removeEventListener(event, handler, options);
+        });
+        window.removeEventListener('scroll', this.preventScrollEvent, options);
+
+        // Lösche Handler-Map
+        this.handlers.clear();
+
+        // Entferne CSS-Klasse und Styles
+        document.body.classList.remove('modal-open');
+        document.body.style.top = '';
+
+        // Stelle Scroll-Position wieder her
+        window.scrollTo(0, this.scrollPosition);
+        
+        this.isLocked = false;
+    }
+}
+
+// Globale ScrollLock-Instanz
+const scrollLock = new ScrollLock();
+
 function disableScroll() {
-    // Speichere die aktuelle Scroll-Position
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-    
-    // Speichere die Scroll-Position als CSS-Variable für die Fixierung
-    document.body.style.top = `-${scrollTop}px`;
-    document.body.style.left = `-${scrollLeft}px`;
-    
-    // Speichere die Werte für die Wiederherstellung
-    document.body.setAttribute('data-scroll-top', scrollTop);
-    document.body.setAttribute('data-scroll-left', scrollLeft);
-    
-    // Füge die modal-open Klasse hinzu (verhindert Scrollen, behält Scrollbar)
-    document.body.classList.add('modal-open');
+    scrollLock.lock();
 }
 
 function enableScroll() {
-    // Hole die gespeicherte Scroll-Position
-    const scrollTop = parseInt(document.body.getAttribute('data-scroll-top') || '0');
-    const scrollLeft = parseInt(document.body.getAttribute('data-scroll-left') || '0');
-    
-    // Entferne die modal-open Klasse und Position-Styles
-    document.body.classList.remove('modal-open');
-    document.body.style.top = '';
-    document.body.style.left = '';
-    
-    // Stelle die ursprüngliche Scroll-Position wieder her
-    window.scrollTo(scrollLeft, scrollTop);
-    
-    // Entferne die Attribute
-    document.body.removeAttribute('data-scroll-top');
-    document.body.removeAttribute('data-scroll-left');
+    scrollLock.unlock();
 }
 
 function openModal(modalId) {
