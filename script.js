@@ -187,13 +187,50 @@ if (doctorImage) {
     });
 }
 
-// Modal functionality
+// Modal functionality with scroll lock (Scrollbar bleibt sichtbar)
+function disableScroll() {
+    // Speichere die aktuelle Scroll-Position
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    
+    // Speichere die Scroll-Position als CSS-Variable für die Fixierung
+    document.body.style.top = `-${scrollTop}px`;
+    document.body.style.left = `-${scrollLeft}px`;
+    
+    // Speichere die Werte für die Wiederherstellung
+    document.body.setAttribute('data-scroll-top', scrollTop);
+    document.body.setAttribute('data-scroll-left', scrollLeft);
+    
+    // Füge die modal-open Klasse hinzu (verhindert Scrollen, behält Scrollbar)
+    document.body.classList.add('modal-open');
+}
+
+function enableScroll() {
+    // Hole die gespeicherte Scroll-Position
+    const scrollTop = parseInt(document.body.getAttribute('data-scroll-top') || '0');
+    const scrollLeft = parseInt(document.body.getAttribute('data-scroll-left') || '0');
+    
+    // Entferne die modal-open Klasse und Position-Styles
+    document.body.classList.remove('modal-open');
+    document.body.style.top = '';
+    document.body.style.left = '';
+    
+    // Stelle die ursprüngliche Scroll-Position wieder her
+    window.scrollTo(scrollLeft, scrollTop);
+    
+    // Entferne die Attribute
+    document.body.removeAttribute('data-scroll-top');
+    document.body.removeAttribute('data-scroll-left');
+}
+
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
+        // Verhindere Scrollen aber behalte Scrollbar
+        disableScroll();
+        
         modal.classList.add('active');
         modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
         
         // Add fade in animation
         setTimeout(() => {
@@ -207,7 +244,9 @@ function closeModal(modal) {
     setTimeout(() => {
         modal.classList.remove('active');
         modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
+        
+        // Erlaube Scrollen wieder
+        enableScroll();
     }, 300);
 }
 
