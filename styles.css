@@ -740,6 +740,15 @@ section {
     font-size: 0.85rem;
 }
 
+.info-item p a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.info-item p a:hover {
+    text-decoration: underline;
+}
+
 .opening-hours {
     display: flex;
     flex-direction: column;
