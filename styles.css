@@ -34,9 +34,29 @@ body {
     line-height: 1.6;
     color: var(--text-dark);
     overflow-x: hidden;
+}
+
+/* Main page with 4 sections */
+body:not(.legal-page) {
     /* Begrenzt Scrolling auf 4 Sections */
     height: 400vh;
     max-height: 400vh;
+}
+
+/* Legal pages without infinite scroll */
+body.legal-page {
+    height: auto;
+    overflow-x: hidden;
+}
+
+html:has(body.legal-page) {
+    overflow-x: hidden;
+}
+
+/* Legal section normal layout */
+.legal-page .legal-section {
+    padding-top: 80px;
+    padding-bottom: 50px;
 }
 
 /* Improved scrolling */
@@ -1033,32 +1053,6 @@ section {
 
 .contact-info-legal a:hover {
     text-decoration: underline;
-}
-
-.emergency-info {
-    background: linear-gradient(135deg, #ff4444, #cc0000);
-    color: var(--white);
-    border-radius: var(--border-radius);
-    padding: 20px;
-    margin: 20px 0;
-    box-shadow: var(--shadow-medium);
-}
-
-.emergency-info ul {
-    color: var(--white);
-    margin-bottom: 0;
-}
-
-.emergency-info a {
-    color: var(--white);
-    font-weight: 600;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: var(--transition);
-}
-
-.emergency-info a:hover {
-    border-bottom: 1px solid var(--white);
 }
 
 /* Footer */

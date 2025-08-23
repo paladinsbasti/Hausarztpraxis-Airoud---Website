@@ -884,6 +884,51 @@ function enforceScrollBoundary() {
 
 // Initialize scroll boundary when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    // Add a small delay to ensure all elements are rendered
-    setTimeout(enforceScrollBoundary, 100);
+    if (document.body.classList.contains('legal-page')) {
+        // Legal pages - prevent infinite scrolling
+        initializeLegalPageScrolling();
+    } else if (isMainPage) {
+        // Main page - enforce scroll boundary for 4 sections
+        setTimeout(enforceScrollBoundary, 100);
+    }
 });
+
+// Function to handle scrolling on legal pages
+function initializeLegalPageScrolling() {
+    let maxScrollReached = false;
+    
+    function preventInfiniteScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const maxScroll = documentHeight - windowHeight;
+        
+        // If we've scrolled past the content, fix the height
+        if (scrollTop >= maxScroll && !maxScrollReached) {
+            maxScrollReached = true;
+            document.documentElement.style.height = documentHeight + 'px';
+            document.body.style.height = documentHeight + 'px';
+        }
+        
+        // Prevent over-scrolling
+        if (scrollTop > maxScroll) {
+            window.scrollTo(0, maxScroll);
+        }
+    }
+    
+    // Monitor scrolling
+    window.addEventListener('scroll', preventInfiniteScroll, { passive: false });
+    
+    // Prevent wheel scrolling beyond content
+    window.addEventListener('wheel', function(e) {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const maxScroll = documentHeight - windowHeight;
+        
+        if (e.deltaY > 0 && scrollTop >= maxScroll) {
+            e.preventDefault();
+            return false;
+        }
+    }, { passive: false });
+}
