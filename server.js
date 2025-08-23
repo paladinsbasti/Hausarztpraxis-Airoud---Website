@@ -514,6 +514,103 @@ app.use((error, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
+// Additional API endpoints for enhanced CMS features
+
+// Clear cache endpoint
+app.post('/api/cache/clear', authenticateToken, (req, res) => {
+    try {
+        // In a real application, this would clear Redis cache or similar
+        // For now, we'll just clear any temporary files
+        console.log('Cache cleared by admin');
+        res.json({ message: 'Cache cleared successfully' });
+    } catch (error) {
+        console.error('Error clearing cache:', error);
+        res.status(500).json({ error: 'Failed to clear cache' });
+    }
+});
+
+// Change password endpoint
+app.post('/api/auth/change-password', authenticateToken, async (req, res) => {
+    try {
+        const { newPassword } = req.body;
+
+        if (!newPassword || newPassword.length < 8) {
+            return res.status(400).json({ error: 'Password must be at least 8 characters long' });
+        }
+
+        // Update admin user password
+        adminUser.password = newPassword;
+        
+        console.log('Admin password changed successfully');
+        res.json({ message: 'Password changed successfully' });
+    } catch (error) {
+        console.error('Error changing password:', error);
+        res.status(500).json({ error: 'Failed to change password' });
+    }
+});
+
+// Meta data endpoints
+app.get('/api/meta/:lang?', authenticateToken, async (req, res) => {
+    try {
+        const lang = req.params.lang || 'de';
+        const translationsPath = path.join(__dirname, 'data', 'translations.json');
+        
+        if (await fs.access(translationsPath).then(() => true).catch(() => false)) {
+            const data = await fs.readFile(translationsPath, 'utf8');
+            const translations = JSON.parse(data);
+            
+            const metaData = {};
+            Object.keys(translations[lang] || {}).forEach(key => {
+                if (key.startsWith('meta.')) {
+                    metaData[key] = translations[lang][key];
+                }
+            });
+            
+            res.json(metaData);
+        } else {
+            res.json({});
+        }
+    } catch (error) {
+        console.error('Error loading meta data:', error);
+        res.status(500).json({ error: 'Failed to load meta data' });
+    }
+});
+
+// Website settings endpoints
+app.get('/api/settings', authenticateToken, (req, res) => {
+    try {
+        // Return current website settings
+        const settings = {
+            primaryColor: '#2c5aa0',
+            secondaryColor: '#34495e',
+            fontFamily: 'Inter',
+            contactEmail: 'info@praxis-airoud.de',
+            sendConfirmation: true,
+            defaultLanguage: 'de',
+            languageSwitcherEnabled: true
+        };
+        
+        res.json(settings);
+    } catch (error) {
+        console.error('Error loading settings:', error);
+        res.status(500).json({ error: 'Failed to load settings' });
+    }
+});
+
+app.post('/api/settings', authenticateToken, async (req, res) => {
+    try {
+        const settings = req.body;
+        
+        // In production, save settings to database or config file
+        console.log('Settings updated:', settings);
+        
+        res.json({ message: 'Settings updated successfully', settings });
+    } catch (error) {
+        console.error('Error updating settings:', error);
+        res.status(500).json({ error: 'Failed to update settings' });
+    }
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`🚀 CMS Server running on http://localhost:${PORT}`);

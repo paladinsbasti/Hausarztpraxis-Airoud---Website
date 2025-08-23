@@ -131,6 +131,21 @@ class CMSManager {
             this.loadTranslationEditor(e.target.value);
         });
 
+        // Meta language switcher
+        document.getElementById('meta-language').addEventListener('change', (e) => {
+            this.loadMetaForLanguage(e.target.value);
+        });
+
+        // Navigation language switcher
+        document.getElementById('nav-language').addEventListener('change', (e) => {
+            this.loadNavigationForLanguage(e.target.value);
+        });
+
+        // Modal language switcher
+        document.getElementById('modal-language').addEventListener('change', (e) => {
+            this.loadModalsForLanguage(e.target.value);
+        });
+
         // Save and discard buttons
         document.getElementById('save-changes').addEventListener('click', () => {
             this.saveChanges();
@@ -253,12 +268,26 @@ class CMSManager {
         this.currentTab = tabName;
 
         // Load specific content for the tab
-        if (tabName === 'translations') {
+        if (tabName === 'content') {
+            this.loadContentForLanguage();
+        } else if (tabName === 'services') {
+            this.loadServicesForLanguage(this.currentLanguage);
+        } else if (tabName === 'translations') {
             this.loadTranslationEditor(document.getElementById('translation-language').value);
+        } else if (tabName === 'meta') {
+            this.loadMetaForLanguage(document.getElementById('meta-language').value);
+        } else if (tabName === 'navigation') {
+            this.loadNavigationForLanguage(document.getElementById('nav-language').value);
+        } else if (tabName === 'modals') {
+            this.loadModalsForLanguage(document.getElementById('modal-language').value);
         } else if (tabName === 'images') {
             this.loadImageGallery();
         } else if (tabName === 'contact') {
             this.loadContactInfo();
+        } else if (tabName === 'backup') {
+            this.loadBackupHistory();
+        } else if (tabName === 'settings') {
+            this.loadSettings();
         }
     }
 
@@ -300,10 +329,90 @@ class CMSManager {
         });
     }
 
-    setInputValue(id, value) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.value = value;
+    // Load meta data for language
+    loadMetaForLanguage(lang) {
+        if (!this.translations[lang]) return;
+
+        this.setInputValue('meta-title', this.translations[lang]['meta.title'] || '');
+        this.setInputValue('meta-description', this.translations[lang]['meta.description'] || '');
+        this.setInputValue('meta-keywords', this.translations[lang]['meta.keywords'] || '');
+        this.setInputValue('og-title', this.translations[lang]['meta.og.title'] || '');
+        this.setInputValue('og-description', this.translations[lang]['meta.og.description'] || '');
+        this.setInputValue('og-image', this.translations[lang]['meta.og.image'] || '');
+    }
+
+    // Load navigation for language
+    loadNavigationForLanguage(lang) {
+        if (!this.translations[lang]) return;
+
+        this.setInputValue('nav-home', this.translations[lang]['nav.home'] || '');
+        this.setInputValue('nav-services', this.translations[lang]['nav.services'] || '');
+        this.setInputValue('nav-about', this.translations[lang]['nav.about'] || '');
+        this.setInputValue('nav-contact', this.translations[lang]['nav.contact'] || '');
+        this.setInputValue('nav-imprint', this.translations[lang]['nav.imprint'] || '');
+        this.setInputValue('nav-privacy', this.translations[lang]['nav.privacy'] || '');
+    }
+
+    // Load modals for language
+    loadModalsForLanguage(lang) {
+        if (!this.translations[lang]) return;
+
+        // Hausarzt modal
+        this.setInputValue('modal-hausarzt-title', this.translations[lang]['modal.hausarzt.title'] || '');
+        this.setInputValue('modal-hausarzt-intro', this.translations[lang]['modal.hausarzt.intro'] || '');
+        this.setInputValue('modal-hausarzt-listTitle', this.translations[lang]['modal.hausarzt.listTitle'] || '');
+        this.setInputValue('modal-hausarzt-li1', this.translations[lang]['modal.hausarzt.li1'] || '');
+        this.setInputValue('modal-hausarzt-li2', this.translations[lang]['modal.hausarzt.li2'] || '');
+        this.setInputValue('modal-hausarzt-li3', this.translations[lang]['modal.hausarzt.li3'] || '');
+        this.setInputValue('modal-hausarzt-li4', this.translations[lang]['modal.hausarzt.li4'] || '');
+        this.setInputValue('modal-hausarzt-li5', this.translations[lang]['modal.hausarzt.li5'] || '');
+
+        // Vorsorge modal
+        this.setInputValue('modal-vorsorge-title', this.translations[lang]['modal.vorsorge.title'] || '');
+        this.setInputValue('modal-vorsorge-intro', this.translations[lang]['modal.vorsorge.intro'] || '');
+        this.setInputValue('modal-vorsorge-listTitle', this.translations[lang]['modal.vorsorge.listTitle'] || '');
+        this.setInputValue('modal-vorsorge-li1', this.translations[lang]['modal.vorsorge.li1'] || '');
+        this.setInputValue('modal-vorsorge-li2', this.translations[lang]['modal.vorsorge.li2'] || '');
+        this.setInputValue('modal-vorsorge-li3', this.translations[lang]['modal.vorsorge.li3'] || '');
+        this.setInputValue('modal-vorsorge-li4', this.translations[lang]['modal.vorsorge.li4'] || '');
+        this.setInputValue('modal-vorsorge-li5', this.translations[lang]['modal.vorsorge.li5'] || '');
+
+        // Labor modal
+        this.setInputValue('modal-labor-title', this.translations[lang]['modal.labor.title'] || '');
+        this.setInputValue('modal-labor-intro', this.translations[lang]['modal.labor.intro'] || '');
+        this.setInputValue('modal-labor-listTitle', this.translations[lang]['modal.labor.listTitle'] || '');
+        this.setInputValue('modal-labor-li1', this.translations[lang]['modal.labor.li1'] || '');
+        this.setInputValue('modal-labor-li2', this.translations[lang]['modal.labor.li2'] || '');
+        this.setInputValue('modal-labor-li3', this.translations[lang]['modal.labor.li3'] || '');
+        this.setInputValue('modal-labor-li4', this.translations[lang]['modal.labor.li4'] || '');
+        this.setInputValue('modal-labor-li5', this.translations[lang]['modal.labor.li5'] || '');
+    }
+
+    // Load settings
+    async loadSettings() {
+        if (!this.isLoggedIn || !this.authToken) return;
+
+        try {
+            const response = await fetch(`${this.apiBase}/settings`, {
+                headers: {
+                    'Authorization': `Bearer ${this.authToken}`
+                }
+            });
+
+            if (response.ok) {
+                const settings = await response.json();
+                
+                document.getElementById('primary-color').value = settings.primaryColor || '#2c5aa0';
+                document.getElementById('secondary-color').value = settings.secondaryColor || '#34495e';
+                document.getElementById('font-family').value = settings.fontFamily || 'Inter';
+                document.getElementById('contact-email').value = settings.contactEmail || 'info@praxis-airoud.de';
+                document.getElementById('send-confirmation').value = settings.sendConfirmation ? 'true' : 'false';
+                document.getElementById('default-language').value = settings.defaultLanguage || 'de';
+                document.getElementById('lang-switcher-enabled').value = settings.languageSwitcherEnabled ? 'true' : 'false';
+            }
+        } catch (error) {
+            console.error('Error loading settings:', error);
+            this.showStatusMessage('Fehler beim Laden der Einstellungen', 'error');
         }
     }
 
@@ -778,6 +887,75 @@ class CMSManager {
         setTimeout(() => {
             statusDiv.classList.remove('show');
         }, 4000);
+    }
+}
+
+// Additional CMS Functions for Enhanced Features
+async function clearCache() {
+    if (!cmsManager.isLoggedIn || !cmsManager.authToken) return;
+
+    try {
+        const response = await fetch(`${cmsManager.apiBase}/cache/clear`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${cmsManager.authToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            cmsManager.showStatusMessage('Cache erfolgreich geleert!', 'success');
+        } else {
+            cmsManager.showStatusMessage('Fehler beim Leeren des Caches', 'error');
+        }
+    } catch (error) {
+        console.error('Error clearing cache:', error);
+        cmsManager.showStatusMessage('Fehler beim Leeren des Caches', 'error');
+    }
+}
+
+async function changePassword() {
+    const newPassword = document.getElementById('new-password').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
+
+    if (!newPassword || !confirmPassword) {
+        cmsManager.showStatusMessage('Bitte füllen Sie alle Passwort-Felder aus', 'error');
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        cmsManager.showStatusMessage('Passwörter stimmen nicht überein', 'error');
+        return;
+    }
+
+    if (newPassword.length < 8) {
+        cmsManager.showStatusMessage('Passwort muss mindestens 8 Zeichen lang sein', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${cmsManager.apiBase}/auth/change-password`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${cmsManager.authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                newPassword: newPassword
+            })
+        });
+
+        if (response.ok) {
+            cmsManager.showStatusMessage('Passwort erfolgreich geändert!', 'success');
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+        } else {
+            const error = await response.json();
+            cmsManager.showStatusMessage(error.error || 'Fehler beim Ändern des Passworts', 'error');
+        }
+    } catch (error) {
+        console.error('Error changing password:', error);
+        cmsManager.showStatusMessage('Fehler beim Ändern des Passworts', 'error');
     }
 }
 

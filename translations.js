@@ -1,4 +1,5 @@
 // Translations for multi-language support
+// Last updated: 23.8.2025, 22:14:22
 const translations = {
     de: {
         // Navigation
@@ -73,84 +74,57 @@ const translations = {
         'footer.tagline': 'Ihre Gesundheit liegt uns am Herzen',
         'footer.quicklinks': 'Schnelllinks',
         'footer.legal': 'Rechtliches',
-        'footer.copyright': '2025 Hausarztpraxis Dr. Airoud. Alle Rechte vorbehalten.'
-    ,
-    // Opening hours labels
-    'contact.hours.days.mon_tue': 'Mo | Di:',
-    'contact.hours.days.wed': 'Mi:',
-    'contact.hours.days.thu': 'Do:',
-    'contact.hours.days.fri': 'Fr:',
-    'contact.hours.appointments': 'Termine:',
-    'contact.hours.byArrangement': 'nach Vereinbarung',
-    'contact.hours.values.mon_tue': '08:30 - 13:00 | 16:00 - 18:00 Uhr',
-    'contact.hours.values.wed': '08:30 - 13:00 Uhr',
-    'contact.hours.values.thu': '08:30 - 13:00 | 16:00 - 18:00 Uhr',
-    'contact.hours.values.fri': '08:30 - 13:00 Uhr',
+        'footer.copyright': '2025 Hausarztpraxis Dr. Airoud. Alle Rechte vorbehalten.',
 
-    // Modals - Hausarzt
-    'modal.hausarzt.title': 'Hausarztmedizin',
-    'modal.hausarzt.intro': 'Als Ihr Hausarzt sind wir Ihr erster Ansprechpartner für alle gesundheitlichen Fragen. Wir bieten eine umfassende medizinische Grundversorgung für Patienten jeden Alters.',
-    'modal.hausarzt.listTitle': 'Unsere Leistungen umfassen:',
-    'modal.hausarzt.li1': 'Allgemeine Diagnostik und Behandlung',
-    'modal.hausarzt.li2': 'Gesundheitsberatung und Präventionsmedizin',
-    'modal.hausarzt.li3': 'Chronische Krankheiten (Diabetes, Bluthochdruck, etc.)',
-    'modal.hausarzt.li4': 'Akute Erkrankungen und Verletzungen',
-    'modal.hausarzt.li5': 'Koordination mit Fachärzten',
+        // Opening hours labels
+        'contact.hours.days.mon_tue': 'Mo | Di:',
+        'contact.hours.days.wed': 'Mi:',
+        'contact.hours.days.thu': 'Do:',
+        'contact.hours.days.fri': 'Fr:',
+        'contact.hours.appointments': 'Termine:',
+        'contact.hours.byArrangement': 'nach Vereinbarung',
+        'contact.hours.values.mon_tue': '08:30 - 13:00 | 16:00 - 18:00 Uhr',
+        'contact.hours.values.wed': '08:30 - 13:00 Uhr',
+        'contact.hours.values.thu': '08:30 - 13:00 | 16:00 - 18:00 Uhr',
+        'contact.hours.values.fri': '08:30 - 13:00 Uhr',
 
-    // Modals - Vorsorge
-    'modal.vorsorge.title': 'Vorsorgeuntersuchungen',
-    'modal.vorsorge.intro': 'Vorbeugung ist der beste Schutz vor Krankheiten. Unsere umfassenden Vorsorgeuntersuchungen helfen dabei, Gesundheitsrisiken frühzeitig zu erkennen.',
-    'modal.vorsorge.listTitle': 'Unser Vorsorgeprogramm:',
-    'modal.vorsorge.li1': 'Check-ups Untersuchungen',
-    'modal.vorsorge.li2': 'Hautkrebsscreening',
-    'modal.vorsorge.li3': 'Impfberatung und Impfungen',
-    'modal.vorsorge.li4': 'Krebsvorsorge beim Mann mit Prostatauntersuchung',
-    'modal.vorsorge.li5': 'Beratung zur Darmkrebs-Früherkennung',
+        // Meta Data & SEO
+        'meta.title': 'Hausarztpraxis Dr. Airoud - Ihre Gesundheit ist unser Anliegen',
+        'meta.description': 'Moderne Hausarztpraxis Dr. Airoud - Umfassende medizinische Betreuung in vertrauensvoller Atmosphäre. Termine online buchbar.',
+        'meta.keywords': 'Hausarzt, Arzt, Medizin, Gesundheit, Praxis, Dr. Airoud, Vorsorge, Behandlung',
+        'meta.og.title': 'Hausarztpraxis Dr. Airoud - Ihre Gesundheit ist unser Anliegen',
+        'meta.og.description': 'Moderne Hausarztpraxis Dr. Airoud - Umfassende medizinische Betreuung in vertrauensvoller Atmosphäre.',
+        'meta.og.image': '/images/praxis-og-image.jpg',
 
-    // Modals - Labor
-    'modal.labor.title': 'Blutuntersuchungen und Labordiagnostik',
-    'modal.labor.intro': 'Moderne Labordiagnostik direkt in unserer Praxis ermöglicht schnelle und präzise Ergebnisse für eine optimale Behandlung und Diagnosestellung.',
-    'modal.labor.listTitle': 'Unsere Laborleistungen:',
-    'modal.labor.li1': 'Blutuntersuchungen (Blutbild, Blutzucker, Cholesterin)',
-    'modal.labor.li2': 'Labordiagnostik für verschiedene Erkrankungen',
-    'modal.labor.li3': 'Schnelle Ergebnisse durch praxiseigene Geräte',
-    'modal.labor.li4': 'Präventive Blutanalysen',
-    'modal.labor.li5': 'Verlaufskontrolle bei chronischen Erkrankungen',
+        // Modals - Hausarzt
+        'modal.hausarzt.title': 'Hausarztmedizin',
+        'modal.hausarzt.intro': 'Als Ihr Hausarzt sind wir Ihr erster Ansprechpartner für alle gesundheitlichen Fragen. Wir bieten eine umfassende medizinische Grundversorgung für Patienten jeden Alters.',
+        'modal.hausarzt.listTitle': 'Unsere Leistungen umfassen:',
+        'modal.hausarzt.li1': 'Allgemeine Diagnostik und Behandlung',
+        'modal.hausarzt.li2': 'Gesundheitsberatung und Präventionsmedizin',
+        'modal.hausarzt.li3': 'Chronische Krankheiten (Diabetes, Bluthochdruck, etc.)',
+        'modal.hausarzt.li4': 'Akute Erkrankungen und Verletzungen',
+        'modal.hausarzt.li5': 'Koordination mit Fachärzten',
 
-    // Modals - Diagnostik
-    'modal.diagnostik.title': 'Diagnostik',
-    'modal.diagnostik.intro': 'Moderne Diagnoseverfahren für eine präzise Untersuchung und optimale Behandlung. Wir verfügen über modernste Geräte für verschiedene Untersuchungen.',
-    'modal.diagnostik.listTitle': 'Unsere diagnostischen Leistungen:',
-    'modal.diagnostik.li1': 'EKG (Elektrokardiogramm)',
-    'modal.diagnostik.li2': 'Langzeit-EKG',
-    'modal.diagnostik.li3': 'Belastungs-EKG',
-    'modal.diagnostik.li4': 'Langzeit-Blutdruckmessung',
-    'modal.diagnostik.li5': 'Lungenfunktionstest',
-    'modal.diagnostik.li6': 'Ultraschalldiagnostik',
+        // Modals - Vorsorge
+        'modal.vorsorge.title': 'Vorsorgeuntersuchungen',
+        'modal.vorsorge.intro': 'Vorsorge ist der beste Schutz für Ihre Gesundheit. Wir bieten umfassende Vorsorgeuntersuchungen zur Früherkennung von Krankheiten.',
+        'modal.vorsorge.listTitle': 'Unser Vorsorgeprogramm:',
+        'modal.vorsorge.li1': 'Gesundheits-Check-up ab 35 Jahren',
+        'modal.vorsorge.li2': 'Krebsvorsorgeuntersuchungen',
+        'modal.vorsorge.li3': 'Hautkrebs-Screening',
+        'modal.vorsorge.li4': 'Herz-Kreislauf-Checks',
+        'modal.vorsorge.li5': 'Diabetes-Früherkennung',
 
-    // Modals - Hausbesuche
-    'modal.hausbesuche.title': 'Hausbesuche',
-    'modal.hausbesuche.intro': 'Wenn Sie nicht zu uns kommen können, kommen wir zu Ihnen. Unsere Hausbesuche ermöglichen eine medizinische Versorgung in der gewohnten Umgebung.',
-    'modal.hausbesuche.listTitle': 'Hausbesuche bieten wir an bei:',
-    'modal.hausbesuche.li1': 'Akuten Erkrankungen, wenn Sie bettlägerig sind',
-    'modal.hausbesuche.li2': 'Chronischen Erkrankungen mit eingeschränkter Mobilität',
-    'modal.hausbesuche.li3': 'Palliativmedizinischer Betreuung',
-    'modal.hausbesuche.li4': 'Nachsorge nach Krankenhausaufenthalten',
-    'modal.hausbesuche.li5': 'Medizinischen Notfällen im häuslichen Bereich',
-    'modal.hausbesuche.note': 'Bitte vereinbaren Sie Hausbesuche rechtzeitig telefonisch mit uns.'
-    ,
-
-    // Modals - DMP
-    'modal.dmp.title': 'Disease-Management-Programme (DMP)',
-    'modal.dmp.intro': 'Strukturierte Behandlungsprogramme für chronische Erkrankungen bieten eine optimale, langfristige Betreuung und Therapie.',
-    'modal.dmp.listTitle': 'DMP-Programme für:',
-    'modal.dmp.li1': 'Diabetes mellitus Typ 1 und Typ 2',
-    'modal.dmp.li2': 'Koronare Herzkrankheit (KHK)',
-    'modal.dmp.li3': 'Asthma bronchiale',
-    'modal.dmp.li4': 'Chronisch obstruktive Lungenerkrankung (COPD)',
-    'modal.dmp.li5': 'Brustkrebs',
-    'modal.dmp.li6': 'Darmkrebs',
-    'modal.dmp.outro': 'Diese Programme beinhalten regelmäßige Kontrolluntersuchungen, Schulungen und eine strukturierte Therapieplanung.'
+        // Modals - Labor
+        'modal.labor.title': 'Labordiagnostik',
+        'modal.labor.intro': 'Moderne Labordiagnostik ermöglicht präzise Diagnosen. Wir arbeiten mit zertifizierten Laboren zusammen.',
+        'modal.labor.listTitle': 'Unsere Laborleistungen:',
+        'modal.labor.li1': 'Blutbild und Blutzucker',
+        'modal.labor.li2': 'Cholesterin und Fettwerte',
+        'modal.labor.li3': 'Leber- und Nierenwerte',
+        'modal.labor.li4': 'Entzündungsparameter',
+        'modal.labor.li5': 'Hormonanalysen'
     },
     
     en: {
@@ -160,460 +134,50 @@ const translations = {
         'nav.about': 'About Us',
         'nav.contact': 'Contact',
         'nav.imprint': 'Imprint',
-        'nav.privacy': 'Privacy Policy',
+        'nav.privacy': 'Privacy',
         
-        // Intro Section
-        'intro.title': 'Welcome to Dr. Airoud Family Practice',
-        'intro.subtitle': 'Your health is our priority',
-        'intro.feature1': 'Flexible Office Hours',
-        'intro.feature2': 'Experienced Team',
-        'intro.feature3': 'Personal Care',
-        'intro.description': 'In our modern practice, we combine medical expertise with individual care and the latest treatment methods.',
-        'intro.cta': 'Book Appointment',
-        
-        // Services Section
-        'services.title': 'Our Services',
-        'services.subtitle': 'Comprehensive medical care for the whole family',
-        'services.general': 'Family Medicine',
-        'services.general.desc': 'General diagnostics and treatment',
-        'services.prevention': 'Preventive Care',
-        'services.prevention.desc': 'Preventive health checkups',
-        'services.lab': 'Laboratory Diagnostics',
-        'services.lab.desc': 'Modern analysis methods',
-        'services.vaccination': 'Vaccinations',
-        'services.vaccination.desc': 'Protection for all age groups',
-        'services.emergency': 'Emergency Care',
-        'services.emergency.desc': 'Quick help in emergencies',
-        'services.diagnostik': 'Diagnostics',
-        'services.diagnostik.desc': 'ECG, Ultrasound, Pulmonary Function',
-        'services.hausbesuche': 'House Calls',
-        'services.hausbesuche.desc': 'Medical care at home',
-        'services.dmp': 'Disease Management',
-        'services.dmp.desc': 'Structured treatment programs',
-        
-        // About Section
-        'about.title': 'About Us',
-        'about.doctor': 'Abdullah Airoud',
-        'about.qualification': 'Specialist in Internal Medicine-Emergency Medicine',
-        'about.welcome': 'Welcome to our family practice! With competence and compassion, we stand by our patients. Your health is our priority.',
-        'about.languages.title': 'Languages:',
-        'about.languages.desc': 'We speak German, English, Arabic and Italian.',
-        'about.qualifications.title': 'Qualifications & Specialties:',
-        'about.team.title': 'Our Team',
-        'about.team.desc': 'Our dedicated team ensures that you feel comfortable in our practice and receive optimal care. We take time for your concerns and treat each patient individually.',
-        
-        // Contact Section
-        'contact.title': 'Contact & Appointment Booking',
-        'contact.subtitle': 'We are here for you - contact us',
-        'contact.info': 'Contact Information',
-        'contact.address': 'Address',
-        'contact.phone': 'Phone',
-        'contact.email': 'Email',
-        'contact.hours': 'Office Hours',
-        'contact.form.title': 'Book Appointment',
-        'contact.form.firstname': 'First Name',
-        'contact.form.lastname': 'Last Name',
-        'contact.form.email': 'Email Address',
-        'contact.form.phone': 'Phone Number',
-        'contact.form.date': 'Preferred Date',
-        'contact.form.time': 'Time',
-        'contact.form.reason': 'Reason for Visit',
-        'contact.form.message': 'Message (optional)',
-        'contact.form.privacy': 'I have read the privacy policy and agree to the processing of my data.',
-        'contact.form.submit': 'Send Appointment Request',
-        
-        // Footer
-        'footer.tagline': 'Your health is our priority',
-        'footer.quicklinks': 'Quick Links',
-    'footer.legal': 'Legal',
-    'footer.copyright': '2025 Dr. Airoud Family Practice. All rights reserved.',
-
-    // Opening hours labels
-    'contact.hours.days.mon_tue': 'Mon | Tue:',
-    'contact.hours.days.wed': 'Wed:',
-    'contact.hours.days.thu': 'Thu:',
-    'contact.hours.days.fri': 'Fri:',
-    'contact.hours.appointments': 'Appointments:',
-    'contact.hours.byArrangement': 'by arrangement',
-    'contact.hours.values.mon_tue': '08:30 - 13:00 | 4:00 - 6:00 pm',
-    'contact.hours.values.wed': '08:30 am - 1:00 pm',
-    'contact.hours.values.thu': '08:30 - 13:00 | 4:00 - 6:00 pm',
-    'contact.hours.values.fri': '08:30 am - 1:00 pm',
-
-    // Modals - Family Medicine
-    'modal.hausarzt.title': 'Family Medicine',
-    'modal.hausarzt.intro': 'As your family doctor, we are your first point of contact for all health-related questions. We provide comprehensive medical care for patients of all ages.',
-    'modal.hausarzt.listTitle': 'Our services include:',
-    'modal.hausarzt.li1': 'General diagnostics and treatment',
-    'modal.hausarzt.li2': 'Health counseling and preventive medicine',
-    'modal.hausarzt.li3': 'Chronic diseases (diabetes, hypertension, etc.)',
-    'modal.hausarzt.li4': 'Acute illnesses and injuries',
-    'modal.hausarzt.li5': 'Coordination with specialists',
-
-    // Modals - Preventive Care
-    'modal.vorsorge.title': 'Preventive Examinations',
-    'modal.vorsorge.intro': 'Prevention is the best protection against disease. Our comprehensive preventive examinations help to identify health risks at an early stage.',
-    'modal.vorsorge.listTitle': 'Our preventive program:',
-    'modal.vorsorge.li1': 'Check-up examinations',
-    'modal.vorsorge.li2': 'Skin cancer screening',
-    'modal.vorsorge.li3': 'Vaccination counseling and vaccinations',
-    'modal.vorsorge.li4': 'Cancer screening for men incl. prostate exam',
-    'modal.vorsorge.li5': 'Advice on colorectal cancer screening',
-
-    // Modals - Laboratory
-    'modal.labor.title': 'Blood Tests and Laboratory Diagnostics',
-    'modal.labor.intro': 'Modern laboratory diagnostics directly in our practice enable fast and precise results for optimal treatment and diagnosis.',
-    'modal.labor.listTitle': 'Our laboratory services:',
-    'modal.labor.li1': 'Blood tests (blood count, blood sugar, cholesterol)',
-    'modal.labor.li2': 'Laboratory diagnostics for various diseases',
-    'modal.labor.li3': 'Fast results thanks to in-house equipment',
-    'modal.labor.li4': 'Preventive blood analyses',
-    'modal.labor.li5': 'Monitoring of chronic diseases',
-
-    // Modals - Diagnostics
-    'modal.diagnostik.title': 'Diagnostics',
-    'modal.diagnostik.intro': 'Modern diagnostic methods for precise examination and optimal treatment. We have state-of-the-art equipment for various examinations.',
-    'modal.diagnostik.listTitle': 'Our diagnostic services:',
-    'modal.diagnostik.li1': 'ECG (electrocardiogram)',
-    'modal.diagnostik.li2': 'Holter ECG',
-    'modal.diagnostik.li3': 'Stress ECG',
-    'modal.diagnostik.li4': 'Ambulatory blood pressure monitoring',
-    'modal.diagnostik.li5': 'Pulmonary function test',
-    'modal.diagnostik.li6': 'Ultrasound diagnostics',
-
-    // Modals - House Calls
-    'modal.hausbesuche.title': 'House Calls',
-    'modal.hausbesuche.intro': 'If you cannot come to us, we will come to you. Our house calls enable medical care in a familiar environment.',
-    'modal.hausbesuche.listTitle': 'We offer house calls for:',
-    'modal.hausbesuche.li1': 'Acute illnesses when bedridden',
-    'modal.hausbesuche.li2': 'Chronic illnesses with limited mobility',
-    'modal.hausbesuche.li3': 'Palliative care support',
-    'modal.hausbesuche.li4': 'Follow-up after hospital stays',
-    'modal.hausbesuche.li5': 'Medical emergencies at home',
-    'modal.hausbesuche.note': 'Please arrange house calls with us by phone in advance.'
-    ,
-
-    // Modals - DMP
-    'modal.dmp.title': 'Disease Management Programs (DMP)',
-    'modal.dmp.intro': 'Structured treatment programs for chronic diseases offer optimal, long-term care and therapy.',
-    'modal.dmp.listTitle': 'DMP programs for:',
-    'modal.dmp.li1': 'Diabetes mellitus type 1 and type 2',
-    'modal.dmp.li2': 'Coronary heart disease (CHD)',
-    'modal.dmp.li3': 'Bronchial asthma',
-    'modal.dmp.li4': 'Chronic obstructive pulmonary disease (COPD)',
-    'modal.dmp.li5': 'Breast cancer',
-    'modal.dmp.li6': 'Colorectal cancer',
-    'modal.dmp.outro': 'These programs include regular check-ups, training and a structured therapy plan.'
+        // Meta Data & SEO
+        'meta.title': 'Dr. Airoud Family Practice - Your Health is Our Priority',
+        'meta.description': 'Modern family practice Dr. Airoud - Comprehensive medical care in a trusted environment. Book appointments online.',
+        'meta.keywords': 'family doctor, physician, medicine, health, practice, Dr. Airoud, prevention, treatment',
+        'meta.og.title': 'Dr. Airoud Family Practice - Your Health is Our Priority',
+        'meta.og.description': 'Modern family practice Dr. Airoud - Comprehensive medical care in a trusted environment.',
+        'meta.og.image': '/images/praxis-og-image.jpg'
     },
-    
-    ar: {
-        // Navigation
-        'nav.home': 'الرئيسية',
-        'nav.services': 'الخدمات',
-        'nav.about': 'عنا',
-        'nav.contact': 'اتصل بنا',
-        'nav.imprint': 'بيانات الموقع',
-        'nav.privacy': 'سياسة الخصوصية',
-        
-        // Intro Section
-        'intro.title': 'مرحباً بكم في عيادة الدكتور عيرود العائلية',
-        'intro.subtitle': 'صحتكم تهمنا',
-        'intro.feature1': 'مواعيد مرنة',
-        'intro.feature2': 'فريق خبير',
-        'intro.feature3': 'رعاية شخصية',
-        'intro.description': 'في عيادتنا الحديثة، نجمع بين الخبرة الطبية والرعاية الفردية وأحدث طرق العلاج.',
-        'intro.cta': 'حجز موعد',
-        
-        // Services Section
-        'services.title': 'خدماتنا',
-        'services.subtitle': 'رعاية طبية شاملة لجميع أفراد العائلة',
-        'services.general': 'طب الأسرة',
-        'services.general.desc': 'التشخيص والعلاج العام',
-        'services.prevention': 'الفحوصات الوقائية',
-        'services.prevention.desc': 'فحوصات صحية وقائية',
-        'services.lab': 'التشخيص المخبري',
-        'services.lab.desc': 'طرق تحليل حديثة',
-        'services.vaccination': 'التطعيمات',
-        'services.vaccination.desc': 'حماية لجميع الأعمار',
-        'services.emergency': 'الرعاية الطارئة',
-        'services.emergency.desc': 'مساعدة سريعة في الطوارئ',
-        'services.diagnostik': 'التشخيص',
-        'services.diagnostik.desc': 'تخطيط القلب، الموجات فوق الصوتية، وظائف الرئة',
-        'services.hausbesuche': 'الزيارات المنزلية',
-        'services.hausbesuche.desc': 'الرعاية الطبية في المنزل',
-        'services.dmp': 'إدارة الأمراض',
-        'services.dmp.desc': 'برامج علاج منظمة',
-        
-        // About Section
-        'about.title': 'عنا',
-        'about.doctor': 'عبد الله عيرود',
-        'about.qualification': 'أخصائي طب باطني - طب طوارئ',
-        'about.welcome': 'أهلاً وسهلاً بكم في عيادتنا العائلية! بالكفاءة والتعاطف، نقف إلى جانب مرضانا. صحتكم هي أولويتنا.',
-        'about.languages.title': 'اللغات:',
-        'about.languages.desc': 'نتحدث الألمانية والإنجليزية والعربية والإيطالية.',
-        'about.qualifications.title': 'المؤهلات والتخصصات:',
-        'about.team.title': 'فريقنا',
-        'about.team.desc': 'فريقنا المتفاني يضمن شعوركم بالراحة في عيادتنا وحصولكم على الرعاية المثلى. نأخذ وقتاً لمخاوفكم ونعامل كل مريض بشكل فردي.',
-        
-        // Contact Section
-        'contact.title': 'اتصل بنا وحجز المواعيد',
-        'contact.subtitle': 'نحن هنا من أجلكم - اتصلوا بنا',
-        'about.team.title': 'فريقنا',
-        'about.team.desc': 'فريقنا المتفاني يضمن شعوركم بالراحة في عيادتنا وحصولكم على الرعاية المثلى. نأخذ وقتاً لمخاوفكم ونعامل كل مريض بشكل فردي.',
-        
-        // Contact Section
-        'contact.title': 'اتصل بنا وحجز المواعيد',
-        'contact.subtitle': 'احجزوا موعدكم - نحن هنا من أجلكم',
-        'contact.info': 'معلومات الاتصال',
-        'contact.address': 'العنوان',
-        'contact.phone': 'الهاتف',
-        'contact.email': 'البريد الإلكتروني',
-        'contact.hours': 'ساعات العمل',
-        'contact.form.title': 'حجز موعد',
-        'contact.form.firstname': 'الاسم الأول',
-        'contact.form.lastname': 'اسم العائلة',
-        'contact.form.email': 'عنوان البريد الإلكتروني',
-        'contact.form.phone': 'رقم الهاتف',
-        'contact.form.date': 'التاريخ المفضل',
-        'contact.form.time': 'الوقت',
-        'contact.form.reason': 'سبب الزيارة',
-        'contact.form.message': 'رسالة (اختيارية)',
-        'contact.form.privacy': 'لقد قرأت سياسة الخصوصية وأوافق على معالجة بياناتي.',
-        'contact.form.submit': 'إرسال طلب الموعد',
-        
-        // Footer
-        'footer.tagline': 'صحتكم تهمنا',
-        'footer.quicklinks': 'روابط سريعة',
-    'footer.legal': 'قانوني',
-    'footer.copyright': '2025 عيادة الدكتور عيرود العائلية. جميع الحقوق محفوظة.',
 
-    // Opening hours labels
-    'contact.hours.days.mon_tue': 'الإثنين | الثلاثاء:',
-    'contact.hours.days.wed': 'الأربعاء:',
-    'contact.hours.days.thu': 'الخميس:',
-    'contact.hours.days.fri': 'الجمعة:',
-    'contact.hours.appointments': 'المواعيد:',
-    'contact.hours.byArrangement': 'حسب الاتفاق',
-    'contact.hours.values.mon_tue': '08:30 - 13:00 | 16:00 - 18:00',
-    'contact.hours.values.wed': '08:30 - 13:00',
-    'contact.hours.values.thu': '08:30 - 13:00 | 16:00 - 18:00',
-    'contact.hours.values.fri': '08:30 - 13:00',
-
-    // Modals - Family Medicine
-    'modal.hausarzt.title': 'طب الأسرة',
-    'modal.hausarzt.intro': 'نحن جهات الاتصال الأولى لجميع الأسئلة الصحية. نقدم رعاية طبية شاملة للمرضى من جميع الأعمار.',
-    'modal.hausarzt.listTitle': 'تشمل خدماتنا:',
-    'modal.hausarzt.li1': 'التشخيص والعلاج العام',
-    'modal.hausarzt.li2': 'الاستشارة الصحية والطب الوقائي',
-    'modal.hausarzt.li3': 'الأمراض المزمنة (السكري، ارتفاع ضغط الدم، إلخ)',
-    'modal.hausarzt.li4': 'الأمراض والإصابات الحادة',
-    'modal.hausarzt.li5': 'التنسيق مع الأطباء المتخصصين',
-
-    // Modals - Preventive Care
-    'modal.vorsorge.title': 'الفحوصات الوقائية',
-    'modal.vorsorge.intro': 'الوقاية هي أفضل حماية من الأمراض. تساعد فحوصاتنا الوقائية الشاملة في اكتشاف المخاطر الصحية مبكرًا.',
-    'modal.vorsorge.listTitle': 'برنامجنا الوقائي:',
-    'modal.vorsorge.li1': 'فحوصات طبية دورية',
-    'modal.vorsorge.li2': 'فحص سرطان الجلد',
-    'modal.vorsorge.li3': 'الاستشارة حول التطعيمات والتطعيم',
-    'modal.vorsorge.li4': 'الفحص المبكر للسرطان لدى الرجال بما في ذلك فحص البروستاتا',
-    'modal.vorsorge.li5': 'النصيحة حول الكشف المبكر لسرطان القولون',
-
-    // Modals - Laboratory
-    'modal.labor.title': 'تحاليل الدم والتشخيص المخبري',
-    'modal.labor.intro': 'يتيح التشخيص المخبري الحديث في عيادتنا نتائج سريعة ودقيقة للعلاج الأمثل والتشخيص.',
-    'modal.labor.listTitle': 'خدماتنا المخبرية:',
-    'modal.labor.li1': 'تحاليل الدم (صورة الدم، السكر، الكوليسترول)',
-    'modal.labor.li2': 'تشخيصات مخبرية لأمراض مختلفة',
-    'modal.labor.li3': 'نتائج سريعة بأجهزة موجودة داخل العيادة',
-    'modal.labor.li4': 'تحاليل وقائية',
-    'modal.labor.li5': 'متابعة للأمراض المزمنة',
-
-    // Modals - Diagnostics
-    'modal.diagnostik.title': 'التشخيص',
-    'modal.diagnostik.intro': 'طرق تشخيص حديثة لفحص دقيق وعلاج أمثل. لدينا أحدث الأجهزة لفحوصات مختلفة.',
-    'modal.diagnostik.listTitle': 'خدماتنا التشخيصية:',
-    'modal.diagnostik.li1': 'تخطيط القلب (ECG)',
-    'modal.diagnostik.li2': 'تخطيط القلب على مدار 24 ساعة',
-    'modal.diagnostik.li3': 'تخطيط القلب بالمجهود',
-    'modal.diagnostik.li4': 'قياس ضغط الدم على مدار 24 ساعة',
-    'modal.diagnostik.li5': 'اختبار وظائف الرئة',
-    'modal.diagnostik.li6': 'تشخيص بالموجات فوق الصوتية',
-
-    // Modals - House Calls
-    'modal.hausbesuche.title': 'الزيارات المنزلية',
-    'modal.hausbesuche.intro': 'إذا لم تتمكنوا من القدوم إلينا، سنأتي إليكم. تمكن الزيارات المنزلية من تقديم الرعاية الطبية في بيئة مألوفة.',
-    'modal.hausbesuche.listTitle': 'نقدم الزيارات المنزلية للحالات التالية:',
-    'modal.hausbesuche.li1': 'الأمراض الحادة عند ملازمة الفراش',
-    'modal.hausbesuche.li2': 'الأمراض المزمنة مع محدودية الحركة',
-    'modal.hausbesuche.li3': 'الدعم في الرعاية التلطيفية',
-    'modal.hausbesuche.li4': 'المتابعة بعد الإقامة في المستشفى',
-    'modal.hausbesuche.li5': 'حالات الطوارئ الطبية في المنزل',
-    'modal.hausbesuche.note': 'يرجى ترتيب الزيارات المنزلية معنا عبر الهاتف مسبقًا.'
-    ,
-
-    // Modals - DMP
-    'modal.dmp.title': 'برامج إدارة الأمراض (DMP)',
-    'modal.dmp.intro': 'توفر البرامج العلاجية المنظمة للأمراض المزمنة رعاية وعلاجًا طويل الأمد بشكل أمثل.',
-    'modal.dmp.listTitle': 'برامج DMP لـ:',
-    'modal.dmp.li1': 'داء السكري من النوع الأول والثاني',
-    'modal.dmp.li2': 'مرض القلب التاجي',
-    'modal.dmp.li3': 'الربو القصبي',
-    'modal.dmp.li4': 'مرض الانسداد الرئوي المزمن (COPD)',
-    'modal.dmp.li5': 'سرطان الثدي',
-    'modal.dmp.li6': 'سرطان القولون',
-    'modal.dmp.outro': 'تشمل هذه البرامج فحوصات منتظمة وتدريبًا وخطة علاج منظمة.'
-    },
-    
     it: {
         // Navigation
         'nav.home': 'Home',
         'nav.services': 'Servizi',
         'nav.about': 'Chi Siamo',
-        'nav.contact': 'Contatti',
-        'nav.imprint': 'Colophon',
+        'nav.contact': 'Contatto',
+        'nav.imprint': 'Impressum',
         'nav.privacy': 'Privacy',
-        
-        // Intro Section
-        'intro.title': 'Benvenuti nello Studio Medico Dr. Airoud',
-        'intro.subtitle': 'La vostra salute è la nostra priorità',
-        'intro.feature1': 'Orari Flessibili',
-        'intro.feature2': 'Team Esperto',
-        'intro.feature3': 'Assistenza Personale',
-        'intro.description': 'Nel nostro studio moderno combiniamo competenza medica con assistenza individuale e metodi di trattamento all\'avanguardia.',
-        'intro.cta': 'Prenota Appuntamento',
-        
-        // Services Section
-        'services.title': 'I Nostri Servizi',
-        'services.subtitle': 'Assistenza medica completa per tutta la famiglia',
-        'services.general': 'Medicina di Famiglia',
-        'services.general.desc': 'Diagnostica e trattamento generale',
-        'services.prevention': 'Esami Preventivi',
-        'services.prevention.desc': 'Controlli sanitari preventivi',
-        'services.lab': 'Diagnostica di Laboratorio',
-        'services.lab.desc': 'Metodi di analisi moderni',
-        'services.vaccination': 'Vaccinazioni',
-        'services.vaccination.desc': 'Protezione per tutte le età',
-        'services.emergency': 'Assistenza d\'Emergenza',
-        'services.emergency.desc': 'Aiuto rapido nelle emergenze',
-        'services.diagnostik': 'Diagnostica',
-        'services.diagnostik.desc': 'ECG, Ecografia, Funzione Polmonare',
-        'services.hausbesuche': 'Visite Domiciliari',
-        'services.hausbesuche.desc': 'Assistenza medica a domicilio',
-        'services.dmp': 'Disease Management',
-        'services.dmp.desc': 'Programmi di trattamento strutturati',
-        
-        // About Section
-        'about.title': 'Chi Siamo',
-        'about.doctor': 'Abdullah Airoud',
-        'about.qualification': 'Specialista in Medicina Interna-Medicina d\'Emergenza',
-        'about.welcome': 'Benvenuti nel nostro studio medico di famiglia! Con competenza e compassione, assistiamo i nostri pazienti. La vostra salute è la nostra priorità.',
-        'about.languages.title': 'Lingue:',
-        'about.languages.desc': 'Parliamo tedesco, inglese, arabo e italiano.',
-        'about.qualifications.title': 'Qualifiche e Specializzazioni:',
-        'about.team.title': 'Il Nostro Team',
-        'about.team.desc': 'Il nostro team dedicato garantisce che vi sentiate a vostro agio nel nostro studio e riceviate cure ottimali. Prendiamo tempo per le vostre preoccupazioni e trattiamo ogni paziente individualmente.',
-        
-        // Contact Section
-        'contact.title': 'Contatti e Prenotazioni',
-        'contact.subtitle': 'Prenotate il vostro appuntamento - siamo qui per voi',
-        'contact.info': 'Informazioni di Contatto',
-        'contact.address': 'Indirizzo',
-        'contact.phone': 'Telefono',
-        'contact.email': 'Email',
-        'contact.hours': 'Orari di Ricevimento',
-        'contact.form.title': 'Prenota Appuntamento',
-        'contact.form.firstname': 'Nome',
-        'contact.form.lastname': 'Cognome',
-        'contact.form.email': 'Indirizzo Email',
-        'contact.form.phone': 'Numero di Telefono',
-        'contact.form.date': 'Data Preferita',
-        'contact.form.time': 'Orario',
-        'contact.form.reason': 'Motivo della Visita',
-        'contact.form.message': 'Messaggio (opzionale)',
-        'contact.form.privacy': 'Ho letto l\'informativa sulla privacy e acconsento al trattamento dei miei dati.',
-        'contact.form.submit': 'Invia Richiesta Appuntamento',
-        
-        // Footer
-        'footer.tagline': 'La vostra salute è la nostra priorità',
-        'footer.quicklinks': 'Link Rapidi',
-    'footer.legal': 'Note Legali',
-    'footer.copyright': '2025 Studio Medico Dr. Airoud. Tutti i diritti riservati.',
 
-    // Opening hours labels
-    'contact.hours.days.mon_tue': 'Lun | Mar:',
-    'contact.hours.days.wed': 'Mer:',
-    'contact.hours.days.thu': 'Gio:',
-    'contact.hours.days.fri': 'Ven:',
-    'contact.hours.appointments': 'Appuntamenti:',
-    'contact.hours.byArrangement': 'su appuntamento',
-    'contact.hours.values.mon_tue': '08:30 - 13:00 | 16:00 - 18:00',
-    'contact.hours.values.wed': '08:30 - 13:00',
-    'contact.hours.values.thu': '08:30 - 13:00 | 16:00 - 18:00',
-    'contact.hours.values.fri': '08:30 - 13:00',
+        // Meta Data & SEO
+        'meta.title': 'Studio Medico Dr. Airoud - La Vostra Salute è la Nostra Priorità',
+        'meta.description': 'Studio medico moderno Dr. Airoud - Assistenza medica completa in un ambiente di fiducia. Prenotazioni online.',
+        'meta.keywords': 'medico di famiglia, dottore, medicina, salute, studio medico, Dr. Airoud, prevenzione, trattamento',
+        'meta.og.title': 'Studio Medico Dr. Airoud - La Vostra Salute è la Nostra Priorità',
+        'meta.og.description': 'Studio medico moderno Dr. Airoud - Assistenza medica completa in un ambiente di fiducia.',
+        'meta.og.image': '/images/praxis-og-image.jpg'
+    },
 
-    // Modals - Medicina di Famiglia
-    'modal.hausarzt.title': 'Medicina di Famiglia',
-    'modal.hausarzt.intro': 'Come vostri medici di famiglia, siamo il primo punto di contatto per tutte le questioni di salute. Offriamo un’assistenza medica completa per pazienti di tutte le età.',
-    'modal.hausarzt.listTitle': 'I nostri servizi includono:',
-    'modal.hausarzt.li1': 'Diagnostica e trattamento generale',
-    'modal.hausarzt.li2': 'Consulenza sanitaria e medicina preventiva',
-    'modal.hausarzt.li3': 'Malattie croniche (diabete, ipertensione, ecc.)',
-    'modal.hausarzt.li4': 'Malattie e infortuni acuti',
-    'modal.hausarzt.li5': 'Coordinamento con specialisti',
+    ar: {
+        // Navigation
+        'nav.home': 'الرئيسية',
+        'nav.services': 'الخدمات',
+        'nav.about': 'معلومات عنا',
+        'nav.contact': 'اتصل بنا',
+        'nav.imprint': 'بيانات المسؤولية',
+        'nav.privacy': 'الخصوصية',
 
-    // Modals - Esami Preventivi
-    'modal.vorsorge.title': 'Esami Preventivi',
-    'modal.vorsorge.intro': 'La prevenzione è la migliore protezione contro le malattie. I nostri esami preventivi completi aiutano a identificare precocemente i rischi per la salute.',
-    'modal.vorsorge.listTitle': 'Il nostro programma preventivo:',
-    'modal.vorsorge.li1': 'Visite di controllo',
-    'modal.vorsorge.li2': 'Screening del cancro della pelle',
-    'modal.vorsorge.li3': 'Consulenza e vaccinazioni',
-    'modal.vorsorge.li4': "Prevenzione oncologica per l'uomo con esame della prostata",
-    'modal.vorsorge.li5': 'Consulenza per lo screening del cancro del colon-retto',
-
-    // Modals - Laboratorio
-    'modal.labor.title': 'Esami del Sangue e Diagnostica di Laboratorio',
-    'modal.labor.intro': 'La diagnostica di laboratorio moderna direttamente nel nostro studio consente risultati rapidi e precisi per un trattamento e una diagnosi ottimali.',
-    'modal.labor.listTitle': 'I nostri servizi di laboratorio:',
-    'modal.labor.li1': 'Esami del sangue (emocromo, glicemia, colesterolo)',
-    'modal.labor.li2': 'Diagnostica di laboratorio per varie malattie',
-    'modal.labor.li3': 'Risultati rapidi grazie ad apparecchiature interne',
-    'modal.labor.li4': 'Analisi del sangue preventive',
-    'modal.labor.li5': 'Monitoraggio delle malattie croniche',
-
-    // Modals - Diagnostica
-    'modal.diagnostik.title': 'Diagnostica',
-    'modal.diagnostik.intro': 'Metodi diagnostici moderni per un esame preciso e un trattamento ottimale. Disponiamo di apparecchiature all’avanguardia per vari esami.',
-    'modal.diagnostik.listTitle': 'I nostri servizi diagnostici:',
-    'modal.diagnostik.li1': 'ECG (elettrocardiogramma)',
-    'modal.diagnostik.li2': 'ECG Holter',
-    'modal.diagnostik.li3': 'ECG da sforzo',
-    'modal.diagnostik.li4': 'Monitoraggio pressorio ambulatoriale',
-    'modal.diagnostik.li5': 'Test di funzionalità respiratoria',
-    'modal.diagnostik.li6': 'Diagnostica ecografica',
-
-    // Modals - Visite Domiciliari
-    'modal.hausbesuche.title': 'Visite Domiciliari',
-    'modal.hausbesuche.intro': 'Se non potete venire da noi, veniamo noi da voi. Le visite domiciliari consentono un’assistenza medica in un ambiente familiare.',
-    'modal.hausbesuche.listTitle': 'Offriamo visite domiciliari per:',
-    'modal.hausbesuche.li1': 'Malattie acute in caso di allettamento',
-    'modal.hausbesuche.li2': 'Malattie croniche con mobilità ridotta',
-    'modal.hausbesuche.li3': 'Assistenza palliativa',
-    'modal.hausbesuche.li4': 'Controllo post-ricovero',
-    'modal.hausbesuche.li5': 'Emergenze mediche a domicilio',
-    'modal.hausbesuche.note': 'Vi preghiamo di concordare per tempo le visite domiciliari telefonicamente.',
-
-    // Modals - DMP
-    'modal.dmp.title': 'Programmi di Gestione delle Malattie (DMP)',
-    'modal.dmp.intro': 'Programmi di trattamento strutturati per malattie croniche che offrono un’assistenza ottimale e a lungo termine.',
-    'modal.dmp.listTitle': 'Programmi DMP per:',
-    'modal.dmp.li1': 'Diabete mellito di tipo 1 e 2',
-    'modal.dmp.li2': 'Cardiopatia coronarica (CHD)',
-    'modal.dmp.li3': 'Asma bronchiale',
-    'modal.dmp.li4': 'Broncopneumopatia cronica ostruttiva (BPCO)',
-    'modal.dmp.li5': 'Carcinoma della mammella',
-    'modal.dmp.li6': 'Carcinoma del colon-retto',
-    'modal.dmp.outro': 'Questi programmi includono controlli regolari, formazione e un piano terapeutico strutturato.'
+        // Meta Data & SEO
+        'meta.title': 'عيادة الدكتور عبد الله عيرود - صحتكم أولويتنا',
+        'meta.description': 'عيادة طبية حديثة للدكتور عبد الله عيرود - رعاية طبية شاملة في بيئة موثوقة. حجز المواعيد عبر الإنترنت.',
+        'meta.keywords': 'طبيب عائلة, طبيب, طب, صحة, عيادة, د. عيرود, وقاية, علاج',
+        'meta.og.title': 'عيادة الدكتور عبد الله عيرود - صحتكم أولويتنا',
+        'meta.og.description': 'عيادة طبية حديثة للدكتور عبد الله عيرود - رعاية طبية شاملة في بيئة موثوقة.',
+        'meta.og.image': '/images/praxis-og-image.jpg'
     }
 };
