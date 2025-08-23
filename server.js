@@ -5,33 +5,78 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const multer = require('multer');
+const cluster = require('cluster');
+const os = require('os');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+// Performance optimizations
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Enhanced static file serving with caching
 app.use(express.static('.', {
-    setHeaders: (res, path) => {
-        if (path.endsWith('.html')) {
-            res.setHeader('Cache-Control', 'no-cache');
+    maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0,
+    etag: true,
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.html')) {
+            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        } else if (filePath.match(/\.(css|js|png|jpg|jpeg|gif|webp|svg)$/)) {
+            res.setHeader('Cache-Control', 'public, max-age=86400');
         }
     }
 }));
 
-// Session Configuration
+// Security headers
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
+        res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    }
+    next();
+});
+
+// Rate limiting for login attempts
+const loginAttempts = new Map();
+
+function checkRateLimit(req, res, next) {
+    const ip = req.ip || req.connection.remoteAddress;
+    const now = Date.now();
+    const windowMs = 15 * 60 * 1000; // 15 minutes
+    const maxAttempts = 5;
+    
+    if (!loginAttempts.has(ip)) {
+        loginAttempts.set(ip, []);
+    }
+    
+    const attempts = loginAttempts.get(ip);
+    const recentAttempts = attempts.filter(time => now - time < windowMs);
+    
+    if (recentAttempts.length >= maxAttempts) {
+        return res.status(429).json({ error: 'Zu viele Login-Versuche. Versuchen Sie es in 15 Minuten erneut.' });
+    }
+    
+    next();
+}
+
+// Session Configuration with enhanced security
 app.use(session({
-    secret: 'hausarztpraxis-airoud-2025-secure-key',
+    secret: process.env.SESSION_SECRET || 'hausarztpraxis-airoud-2025-secure-key',
+    name: 'praxis.session',
     resave: false,
     saveUninitialized: false,
     cookie: { 
-        secure: false, // Set to true if using HTTPS
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        sameSite: 'strict'
     }
 }));
 
-// File Upload Configuration
+// Enhanced File Upload Configuration with validation
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const uploadDir = path.join(__dirname, 'uploads');
@@ -42,24 +87,26 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+        const sanitizedName = file.originalname.replace(/[^a-zA-Z0-9.-]/g, '');
+        cb(null, `${file.fieldname}-${uniqueSuffix}-${sanitizedName}`);
     }
 });
 
 const upload = multer({ 
     storage: storage,
     limits: {
-        fileSize: 10 * 1024 * 1024 // 10MB limit
+        fileSize: 5 * 1024 * 1024, // 5MB limit (reduced for better performance)
+        files: 10
     },
     fileFilter: (req, file, cb) => {
-        const allowedTypes = /jpeg|jpg|png|gif|webp/;
+        const allowedTypes = /jpeg|jpg|png|gif|webp|svg/;
         const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
         const mimetype = allowedTypes.test(file.mimetype);
         
         if (mimetype && extname) {
             return cb(null, true);
         } else {
-            cb(new Error('Nur Bilder sind erlaubt (JPEG, JPG, PNG, GIF, WebP)'));
+            cb(new Error('Nur Bilder sind erlaubt (JPEG, JPG, PNG, GIF, WebP, SVG)'));
         }
     }
 });
@@ -172,26 +219,70 @@ if (!fs.existsSync(contentFile)) {
     fs.writeFileSync(contentFile, JSON.stringify(defaultContent, null, 2));
 }
 
-// Helper functions
+// Enhanced helper functions with validation and sanitization
 function loadContent() {
     try {
         const data = fs.readFileSync(contentFile, 'utf8');
-        return JSON.parse(data);
+        const content = JSON.parse(data);
+        return validateContent(content);
     } catch (error) {
         console.error('Error loading content:', error);
         return defaultContent;
     }
 }
 
+function validateContent(content) {
+    // Sanitize content to prevent XSS
+    const sanitize = (str) => {
+        if (typeof str !== 'string') return str;
+        return str.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                  .replace(/javascript:/gi, '')
+                  .replace(/on\w+\s*=/gi, '');
+    };
+    
+    const sanitizeObject = (obj) => {
+        if (typeof obj === 'string') return sanitize(obj);
+        if (Array.isArray(obj)) return obj.map(sanitizeObject);
+        if (typeof obj === 'object' && obj !== null) {
+            const sanitized = {};
+            for (const key in obj) {
+                sanitized[key] = sanitizeObject(obj[key]);
+            }
+            return sanitized;
+        }
+        return obj;
+    };
+    
+    return sanitizeObject(content);
+}
+
 function saveContent(content) {
     try {
-        // Create backup
+        // Validate content before saving
+        const validatedContent = validateContent(content);
+        
+        // Create backup with rotation (keep only last 10)
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
         const backupFile = path.join(backupDir, `content-backup-${timestamp}.json`);
-        fs.writeFileSync(backupFile, fs.readFileSync(contentFile));
+        
+        if (fs.existsSync(contentFile)) {
+            fs.writeFileSync(backupFile, fs.readFileSync(contentFile));
+        }
+        
+        // Cleanup old backups
+        const backupFiles = fs.readdirSync(backupDir)
+            .filter(file => file.startsWith('content-backup-'))
+            .sort()
+            .reverse();
+            
+        if (backupFiles.length > 10) {
+            backupFiles.slice(10).forEach(file => {
+                fs.unlinkSync(path.join(backupDir, file));
+            });
+        }
         
         // Save new content
-        fs.writeFileSync(contentFile, JSON.stringify(content, null, 2));
+        fs.writeFileSync(contentFile, JSON.stringify(validatedContent, null, 2));
         return true;
     } catch (error) {
         console.error('Error saving content:', error);
@@ -252,6 +343,31 @@ function updateHtmlFile() {
     } catch (error) {
         console.error('Error updating HTML file:', error);
         return false;
+    }
+}
+
+function getSystemStats() {
+    try {
+        const backupFiles = fs.readdirSync(backupDir)
+            .filter(file => file.startsWith('content-backup-'))
+            .sort()
+            .reverse();
+            
+        const lastBackup = backupFiles.length > 0 
+            ? new Date(backupFiles[0].replace('content-backup-', '').replace('.json', '').replace(/-/g, ':')).toLocaleString('de-DE')
+            : 'Keine Backups vorhanden';
+            
+        return {
+            lastBackup,
+            backupCount: backupFiles.length,
+            systemTime: new Date().toLocaleString('de-DE')
+        };
+    } catch (error) {
+        return {
+            lastBackup: 'Fehler beim Laden',
+            backupCount: 0,
+            systemTime: new Date().toLocaleString('de-DE')
+        };
     }
 }
 
@@ -380,14 +496,33 @@ app.get('/admin/login', (req, res) => {
     `);
 });
 
-// Admin login handler
-app.post('/admin/login', async (req, res) => {
+// Admin login handler with rate limiting
+app.post('/admin/login', checkRateLimit, async (req, res) => {
     const { username, password } = req.body;
+    const ip = req.ip || req.connection.remoteAddress;
     
-    if (username === DEFAULT_ADMIN.username && bcrypt.compareSync(password, DEFAULT_ADMIN.password)) {
-        req.session.authenticated = true;
-        res.redirect('/admin');
-    } else {
+    try {
+        if (username === DEFAULT_ADMIN.username && bcrypt.compareSync(password, DEFAULT_ADMIN.password)) {
+            req.session.authenticated = true;
+            req.session.loginTime = new Date().toISOString();
+            
+            // Clear failed attempts on successful login
+            if (loginAttempts.has(ip)) {
+                loginAttempts.delete(ip);
+            }
+            
+            res.redirect('/admin');
+        } else {
+            // Record failed attempt
+            if (!loginAttempts.has(ip)) {
+                loginAttempts.set(ip, []);
+            }
+            loginAttempts.get(ip).push(Date.now());
+            
+            res.redirect('/admin/login?error=1');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
         res.redirect('/admin/login?error=1');
     }
 });
@@ -398,9 +533,11 @@ app.get('/admin/logout', (req, res) => {
     res.redirect('/admin/login');
 });
 
-// Admin dashboard
+// Admin dashboard with enhanced UI
 app.get('/admin', requireAuth, (req, res) => {
     const content = loadContent();
+    const stats = getSystemStats();
+    
     res.send(`
         <!DOCTYPE html>
         <html lang="de">
@@ -408,190 +545,11 @@ app.get('/admin', requireAuth, (req, res) => {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>CMS Admin - Hausarztpraxis Dr. Airoud</title>
-            <link rel="stylesheet" href="/styles.css">
-            <style>
-                .admin-container {
-                    min-height: 100vh;
-                    background: var(--background-light);
-                }
-                .admin-header {
-                    background: white;
-                    padding: 1rem 0;
-                    box-shadow: var(--shadow-light);
-                    position: sticky;
-                    top: 0;
-                    z-index: 1000;
-                }
-                .admin-nav {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 0 2rem;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-                .admin-logo {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    color: var(--primary-color);
-                    font-weight: 600;
-                }
-                .admin-actions {
-                    display: flex;
-                    gap: 1rem;
-                }
-                .btn {
-                    padding: 0.5rem 1rem;
-                    border: none;
-                    border-radius: var(--border-radius);
-                    font-size: 0.9rem;
-                    font-weight: 500;
-                    cursor: pointer;
-                    transition: var(--transition);
-                    text-decoration: none;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                }
-                .btn-primary {
-                    background: var(--primary-color);
-                    color: white;
-                }
-                .btn-primary:hover {
-                    background: var(--secondary-color);
-                }
-                .btn-secondary {
-                    background: var(--gray-medium);
-                    color: white;
-                }
-                .btn-secondary:hover {
-                    background: var(--text-dark);
-                }
-                .admin-content {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 2rem;
-                }
-                .section-card {
-                    background: white;
-                    padding: 2rem;
-                    border-radius: var(--border-radius);
-                    box-shadow: var(--shadow-light);
-                    margin-bottom: 2rem;
-                }
-                .section-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 1.5rem;
-                    padding-bottom: 1rem;
-                    border-bottom: 2px solid var(--gray-light);
-                }
-                .section-title {
-                    color: var(--text-dark);
-                    margin: 0;
-                }
-                .form-grid {
-                    display: grid;
-                    gap: 1.5rem;
-                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                }
-                .form-group {
-                    margin-bottom: 1.5rem;
-                }
-                .form-group label {
-                    display: block;
-                    margin-bottom: 0.5rem;
-                    color: var(--text-dark);
-                    font-weight: 500;
-                }
-                .form-group input,
-                .form-group textarea {
-                    width: 100%;
-                    padding: 0.75rem;
-                    border: 2px solid var(--gray-light);
-                    border-radius: var(--border-radius);
-                    font-size: 1rem;
-                    font-family: inherit;
-                    transition: var(--transition);
-                }
-                .form-group input:focus,
-                .form-group textarea:focus {
-                    outline: none;
-                    border-color: var(--primary-color);
-                }
-                .form-group textarea {
-                    resize: vertical;
-                    min-height: 100px;
-                }
-                .save-section {
-                    text-align: center;
-                    margin-top: 2rem;
-                    padding-top: 2rem;
-                    border-top: 2px solid var(--gray-light);
-                }
-                .success-message {
-                    background: var(--success);
-                    color: white;
-                    padding: 1rem;
-                    border-radius: var(--border-radius);
-                    margin-bottom: 2rem;
-                    text-align: center;
-                }
-                .service-item {
-                    border: 2px solid var(--gray-light);
-                    padding: 1rem;
-                    border-radius: var(--border-radius);
-                    margin-bottom: 1rem;
-                }
-                .service-item h4 {
-                    color: var(--primary-color);
-                    margin-bottom: 0.5rem;
-                }
-                .hours-item {
-                    display: flex;
-                    gap: 1rem;
-                    margin-bottom: 0.5rem;
-                }
-                .hours-item input {
-                    flex: 1;
-                }
-                .image-upload {
-                    border: 2px dashed var(--gray-light);
-                    border-radius: var(--border-radius);
-                    padding: 2rem;
-                    text-align: center;
-                    transition: var(--transition);
-                }
-                .image-upload:hover {
-                    border-color: var(--primary-color);
-                }
-                .image-preview {
-                    max-width: 200px;
-                    max-height: 200px;
-                    border-radius: var(--border-radius);
-                    margin-top: 1rem;
-                }
-                @media (max-width: 768px) {
-                    .admin-nav {
-                        flex-direction: column;
-                        gap: 1rem;
-                    }
-                    .admin-content {
-                        padding: 1rem;
-                    }
-                    .form-grid {
-                        grid-template-columns: 1fr;
-                    }
-                    .section-header {
-                        flex-direction: column;
-                        align-items: flex-start;
-                        gap: 1rem;
-                    }
-                }
-            </style>
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <link rel="stylesheet" href="/cms-admin-styles.css">
         </head>
         <body>
             <div class="admin-container">
@@ -600,12 +558,23 @@ app.get('/admin', requireAuth, (req, res) => {
                         <div class="admin-logo">
                             <i class="fas fa-user-md"></i>
                             <span>Dr. Airoud CMS</span>
+                            <div style="font-size: 0.7rem; opacity: 0.8; margin-left: 0.5rem;">
+                                v2.0 Enhanced
+                            </div>
                         </div>
                         <div class="admin-actions">
+                            <button id="previewBtn" class="btn btn-primary">
+                                <i class="fas fa-eye"></i>
+                                Live-Vorschau
+                            </button>
                             <a href="/" target="_blank" class="btn btn-primary">
                                 <i class="fas fa-external-link-alt"></i>
-                                Website ansehen
+                                Website
                             </a>
+                            <div class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                                <i class="fas fa-clock"></i>
+                                ${new Date().toLocaleString('de-DE')}
+                            </div>
                             <a href="/admin/logout" class="btn btn-secondary">
                                 <i class="fas fa-sign-out-alt"></i>
                                 Abmelden
@@ -615,6 +584,41 @@ app.get('/admin', requireAuth, (req, res) => {
                 </header>
 
                 <main class="admin-content">
+                    <!-- System Stats -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <i class="fas fa-chart-line"></i>
+                                System-Übersicht
+                            </h2>
+                        </div>
+                        <div class="section-body">
+                            <div class="form-grid">
+                                <div style="text-align: center; padding: 1rem; background: var(--light-bg); border-radius: 8px;">
+                                    <div style="font-size: 2rem; color: var(--success-color); margin-bottom: 0.5rem;">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div style="font-weight: 600;">System Status</div>
+                                    <div style="color: var(--success-color);">Online & Aktiv</div>
+                                </div>
+                                <div style="text-align: center; padding: 1rem; background: var(--light-bg); border-radius: 8px;">
+                                    <div style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;">
+                                        <i class="fas fa-save"></i>
+                                    </div>
+                                    <div style="font-weight: 600;">Letztes Backup</div>
+                                    <div>${stats.lastBackup}</div>
+                                </div>
+                                <div style="text-align: center; padding: 1rem; background: var(--light-bg); border-radius: 8px;">
+                                    <div style="font-size: 2rem; color: var(--accent-color); margin-bottom: 0.5rem;">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                    <div style="font-weight: 600;">Session</div>
+                                    <div>Seit ${new Date(req.session.loginTime).toLocaleTimeString('de-DE')}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <form id="contentForm" method="POST" action="/admin/save" enctype="multipart/form-data">
                         
                         <!-- Intro Section -->
@@ -624,36 +628,83 @@ app.get('/admin', requireAuth, (req, res) => {
                                     <i class="fas fa-home"></i>
                                     Startseite / Intro
                                 </h2>
-                            </div>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="intro_title">Haupttitel:</label>
-                                    <input type="text" id="intro_title" name="intro_title" value="${content.intro.title}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="intro_subtitle">Untertitel:</label>
-                                    <input type="text" id="intro_subtitle" name="intro_subtitle" value="${content.intro.subtitle}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="intro_feature1">Feature 1:</label>
-                                    <input type="text" id="intro_feature1" name="intro_feature1" value="${content.intro.feature1}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="intro_feature2">Feature 2:</label>
-                                    <input type="text" id="intro_feature2" name="intro_feature2" value="${content.intro.feature2}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="intro_feature3">Feature 3:</label>
-                                    <input type="text" id="intro_feature3" name="intro_feature3" value="${content.intro.feature3}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="intro_cta">Button Text:</label>
-                                    <input type="text" id="intro_cta" name="intro_cta" value="${content.intro.cta}">
+                                <div class="btn btn-primary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                                    <i class="fas fa-info-circle"></i>
+                                    Hauptbereich der Website
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="intro_description">Beschreibung:</label>
-                                <textarea id="intro_description" name="intro_description" rows="4">${content.intro.description}</textarea>
+                            <div class="section-body">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="intro_title">
+                                            <i class="fas fa-heading"></i>
+                                            Haupttitel:
+                                        </label>
+                                        <input type="text" id="intro_title" name="intro_title" 
+                                               value="${content.intro.title}" 
+                                               required maxlength="100"
+                                               placeholder="Hauptüberschrift der Website">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="intro_subtitle">
+                                            <i class="fas fa-text-height"></i>
+                                            Untertitel:
+                                        </label>
+                                        <input type="text" id="intro_subtitle" name="intro_subtitle" 
+                                               value="${content.intro.subtitle}" 
+                                               maxlength="150"
+                                               placeholder="Ergänzender Untertitel">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="intro_feature1">
+                                            <i class="fas fa-star"></i>
+                                            Feature 1:
+                                        </label>
+                                        <input type="text" id="intro_feature1" name="intro_feature1" 
+                                               value="${content.intro.feature1}" 
+                                               maxlength="50"
+                                               placeholder="Erstes Highlight">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="intro_feature2">
+                                            <i class="fas fa-star"></i>
+                                            Feature 2:
+                                        </label>
+                                        <input type="text" id="intro_feature2" name="intro_feature2" 
+                                               value="${content.intro.feature2}" 
+                                               maxlength="50"
+                                               placeholder="Zweites Highlight">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="intro_feature3">
+                                            <i class="fas fa-star"></i>
+                                            Feature 3:
+                                        </label>
+                                        <input type="text" id="intro_feature3" name="intro_feature3" 
+                                               value="${content.intro.feature3}" 
+                                               maxlength="50"
+                                               placeholder="Drittes Highlight">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="intro_cta">
+                                            <i class="fas fa-mouse-pointer"></i>
+                                            Button Text:
+                                        </label>
+                                        <input type="text" id="intro_cta" name="intro_cta" 
+                                               value="${content.intro.cta}" 
+                                               maxlength="30"
+                                               placeholder="Text für den Aktions-Button">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="intro_description">
+                                        <i class="fas fa-align-left"></i>
+                                        Beschreibung:
+                                    </label>
+                                    <textarea id="intro_description" name="intro_description" 
+                                              maxlength="500"
+                                              placeholder="Ausführliche Beschreibung der Praxis...">${content.intro.description}</textarea>
+                                </div>
                             </div>
                         </div>
 
@@ -665,14 +716,28 @@ app.get('/admin', requireAuth, (req, res) => {
                                     Leistungen
                                 </h2>
                             </div>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="services_title">Titel:</label>
-                                    <input type="text" id="services_title" name="services_title" value="${content.services.title}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="services_subtitle">Untertitel:</label>
-                                    <input type="text" id="services_subtitle" name="services_subtitle" value="${content.services.subtitle}">
+                            <div class="section-body">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="services_title">
+                                            <i class="fas fa-heading"></i>
+                                            Titel:
+                                        </label>
+                                        <input type="text" id="services_title" name="services_title" 
+                                               value="${content.services.title}" 
+                                               maxlength="100"
+                                               placeholder="Überschrift des Leistungsbereichs">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="services_subtitle">
+                                            <i class="fas fa-text-height"></i>
+                                            Untertitel:
+                                        </label>
+                                        <input type="text" id="services_subtitle" name="services_subtitle" 
+                                               value="${content.services.subtitle}" 
+                                               maxlength="200"
+                                               placeholder="Beschreibung der Leistungen">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -685,39 +750,87 @@ app.get('/admin', requireAuth, (req, res) => {
                                     Über uns
                                 </h2>
                             </div>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="about_title">Titel:</label>
-                                    <input type="text" id="about_title" name="about_title" value="${content.about.title}">
+                            <div class="section-body">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="about_title">
+                                            <i class="fas fa-heading"></i>
+                                            Titel:
+                                        </label>
+                                        <input type="text" id="about_title" name="about_title" 
+                                               value="${content.about.title}" 
+                                               maxlength="50"
+                                               placeholder="Überschrift des Über-uns-Bereichs">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about_doctorName">
+                                            <i class="fas fa-id-badge"></i>
+                                            Arztname:
+                                        </label>
+                                        <input type="text" id="about_doctorName" name="about_doctorName" 
+                                               value="${content.about.doctorName}" 
+                                               maxlength="100"
+                                               placeholder="Name des Arztes">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about_qualification">
+                                            <i class="fas fa-graduation-cap"></i>
+                                            Qualifikation:
+                                        </label>
+                                        <input type="text" id="about_qualification" name="about_qualification" 
+                                               value="${content.about.qualification}" 
+                                               maxlength="200"
+                                               placeholder="Fachrichtung und Qualifikationen">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about_languagesTitle">
+                                            <i class="fas fa-language"></i>
+                                            Sprachen Titel:
+                                        </label>
+                                        <input type="text" id="about_languagesTitle" name="about_languagesTitle" 
+                                               value="${content.about.languagesTitle}" 
+                                               maxlength="50"
+                                               placeholder="Überschrift für Sprachkenntnisse">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about_languagesDesc">
+                                            <i class="fas fa-globe"></i>
+                                            Sprachen Beschreibung:
+                                        </label>
+                                        <input type="text" id="about_languagesDesc" name="about_languagesDesc" 
+                                               value="${content.about.languagesDesc}" 
+                                               maxlength="200"
+                                               placeholder="Aufzählung der gesprochenen Sprachen">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about_teamTitle">
+                                            <i class="fas fa-users"></i>
+                                            Team Titel:
+                                        </label>
+                                        <input type="text" id="about_teamTitle" name="about_teamTitle" 
+                                               value="${content.about.teamTitle}" 
+                                               maxlength="50"
+                                               placeholder="Überschrift für Team-Bereich">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="about_doctorName">Arztname:</label>
-                                    <input type="text" id="about_doctorName" name="about_doctorName" value="${content.about.doctorName}">
+                                    <label for="about_welcome">
+                                        <i class="fas fa-heart"></i>
+                                        Willkommenstext:
+                                    </label>
+                                    <textarea id="about_welcome" name="about_welcome" 
+                                              maxlength="300"
+                                              placeholder="Persönlicher Willkommenstext...">${content.about.welcome}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="about_qualification">Qualifikation:</label>
-                                    <input type="text" id="about_qualification" name="about_qualification" value="${content.about.qualification}">
+                                    <label for="about_teamDesc">
+                                        <i class="fas fa-handshake"></i>
+                                        Team Beschreibung:
+                                    </label>
+                                    <textarea id="about_teamDesc" name="about_teamDesc" 
+                                              maxlength="400"
+                                              placeholder="Beschreibung des Praxis-Teams...">${content.about.teamDesc}</textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label for="about_languagesTitle">Sprachen Titel:</label>
-                                    <input type="text" id="about_languagesTitle" name="about_languagesTitle" value="${content.about.languagesTitle}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="about_languagesDesc">Sprachen Beschreibung:</label>
-                                    <input type="text" id="about_languagesDesc" name="about_languagesDesc" value="${content.about.languagesDesc}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="about_teamTitle">Team Titel:</label>
-                                    <input type="text" id="about_teamTitle" name="about_teamTitle" value="${content.about.teamTitle}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="about_welcome">Willkommenstext:</label>
-                                <textarea id="about_welcome" name="about_welcome" rows="3">${content.about.welcome}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="about_teamDesc">Team Beschreibung:</label>
-                                <textarea id="about_teamDesc" name="about_teamDesc" rows="3">${content.about.teamDesc}</textarea>
                             </div>
                         </div>
 
@@ -729,83 +842,85 @@ app.get('/admin', requireAuth, (req, res) => {
                                     Kontakt
                                 </h2>
                             </div>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="contact_title">Titel:</label>
-                                    <input type="text" id="contact_title" name="contact_title" value="${content.contact.title}">
+                            <div class="section-body">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="contact_title">
+                                            <i class="fas fa-heading"></i>
+                                            Titel:
+                                        </label>
+                                        <input type="text" id="contact_title" name="contact_title" 
+                                               value="${content.contact.title}" 
+                                               maxlength="50"
+                                               placeholder="Überschrift für Kontakt-Bereich">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact_subtitle">
+                                            <i class="fas fa-text-height"></i>
+                                            Untertitel:
+                                        </label>
+                                        <input type="text" id="contact_subtitle" name="contact_subtitle" 
+                                               value="${content.contact.subtitle}" 
+                                               maxlength="100"
+                                               placeholder="Aufforderung zur Kontaktaufnahme">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact_phone">
+                                            <i class="fas fa-phone-alt"></i>
+                                            Telefon:
+                                        </label>
+                                        <input type="tel" id="contact_phone" name="contact_phone" 
+                                               value="${content.contact.phone}" 
+                                               maxlength="20"
+                                               placeholder="Telefonnummer der Praxis">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact_email">
+                                            <i class="fas fa-envelope"></i>
+                                            E-Mail:
+                                        </label>
+                                        <input type="email" id="contact_email" name="contact_email" 
+                                               value="${content.contact.email}" 
+                                               maxlength="100"
+                                               placeholder="E-Mail-Adresse der Praxis">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact_hoursTitle">
+                                            <i class="fas fa-clock"></i>
+                                            Sprechzeiten Titel:
+                                        </label>
+                                        <input type="text" id="contact_hoursTitle" name="contact_hoursTitle" 
+                                               value="${content.contact.hoursTitle}" 
+                                               maxlength="50"
+                                               placeholder="Überschrift für Öffnungszeiten">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="contact_subtitle">Untertitel:</label>
-                                    <input type="text" id="contact_subtitle" name="contact_subtitle" value="${content.contact.subtitle}">
+                                    <label for="contact_address">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        Adresse:
+                                    </label>
+                                    <textarea id="contact_address" name="contact_address" 
+                                              maxlength="200"
+                                              placeholder="Straße, Hausnummer, PLZ, Ort...">${content.contact.address}</textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label for="contact_phone">Telefon:</label>
-                                    <input type="text" id="contact_phone" name="contact_phone" value="${content.contact.phone}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="contact_email">E-Mail:</label>
-                                    <input type="email" id="contact_email" name="contact_email" value="${content.contact.email}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="contact_hoursTitle">Sprechzeiten Titel:</label>
-                                    <input type="text" id="contact_hoursTitle" name="contact_hoursTitle" value="${content.contact.hoursTitle}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="contact_address">Adresse:</label>
-                                <textarea id="contact_address" name="contact_address" rows="2">${content.contact.address}</textarea>
                             </div>
                         </div>
 
                         <div class="save-section">
-                            <button type="submit" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 3rem;">
+                            <button type="submit" class="btn btn-success">
                                 <i class="fas fa-save"></i>
                                 Änderungen speichern
                             </button>
+                            <div style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-medium);">
+                                💡 Tipp: Verwenden Sie <kbd>Strg+S</kbd> (Windows) oder <kbd>⌘+S</kbd> (Mac) zum schnellen Speichern
+                            </div>
                         </div>
                     </form>
                 </main>
             </div>
 
-            <script>
-                document.getElementById('contentForm').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const formData = new FormData(this);
-                    
-                    fetch('/admin/save', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Show success message
-                            const successDiv = document.createElement('div');
-                            successDiv.className = 'success-message';
-                            successDiv.innerHTML = '<i class="fas fa-check-circle"></i> Änderungen erfolgreich gespeichert!';
-                            
-                            document.querySelector('.admin-content').insertBefore(successDiv, document.querySelector('.section-card'));
-                            
-                            // Remove success message after 3 seconds
-                            setTimeout(() => {
-                                successDiv.remove();
-                            }, 3000);
-                            
-                            // Optional: Reload page content
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 1500);
-                        } else {
-                            alert('Fehler beim Speichern: ' + (data.error || 'Unbekannter Fehler'));
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Fehler beim Speichern der Änderungen');
-                    });
-                });
-            </script>
+            <script src="/cms-admin-enhanced.js"></script>
         </body>
         </html>
     `);

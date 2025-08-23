@@ -1,0 +1,89 @@
+{
+  "intro": {
+    "title": "ajsdasd",
+    "subtitle": "Ihre Gesundheit liegt uns am Herzen",
+    "feature1": "Flexible Sprechzeiten",
+    "feature2": "Erfahrenes Team",
+    "feature3": "Persönliche Betreuung",
+    "description": "Seit über 15 Jahren stehen wir Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.",
+    "cta": "Termin vereinbaren",
+    "doctorImage": "https://via.placeholder.com/400x500/4a90a4/ffffff?text=Dr.+Airoud"
+  },
+  "services": {
+    "title": "Unsere Leistungen",
+    "subtitle": "Umfassende medizinische Versorgung für die ganze Familie",
+    "items": [
+      {
+        "icon": "fas fa-stethoscope",
+        "title": "Hausarztmedizin",
+        "description": "Umfassende medizinische Grundversorgung"
+      },
+      {
+        "icon": "fas fa-shield-alt",
+        "title": "Vorsorgeuntersuchungen",
+        "description": "Check-ups, Hautkrebsscreening, Impfberatung"
+      },
+      {
+        "icon": "fas fa-flask",
+        "title": "Blutuntersuchungen & Labor",
+        "description": "Moderne Labordiagnostik"
+      },
+      {
+        "icon": "fas fa-heartbeat",
+        "title": "Diagnostik",
+        "description": "EKG, Ultraschall, Lungenfunktion"
+      },
+      {
+        "icon": "fas fa-home",
+        "title": "Hausbesuche",
+        "description": "Medizinische Betreuung zu Hause"
+      },
+      {
+        "icon": "fas fa-clipboard-list",
+        "title": "Disease Management",
+        "description": "Strukturierte Behandlungsprogramme"
+      }
+    ]
+  },
+  "about": {
+    "title": "Über uns",
+    "doctorName": "Abdullah Airoud",
+    "qualification": "Facharzt für Innere Medizin-Notfallmedizin",
+    "welcome": "Herzlich willkommen in unserer Hausarztpraxis! Mit Kompetenz und Mitgefühl stehen wir unseren Patienten zur Seite. Ihre Gesundheit ist unsere Priorität.",
+    "languagesTitle": "Sprachkenntnisse:",
+    "languagesDesc": "Wir sprechen deutsch, englisch, arabisch und italienisch.",
+    "teamTitle": "Unser Team",
+    "teamDesc": "Unser engagiertes Team sorgt dafür, dass Sie sich in unserer Praxis wohlfühlen und optimal betreut werden. Wir nehmen uns Zeit für Ihre Anliegen und behandeln jeden Patienten individuell.",
+    "teamImage": "https://via.placeholder.com/500x400/4a90a4/ffffff?text=Unser+Team"
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Wir sind für Sie da - kontaktieren Sie uns",
+    "address": "Eschenstr. 138<br>42283 Wuppertal",
+    "phone": "0202 25 350 880",
+    "email": "info@hausarztpraxis-airoud.de",
+    "hoursTitle": "Sprechzeiten",
+    "hours": [
+      {
+        "days": "Mo | Di:",
+        "time": "08:30 - 13:00 | 16:00 - 18:00 Uhr"
+      },
+      {
+        "days": "Mi:",
+        "time": "08:30 - 13:00 Uhr"
+      },
+      {
+        "days": "Do:",
+        "time": "08:30 - 13:00 | 16:00 - 18:00 Uhr"
+      },
+      {
+        "days": "Fr:",
+        "time": "08:30 - 13:00 Uhr"
+      },
+      {
+        "days": "Termine:",
+        "time": "nach Vereinbarung"
+      }
+    ]
+  }
+}
