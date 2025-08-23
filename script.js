@@ -40,6 +40,8 @@ function initializeLanguageSwitcher() {
 
 // Change language function
 function changeLanguage(lang) {
+    console.log('🌍 Changing language to:', lang);
+    
     // Check if language exists
     if (!translations[lang]) {
         console.error('❌ Language not found:', lang);
