@@ -1014,6 +1014,53 @@ section {
     margin-bottom: 20px;
 }
 
+.contact-info-legal {
+    background: var(--background-light);
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.contact-info-legal p {
+    margin-bottom: 0;
+}
+
+.contact-info-legal a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.contact-info-legal a:hover {
+    text-decoration: underline;
+}
+
+.emergency-info {
+    background: linear-gradient(135deg, #ff4444, #cc0000);
+    color: var(--white);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: var(--shadow-medium);
+}
+
+.emergency-info ul {
+    color: var(--white);
+    margin-bottom: 0;
+}
+
+.emergency-info a {
+    color: var(--white);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: var(--transition);
+}
+
+.emergency-info a:hover {
+    border-bottom: 1px solid var(--white);
+}
+
 /* Footer */
 .footer {
     background: var(--text-dark);
