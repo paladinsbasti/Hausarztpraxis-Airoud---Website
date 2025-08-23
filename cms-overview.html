@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Übersicht - Hausarztpraxis Dr. Airoud</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="overview-container">
+        <header class="overview-header">
+            <h1><i class="fas fa-hospital"></i> Hausarztpraxis Dr. Airoud</h1>
+            <p>Content Management System Übersicht</p>
+        </header>
+
+        <main class="overview-main">
+            <div class="option-grid">
+                <!-- Website -->
+                <div class="option-card website">
+                    <div class="card-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Hauptwebsite</h3>
+                    <p>Die öffentliche Website der Praxis mit allen Informationen und Services.</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Mehrsprachig</span>
+                        <span class="feature-tag">Responsive</span>
+                        <span class="feature-tag">SEO-optimiert</span>
+                    </div>
+                    <a href="index.html" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i> Website öffnen
+                    </a>
+                </div>
+
+                <!-- CMS Admin -->
+                <div class="option-card cms-full">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>CMS Admin</h3>
+                    <p>Vollständiges Content Management System mit Bilderverwaltung, Backups und direkter Website-Aktualisierung.</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Bilderverwaltung</span>
+                        <span class="feature-tag">Auto-Backup</span>
+                        <span class="feature-tag">Mehrsprachig</span>
+                    </div>
+                    <div class="server-status" id="server-status">
+                        <i class="fas fa-spinner fa-spin"></i> Prüfe Server...
+                    </div>
+                    <a href="#" id="full-cms-link" class="btn btn-success" style="display: none;">
+                        <i class="fas fa-cogs"></i> CMS öffnen
+                    </a>
+                </div>
+
+                <!-- Setup -->
+                <div class="option-card setup">
+                    <div class="card-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Setup & Installation</h3>
+                    <p>Schritt-für-Schritt Anleitung zur Installation des CMS-Servers mit Node.js.</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Node.js</span>
+                        <span class="feature-tag">Automatisiert</span>
+                        <span class="feature-tag">Anleitung</span>
+                    </div>
+                    <a href="setup.html" class="btn btn-info">
+                        <i class="fas fa-wrench"></i> Setup starten
+                    </a>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> Was bietet das CMS?</h3>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span>Text und Inhalte bearbeiten</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span>Übersetzungen in 4 Sprachen verwalten</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span>Bilder hochladen und verwalten</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span>Automatische Backups erstellen</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span>Kontaktdaten und Öffnungszeiten aktualisieren</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle text-success"></i>
+                            <span>Leistungen und Services bearbeiten</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-question-circle"></i> Häufige Fragen</h3>
+                    
+                    <div class="faq-section">
+                        <details class="faq-item">
+                            <summary>Kann ich ohne technische Kenntnisse das CMS verwenden?</summary>
+                            <p>Ja! Das CMS hat eine benutzerfreundliche Oberfläche. Sie benötigen nur eine einmalige Node.js-Installation, die Schritt-für-Schritt erklärt wird.</p>
+                        </details>
+
+                        <details class="faq-item">
+                            <summary>Welche Browser werden unterstützt?</summary>
+                            <p>Alle modernen Browser: Chrome, Firefox, Safari, Edge. Internet Explorer wird nicht unterstützt.</p>
+                        </details>
+
+                        <details class="faq-item">
+                            <summary>Wie sichere ich meine Daten?</summary>
+                            <p>Das CMS erstellt automatisch Backups. Sie können auch manuell Backups erstellen und herunterladen.</p>
+                        </details>
+
+                        <details class="faq-item">
+                            <summary>Ist das CMS sicher?</summary>
+                            <p>Ja, das CMS ist durch Passwort geschützt und läuft lokal auf Ihrem Server. Für öffentliche Server empfehlen wir zusätzliche Sicherheitsmaßnahmen.</p>
+                        </details>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-key"></i> Standard-Zugangsdaten</h3>
+                    <div class="credentials-display">
+                        <div class="cred-row">
+                            <strong>Benutzername:</strong>
+                            <code>admin</code>
+                            <button onclick="copyToClipboard('admin')" class="copy-btn-small">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="cred-row">
+                            <strong>Passwort:</strong>
+                            <code>hausarzt2024!</code>
+                            <button onclick="copyToClipboard('hausarzt2024!')" class="copy-btn-small">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="security-notice">
+                        <i class="fas fa-shield-alt"></i>
+                        <strong>Sicherheitshinweis:</strong> Ändern Sie das Passwort nach dem ersten Login!
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="overview-footer">
+            <p>&copy; 2025 Hausarztpraxis Dr. Airoud - CMS Version 1.0</p>
+            <p>
+                <a href="CMS-README.md" target="_blank">Dokumentation</a> |
+                <a href="mailto:support@example.com">Support</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Copy notification -->
+    <div id="copy-notification" class="copy-notification">
+        <i class="fas fa-check"></i> Kopiert!
+    </div>
+
+    <script>
+        // Check server status
+        function checkServerStatus() {
+            const statusEl = document.getElementById('server-status');
+            const linkEl = document.getElementById('full-cms-link');
+
+            fetch('/api/health')
+                .then(response => {
+                    if (response.ok) {
+                        statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Server läuft';
+                        statusEl.className = 'server-status online';
+                        linkEl.style.display = 'inline-flex';
+                        linkEl.href = 'admin.html';
+                    }
+                })
+                .catch(() => {
+                    statusEl.innerHTML = '<i class="fas fa-times-circle"></i> Server nicht verfügbar';
+                    statusEl.className = 'server-status offline';
+                    
+                    // Replace link with setup button
+                    linkEl.innerHTML = '<i class="fas fa-rocket"></i> Server starten';
+                    linkEl.href = 'setup.html';
+                    linkEl.className = 'btn btn-warning';
+                    linkEl.style.display = 'inline-flex';
+                });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showCopyNotification();
+            });
+        }
+
+        function showCopyNotification() {
+            const notification = document.getElementById('copy-notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkServerStatus();
+        });
+    </script>
+
+    <style>
+        .overview-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .overview-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: linear-gradient(135deg, #4a90a4 0%, #2c5d6b 100%);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .overview-header h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .overview-header p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .option-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .option-card.website::before { background: #28a745; }
+        .option-card.cms-full::before { background: #007bff; }
+        .option-card.setup::before { background: #6f42c1; }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            color: #4a90a4;
+            margin-bottom: 20px;
+        }
+
+        .option-card h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .option-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-features {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: rgba(74, 144, 164, 0.1);
+            color: #4a90a4;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .server-status {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .server-status.online {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .server-status.offline {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .feature-item i {
+            font-size: 16px;
+        }
+
+        .faq-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .faq-item {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .faq-item summary {
+            padding: 15px;
+            background: #f8f9fa;
+            cursor: pointer;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .faq-item p {
+            padding: 15px;
+            margin: 0;
+            background: white;
+        }
+
+        .credentials-display {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cred-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cred-row code {
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            flex: 1;
+        }
+
+        .copy-btn-small {
+            background: #4a90a4;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .copy-btn-small:hover {
+            background: #2c5d6b;
+        }
+
+        .security-notice {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ffeaa7;
+            font-size: 14px;
+        }
+
+        .info-section {
+            display: grid;
+            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-card h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .overview-footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+
+        .overview-footer a {
+            color: #4a90a4;
+            text-decoration: none;
+        }
+
+        .overview-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            transform: translateX(300px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .copy-notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .overview-header h1 { font-size: 28px; }
+            .overview-header p { font-size: 16px; }
+            .option-grid { grid-template-columns: 1fr; }
+            .info-section { grid-template-columns: 1fr; }
+            .cred-row { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</body>
+</html>

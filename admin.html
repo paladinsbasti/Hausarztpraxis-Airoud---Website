@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS - Hausarztpraxis Dr. Airoud</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="login-modal" class="login-modal">
+        <div class="login-content">
+            <h2><i class="fas fa-lock"></i> Admin Login</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">Benutzername:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Passwort:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit">Anmelden</button>
+            </form>
+            <div id="login-error" class="error-message"></div>
+        </div>
+    </div>
+
+    <!-- Main CMS Interface -->
+    <div id="cms-interface" class="cms-hidden">
+        <!-- Header -->
+        <header class="cms-header">
+            <div class="header-content">
+                <h1><i class="fas fa-cog"></i> Content Management System</h1>
+                <div class="header-actions">
+                    <button id="preview-btn" class="btn btn-secondary">
+                        <i class="fas fa-eye"></i> Vorschau
+                    </button>
+                    <button id="logout-btn" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i> Abmelden
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="cms-nav">
+            <button class="nav-tab active" data-tab="content">
+                <i class="fas fa-edit"></i> Inhalte
+            </button>
+            <button class="nav-tab" data-tab="services">
+                <i class="fas fa-stethoscope"></i> Leistungen
+            </button>
+            <button class="nav-tab" data-tab="contact">
+                <i class="fas fa-phone"></i> Kontakt
+            </button>
+            <button class="nav-tab" data-tab="translations">
+                <i class="fas fa-language"></i> Übersetzungen
+            </button>
+            <button class="nav-tab" data-tab="images">
+                <i class="fas fa-image"></i> Bilder
+            </button>
+            <button class="nav-tab" data-tab="backup">
+                <i class="fas fa-download"></i> Backup
+            </button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="cms-main">
+            <!-- Content Tab -->
+            <div id="content-tab" class="tab-content active">
+                <h2>Seiteninhalte bearbeiten</h2>
+                
+                <!-- Language Selector -->
+                <div class="language-selector">
+                    <label>Sprache:</label>
+                    <select id="content-language">
+                        <option value="de">Deutsch</option>
+                        <option value="en">English</option>
+                        <option value="it">Italiano</option>
+                        <option value="ar">العربية</option>
+                    </select>
+                </div>
+
+                <!-- Intro Section -->
+                <div class="content-section">
+                    <h3><i class="fas fa-home"></i> Startseite</h3>
+                    <div class="form-group">
+                        <label>Haupttitel:</label>
+                        <input type="text" id="intro-title" data-key="intro.title">
+                    </div>
+                    <div class="form-group">
+                        <label>Untertitel:</label>
+                        <input type="text" id="intro-subtitle" data-key="intro.subtitle">
+                    </div>
+                    <div class="form-group">
+                        <label>Beschreibung:</label>
+                        <textarea id="intro-description" data-key="intro.description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Call-to-Action Button:</label>
+                        <input type="text" id="intro-cta" data-key="intro.cta">
+                    </div>
+                </div>
+
+                <!-- About Section -->
+                <div class="content-section">
+                    <h3><i class="fas fa-user-md"></i> Über uns</h3>
+                    <div class="form-group">
+                        <label>Doktor Name:</label>
+                        <input type="text" id="about-doctor" data-key="about.doctor">
+                    </div>
+                    <div class="form-group">
+                        <label>Qualifikation:</label>
+                        <input type="text" id="about-qualification" data-key="about.qualification">
+                    </div>
+                    <div class="form-group">
+                        <label>Begrüßungstext:</label>
+                        <textarea id="about-welcome" data-key="about.welcome"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Sprachen Beschreibung:</label>
+                        <input type="text" id="about-languages-desc" data-key="about.languages.desc">
+                    </div>
+                    <div class="form-group">
+                        <label>Team Beschreibung:</label>
+                        <textarea id="about-team-desc" data-key="about.team.desc"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Tab -->
+            <div id="services-tab" class="tab-content">
+                <h2>Leistungen verwalten</h2>
+                
+                <div class="services-grid-editor">
+                    <div class="service-editor" data-service="hausarzt">
+                        <h3><i class="fas fa-stethoscope"></i> Hausarztmedizin</h3>
+                        <div class="form-group">
+                            <label>Titel:</label>
+                            <input type="text" data-key="services.general">
+                        </div>
+                        <div class="form-group">
+                            <label>Kurzbeschreibung:</label>
+                            <input type="text" data-key="services.general.desc">
+                        </div>
+                        <div class="form-group">
+                            <label>Modal Inhalt:</label>
+                            <textarea data-key="modal.hausarzt.intro"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Leistungsliste:</label>
+                            <div class="list-editor" data-prefix="modal.hausarzt.li">
+                                <input type="text" data-key="modal.hausarzt.li1">
+                                <input type="text" data-key="modal.hausarzt.li2">
+                                <input type="text" data-key="modal.hausarzt.li3">
+                                <input type="text" data-key="modal.hausarzt.li4">
+                                <input type="text" data-key="modal.hausarzt.li5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-editor" data-service="vorsorge">
+                        <h3><i class="fas fa-shield-alt"></i> Vorsorgeuntersuchungen</h3>
+                        <div class="form-group">
+                            <label>Titel:</label>
+                            <input type="text" data-key="services.prevention">
+                        </div>
+                        <div class="form-group">
+                            <label>Kurzbeschreibung:</label>
+                            <input type="text" data-key="services.prevention.desc">
+                        </div>
+                        <div class="form-group">
+                            <label>Modal Inhalt:</label>
+                            <textarea data-key="modal.vorsorge.intro"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Leistungsliste:</label>
+                            <div class="list-editor">
+                                <input type="text" data-key="modal.vorsorge.li1">
+                                <input type="text" data-key="modal.vorsorge.li2">
+                                <input type="text" data-key="modal.vorsorge.li3">
+                                <input type="text" data-key="modal.vorsorge.li4">
+                                <input type="text" data-key="modal.vorsorge.li5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-editor" data-service="labor">
+                        <h3><i class="fas fa-flask"></i> Labor</h3>
+                        <div class="form-group">
+                            <label>Titel:</label>
+                            <input type="text" data-key="services.lab">
+                        </div>
+                        <div class="form-group">
+                            <label>Kurzbeschreibung:</label>
+                            <input type="text" data-key="services.lab.desc">
+                        </div>
+                        <div class="form-group">
+                            <label>Modal Inhalt:</label>
+                            <textarea data-key="modal.labor.intro"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Leistungsliste:</label>
+                            <div class="list-editor">
+                                <input type="text" data-key="modal.labor.li1">
+                                <input type="text" data-key="modal.labor.li2">
+                                <input type="text" data-key="modal.labor.li3">
+                                <input type="text" data-key="modal.labor.li4">
+                                <input type="text" data-key="modal.labor.li5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Tab -->
+            <div id="contact-tab" class="tab-content">
+                <h2>Kontaktinformationen</h2>
+                
+                <div class="contact-editor">
+                    <div class="form-group">
+                        <label>Praxisadresse:</label>
+                        <textarea id="practice-address">Eschenstr. 138
+42283 Wuppertal</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Telefonnummer:</label>
+                        <input type="tel" id="practice-phone" value="0202 25 350 880">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>E-Mail:</label>
+                        <input type="email" id="practice-email" value="info@hausarztpraxis-airoud.de">
+                    </div>
+                    
+                    <h3>Öffnungszeiten</h3>
+                    <div class="opening-hours-editor">
+                        <div class="hours-row">
+                            <label>Montag:</label>
+                            <input type="text" id="hours-monday" value="08:30 - 13:00 | 16:00 - 18:00 Uhr">
+                        </div>
+                        <div class="hours-row">
+                            <label>Dienstag:</label>
+                            <input type="text" id="hours-tuesday" value="08:30 - 13:00 | 16:00 - 18:00 Uhr">
+                        </div>
+                        <div class="hours-row">
+                            <label>Mittwoch:</label>
+                            <input type="text" id="hours-wednesday" value="08:30 - 13:00 Uhr">
+                        </div>
+                        <div class="hours-row">
+                            <label>Donnerstag:</label>
+                            <input type="text" id="hours-thursday" value="08:30 - 13:00 | 16:00 - 18:00 Uhr">
+                        </div>
+                        <div class="hours-row">
+                            <label>Freitag:</label>
+                            <input type="text" id="hours-friday" value="08:30 - 13:00 Uhr">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Translations Tab -->
+            <div id="translations-tab" class="tab-content">
+                <h2>Übersetzungen verwalten</h2>
+                
+                <div class="translation-controls">
+                    <div class="form-group">
+                        <label>Sprache auswählen:</label>
+                        <select id="translation-language">
+                            <option value="de">Deutsch</option>
+                            <option value="en">English</option>
+                            <option value="it">Italiano</option>
+                            <option value="ar">العربية</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="translation-editor">
+                    <!-- Translation fields will be dynamically generated -->
+                </div>
+            </div>
+
+            <!-- Images Tab -->
+            <div id="images-tab" class="tab-content">
+                <h2>Bilder verwalten</h2>
+                
+                <div class="image-manager">
+                    <div class="image-upload-section">
+                        <h3>Neues Bild hochladen</h3>
+                        <div class="upload-area" id="upload-area">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Bild hier ablegen oder klicken zum Auswählen</p>
+                            <input type="file" id="image-upload" accept="image/*" multiple>
+                        </div>
+                    </div>
+                    
+                    <div class="current-images">
+                        <h3>Aktuelle Bilder</h3>
+                        <div id="image-gallery">
+                            <!-- Images will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backup Tab -->
+            <div id="backup-tab" class="tab-content">
+                <h2>Backup & Wiederherstellung</h2>
+                
+                <div class="backup-section">
+                    <h3>Backup erstellen</h3>
+                    <p>Erstellen Sie ein Backup aller Inhalte und Einstellungen.</p>
+                    <button id="create-backup" class="btn btn-primary">
+                        <i class="fas fa-download"></i> Backup erstellen
+                    </button>
+                </div>
+                
+                <div class="restore-section">
+                    <h3>Backup wiederherstellen</h3>
+                    <p>Laden Sie ein Backup-File hoch, um Inhalte wiederherzustellen.</p>
+                    <input type="file" id="restore-upload" accept=".json">
+                    <button id="restore-backup" class="btn btn-secondary">
+                        <i class="fas fa-upload"></i> Backup wiederherstellen
+                    </button>
+                </div>
+                
+                <div class="backup-history">
+                    <h3>Backup-Historie</h3>
+                    <div id="backup-list">
+                        <!-- Backup history will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Save Actions -->
+        <div class="save-actions">
+            <button id="save-changes" class="btn btn-success">
+                <i class="fas fa-save"></i> Änderungen speichern
+            </button>
+            <button id="discard-changes" class="btn btn-warning">
+                <i class="fas fa-undo"></i> Änderungen verwerfen
+            </button>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="status-message" class="status-message"></div>
+    </div>
+
+    <script src="cms-script.js"></script>
+</body>
+</html>
