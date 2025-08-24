@@ -125,11 +125,6 @@ if (!fs.existsSync(dataDir)) {
 
 // Initialize content data file
 const contentFile = path.join(dataDir, 'content.json');
-const backupDir = path.join(dataDir, 'backups');
-
-if (!fs.existsSync(backupDir)) {
-    fs.mkdirSync(backupDir, { recursive: true });
-}
 
 // Default content structure
 const defaultContent = {
@@ -261,27 +256,7 @@ function saveContent(content) {
         // Validate content before saving
         const validatedContent = validateContent(content);
         
-        // Create backup with rotation (keep only last 10)
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const backupFile = path.join(backupDir, `content-backup-${timestamp}.json`);
-        
-        if (fs.existsSync(contentFile)) {
-            fs.writeFileSync(backupFile, fs.readFileSync(contentFile));
-        }
-        
-        // Cleanup old backups
-        const backupFiles = fs.readdirSync(backupDir)
-            .filter(file => file.startsWith('content-backup-'))
-            .sort()
-            .reverse();
-            
-        if (backupFiles.length > 10) {
-            backupFiles.slice(10).forEach(file => {
-                fs.unlinkSync(path.join(backupDir, file));
-            });
-        }
-        
-        // Save new content
+        // Save new content directly
         fs.writeFileSync(contentFile, JSON.stringify(validatedContent, null, 2));
         return true;
     } catch (error) {
@@ -347,28 +322,9 @@ function updateHtmlFile() {
 }
 
 function getSystemStats() {
-    try {
-        const backupFiles = fs.readdirSync(backupDir)
-            .filter(file => file.startsWith('content-backup-'))
-            .sort()
-            .reverse();
-            
-        const lastBackup = backupFiles.length > 0 
-            ? new Date(backupFiles[0].replace('content-backup-', '').replace('.json', '').replace(/-/g, ':')).toLocaleString('de-DE')
-            : 'Keine Backups vorhanden';
-            
-        return {
-            lastBackup,
-            backupCount: backupFiles.length,
-            systemTime: new Date().toLocaleString('de-DE')
-        };
-    } catch (error) {
-        return {
-            lastBackup: 'Fehler beim Laden',
-            backupCount: 0,
-            systemTime: new Date().toLocaleString('de-DE')
-        };
-    }
+    return {
+        systemTime: new Date().toLocaleString('de-DE')
+    };
 }
 
 // Authentication middleware
@@ -611,13 +567,6 @@ app.get('/admin', requireAuth, (req, res) => {
                                     </div>
                                     <div style="font-weight: 600;">System Status</div>
                                     <div style="color: var(--success-color);">Online & Aktiv</div>
-                                </div>
-                                <div style="text-align: center; padding: 1rem; background: var(--light-bg); border-radius: 8px;">
-                                    <div style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;">
-                                        <i class="fas fa-save"></i>
-                                    </div>
-                                    <div style="font-weight: 600;">Letztes Backup</div>
-                                    <div>${stats.lastBackup}</div>
                                 </div>
                                 <div style="text-align: center; padding: 1rem; background: var(--light-bg); border-radius: 8px;">
                                     <div style="font-size: 2rem; color: var(--accent-color); margin-bottom: 0.5rem;">
