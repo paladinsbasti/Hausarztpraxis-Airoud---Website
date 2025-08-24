@@ -23,7 +23,7 @@
     "subtitle": "Umfassende medizinische Versorgung für die ganze Familie",
     "items": [
       {
-        "icon": "fas fa-stethoscope",
+        "icon": "fas fa-shield-alt",
         "title": "Hausarztmedizin",
         "description": "Umfassende medizinische Grundversorgung"
       },
@@ -56,7 +56,7 @@
   },
   "modals": {
     "hausarzt": {
-      "title": "dasdasd",
+      "title": "Hausarztmedizin",
       "intro": "Als Ihr Hausarzt sind wir Ihr erster Ansprechpartner für alle gesundheitlichen Fragen. Wir bieten eine umfassende medizinische Grundversorgung für Patienten jeden Alters.",
       "listTitle": "Unsere Leistungen umfassen:",
       "items": [
@@ -152,7 +152,7 @@
     "phone": "Telefon",
     "phoneValue": "Telefon",
     "email": "E-Mail",
-    "emailValue": "sodhaoisdhisoa",
+    "emailValue": "E-Mail",
     "hoursTitle": "Sprechzeiten",
     "hours": [
       {

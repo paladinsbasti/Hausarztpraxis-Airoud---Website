@@ -460,6 +460,60 @@ body {
     }
 }
 
+/* Service Cards Grid */
+.service-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.service-card-form {
+    background: var(--white);
+    border: 2px solid var(--gray-light);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    transition: var(--transition);
+}
+
+.service-card-form:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-light);
+}
+
+.service-card-form h4 {
+    margin: 0 0 1rem 0;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--gray-light);
+    padding-bottom: 0.5rem;
+}
+
+.service-card-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.service-card-form .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.service-card-form small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--gray-medium);
+}
+
+.service-card-form small a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.service-card-form small a:hover {
+    text-decoration: underline;
+}
+
 /* Print styles */
 @media print {
     .admin-header,

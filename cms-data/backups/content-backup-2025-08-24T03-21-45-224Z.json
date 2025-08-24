@@ -24,7 +24,7 @@
     "items": [
       {
         "icon": "fas fa-stethoscope",
-        "title": "Hausarztmedizin",
+        "title": "asdasd",
         "description": "Umfassende medizinische Grundversorgung"
       },
       {
@@ -152,7 +152,7 @@
     "phone": "Telefon",
     "phoneValue": "Telefon",
     "email": "E-Mail",
-    "emailValue": "asasdsd",
+    "emailValue": "E-Mail",
     "hoursTitle": "Sprechzeiten",
     "hours": [
       {

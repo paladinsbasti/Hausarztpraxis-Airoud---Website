@@ -111,6 +111,41 @@ window.applyAllSections = function() {
         servicesH2.style.color = 'red'; // Visual indicator
     }
     
+    // Service Cards
+    const serviceCards = document.querySelectorAll('#services .service-card');
+    console.log('Found service cards:', serviceCards.length);
+    if (cmsContent.services.items) {
+        serviceCards.forEach((card, index) => {
+            if (cmsContent.services.items[index]) {
+                const serviceData = cmsContent.services.items[index];
+                
+                // Update icon
+                const icon = card.querySelector('.service-icon i');
+                if (icon && serviceData.icon) {
+                    console.log(`Updating service ${index + 1} icon to:`, serviceData.icon);
+                    icon.className = serviceData.icon;
+                    icon.style.color = 'orange'; // Visual indicator
+                }
+                
+                // Update title
+                const title = card.querySelector('h3');
+                if (title && serviceData.title) {
+                    console.log(`Updating service ${index + 1} title to:`, serviceData.title);
+                    title.textContent = serviceData.title;
+                    title.style.color = 'purple'; // Visual indicator
+                }
+                
+                // Update description
+                const desc = card.querySelector('p');
+                if (desc && serviceData.description) {
+                    console.log(`Updating service ${index + 1} description to:`, serviceData.description);
+                    desc.textContent = serviceData.description;
+                    desc.style.backgroundColor = 'lightgreen'; // Visual indicator
+                }
+            }
+        });
+    }
+    
     // About
     const aboutH2 = document.querySelector('#about h2[data-translate="about.title"]');
     if (aboutH2 && cmsContent.about.title) {
@@ -280,21 +315,26 @@ function applyServicesContent() {
                 const icon = card.querySelector('.service-icon i');
                 if (icon && serviceData.icon) {
                     icon.className = serviceData.icon;
+                    console.log(`Updated service ${index + 1} icon to:`, serviceData.icon);
                 }
                 
                 // Update service title
                 const serviceTitle = card.querySelector('h3');
                 if (serviceTitle && serviceData.title) {
                     serviceTitle.textContent = serviceData.title;
+                    console.log(`Updated service ${index + 1} title to:`, serviceData.title);
                 }
                 
                 // Update service description
                 const serviceDesc = card.querySelector('p');
                 if (serviceDesc && serviceData.description) {
                     serviceDesc.textContent = serviceData.description;
+                    console.log(`Updated service ${index + 1} description to:`, serviceData.description);
                 }
             }
         });
+        
+        console.log(`Updated ${Math.min(serviceCards.length, cmsContent.services.items.length)} service cards`);
     }
 }
 

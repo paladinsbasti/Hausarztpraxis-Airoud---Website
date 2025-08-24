@@ -570,7 +570,7 @@ app.get('/admin', requireAuth, (req, res) => {
                             <i class="fas fa-user-md"></i>
                             <span>Dr. Airoud CMS</span>
                             <div style="font-size: 0.7rem; opacity: 0.8; margin-left: 0.5rem;">
-                                v2.0 Enhanced
+                                v2.1 Enhanced
                             </div>
                         </div>
                         <div class="admin-actions">
@@ -749,6 +749,57 @@ app.get('/admin', requireAuth, (req, res) => {
                                                maxlength="200"
                                                placeholder="Beschreibung der Leistungen">
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service Cards Section -->
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fas fa-th-large"></i>
+                                    Service-Karten
+                                </h2>
+                                <p class="section-description">
+                                    Bearbeiten Sie die Titel und Icons der einzelnen Service-Karten
+                                </p>
+                            </div>
+                            <div class="section-body">
+                                <div class="service-cards-grid">
+                                    ${content.services.items ? content.services.items.map((item, index) => `
+                                        <div class="service-card-form">
+                                            <h4>Service ${index + 1}</h4>
+                                            <div class="form-group">
+                                                <label for="service_${index}_icon">
+                                                    <i class="fas fa-icons"></i>
+                                                    Icon (Font Awesome Klasse):
+                                                </label>
+                                                <input type="text" id="service_${index}_icon" name="service_${index}_icon" 
+                                                       value="${item.icon || ''}" 
+                                                       placeholder="z.B. fas fa-stethoscope">
+                                                <small>Nutzen Sie Font Awesome Icons: <a href="https://fontawesome.com/icons" target="_blank">fontawesome.com/icons</a></small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="service_${index}_title">
+                                                    <i class="fas fa-tag"></i>
+                                                    Titel:
+                                                </label>
+                                                <input type="text" id="service_${index}_title" name="service_${index}_title" 
+                                                       value="${item.title || ''}" 
+                                                       maxlength="50"
+                                                       placeholder="Service-Titel">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="service_${index}_description">
+                                                    <i class="fas fa-align-left"></i>
+                                                    Beschreibung:
+                                                </label>
+                                                <textarea id="service_${index}_description" name="service_${index}_description" 
+                                                          maxlength="150"
+                                                          placeholder="Kurze Beschreibung des Services">${item.description || ''}</textarea>
+                                            </div>
+                                        </div>
+                                    `).join('') : ''}
                                 </div>
                             </div>
                         </div>
@@ -1155,6 +1206,28 @@ app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
         // Update services section
         if (req.body.services_title) content.services.title = req.body.services_title;
         if (req.body.services_subtitle) content.services.subtitle = req.body.services_subtitle;
+        
+        // Update service cards
+        if (!content.services.items) content.services.items = [];
+        
+        // Process up to 6 service cards (typical number)
+        for (let i = 0; i < 6; i++) {
+            const iconField = `service_${i}_icon`;
+            const titleField = `service_${i}_title`;
+            const descField = `service_${i}_description`;
+            
+            if (req.body[iconField] || req.body[titleField] || req.body[descField]) {
+                // Ensure the service item exists
+                if (!content.services.items[i]) {
+                    content.services.items[i] = {};
+                }
+                
+                // Update fields if provided
+                if (req.body[iconField]) content.services.items[i].icon = req.body[iconField];
+                if (req.body[titleField]) content.services.items[i].title = req.body[titleField];
+                if (req.body[descField]) content.services.items[i].description = req.body[descField];
+            }
+        }
         
         // Update about section
         if (req.body.about_title) content.about.title = req.body.about_title;
