@@ -381,6 +381,17 @@ function requireAuth(req, res, next) {
 }
 
 // Routes
+// API endpoint to serve content.json
+app.get('/api/content', (req, res) => {
+    try {
+        const content = loadContent();
+        res.json(content);
+    } catch (error) {
+        console.error('Error serving content:', error);
+        res.status(500).json({ error: 'Failed to load content' });
+    }
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });

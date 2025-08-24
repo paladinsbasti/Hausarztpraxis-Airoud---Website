@@ -19,7 +19,7 @@
     "doctorImage": "https://via.placeholder.com/400x500/4a90a4/ffffff?text=Dr.+Airoud"
   },
   "services": {
-    "title": "Unsere Leistungen",
+    "title": "asdasdas",
     "subtitle": "Umfassende medizinische Versorgung für die ganze Familie",
     "items": [
       {
@@ -148,11 +148,11 @@
     "subtitle": "Wir sind für Sie da - kontaktieren Sie uns",
     "info": "Kontaktdaten",
     "address": "Adresse",
-    "addressValue": "Eschenstr. 138\r\n42283 Wuppertal",
+    "addressValue": "Adresse",
     "phone": "Telefon",
-    "phoneValue": "0202 25 350 880",
+    "phoneValue": "Telefon",
     "email": "E-Mail",
-    "emailValue": "info@hausarztpraxis-airoud.de",
+    "emailValue": "E-Mail",
     "hoursTitle": "Sprechzeiten",
     "hours": [
       {

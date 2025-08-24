@@ -8,6 +8,516 @@ const contactForm = document.getElementById('contact-form');
 // Language Management
 let currentLanguage = 'de';
 
+// CMS Content Management
+let cmsContent = null;
+
+// Load CMS content from server
+async function loadCMSContent() {
+    try {
+        const response = await fetch('/api/content');
+        if (response.ok) {
+            cmsContent = await response.json();
+            console.log('CMS content loaded:', cmsContent);
+            return true;
+        } else {
+            console.warn('Failed to load CMS content, using static content');
+            return false;
+        }
+    } catch (error) {
+        console.warn('Error loading CMS content:', error);
+        return false;
+    }
+}
+
+// Refresh CMS content (useful for testing or live updates)
+async function refreshCMSContent() {
+    console.log('Refreshing CMS content...');
+    const loaded = await loadCMSContent();
+    console.log(loaded ? 'CMS content refreshed successfully' : 'Failed to refresh CMS content');
+    return loaded;
+}
+
+// Make refresh function globally available for testing
+window.refreshCMSContent = refreshCMSContent;
+
+// Debug function to test selectors
+window.testSelectors = function() {
+    console.log('=== TESTING SELECTORS ===');
+    
+    // Test services selectors
+    const servicesSection = document.getElementById('services');
+    console.log('Services section:', servicesSection);
+    
+    const servicesTitle = servicesSection?.querySelector('h2[data-translate="services.title"]');
+    console.log('Services title element:', servicesTitle);
+    console.log('Services title text:', servicesTitle?.textContent);
+    
+    // Test about selectors
+    const aboutSection = document.getElementById('about');
+    console.log('About section:', aboutSection);
+    
+    const aboutTitle = aboutSection?.querySelector('h2[data-translate="about.title"]');
+    console.log('About title element:', aboutTitle);
+    console.log('About title text:', aboutTitle?.textContent);
+    
+    // Test contact selectors  
+    const contactSection = document.getElementById('contact');
+    console.log('Contact section:', contactSection);
+    
+    const contactTitle = contactSection?.querySelector('h2[data-translate="contact.title"]');
+    console.log('Contact title element:', contactTitle);
+    console.log('Contact title text:', contactTitle?.textContent);
+    
+    const emailItem = contactSection?.querySelector('.info-item i.fa-envelope')?.closest('.info-item');
+    console.log('Email info item:', emailItem);
+    
+    const emailLink = emailItem?.querySelector('a[href^="mailto:"]');
+    console.log('Email link:', emailLink);
+    console.log('Email link text:', emailLink?.textContent);
+    
+    console.log('=== CURRENT CMS CONTENT ===');
+    console.log(cmsContent);
+};
+
+// Force apply CMS content manually (for testing)
+window.forceApplyCMS = function() {
+    if (!cmsContent) {
+        console.log('No CMS content loaded. Loading now...');
+        loadCMSContent().then(() => {
+            console.log('CMS content loaded. Applying...');
+            applyCMSContent();
+        });
+        return;
+    }
+    
+    console.log('Force applying CMS content...');
+    applyCMSContent();
+};
+
+// Apply all sections manually with detailed logging
+window.applyAllSections = function() {
+    if (!cmsContent) {
+        console.log('No CMS content available');
+        return;
+    }
+    
+    console.log('=== MANUALLY APPLYING ALL SECTIONS ===');
+    
+    // Services
+    const servicesH2 = document.querySelector('#services h2[data-translate="services.title"]');
+    if (servicesH2 && cmsContent.services.title) {
+        console.log('Updating services title from', servicesH2.textContent, 'to', cmsContent.services.title);
+        servicesH2.textContent = cmsContent.services.title;
+        servicesH2.style.color = 'red'; // Visual indicator
+    }
+    
+    // About
+    const aboutH2 = document.querySelector('#about h2[data-translate="about.title"]');
+    if (aboutH2 && cmsContent.about.title) {
+        console.log('Updating about title from', aboutH2.textContent, 'to', cmsContent.about.title);
+        aboutH2.textContent = cmsContent.about.title;
+        aboutH2.style.color = 'blue'; // Visual indicator
+    }
+    
+    // Contact
+    const contactH2 = document.querySelector('#contact h2[data-translate="contact.title"]');
+    if (contactH2 && cmsContent.contact.title) {
+        console.log('Updating contact title from', contactH2.textContent, 'to', cmsContent.contact.title);
+        contactH2.textContent = cmsContent.contact.title;
+        contactH2.style.color = 'green'; // Visual indicator
+    }
+    
+    // Email
+    const allLinks = document.querySelectorAll('#contact a[href^="mailto:"]');
+    console.log('Found email links:', allLinks);
+    allLinks.forEach(link => {
+        if (cmsContent.contact.emailValue) {
+            console.log('Updating email from', link.textContent, 'to', cmsContent.contact.emailValue);
+            link.textContent = cmsContent.contact.emailValue;
+            link.href = `mailto:${cmsContent.contact.emailValue}`;
+            link.style.backgroundColor = 'yellow'; // Visual indicator
+        }
+    });
+    
+    // Address with line breaks
+    const allInfoItems = document.querySelectorAll('#contact .info-item');
+    allInfoItems.forEach(item => {
+        const icon = item.querySelector('i.fa-map-marker-alt');
+        if (icon) {
+            const addressP = item.querySelector('p');
+            if (addressP && cmsContent.contact.addressValue) {
+                const addressWithBreaks = cmsContent.contact.addressValue
+                    .replace(/\r\n/g, '<br>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/\r/g, '<br>');
+                console.log('Updating address to:', cmsContent.contact.addressValue, 'with breaks:', addressWithBreaks);
+                addressP.innerHTML = addressWithBreaks;
+                addressP.style.backgroundColor = 'lightblue'; // Visual indicator
+            }
+        }
+    });
+    
+    console.log('Manual application complete');
+};
+
+// Apply CMS content to the page
+function applyCMSContent() {
+    if (!cmsContent) return;
+
+    console.log('Starting to apply CMS content:', cmsContent);
+    
+    // Apply intro section content
+    applyIntroContent();
+    
+    // Apply services section content
+    applyServicesContent();
+    
+    // Apply about section content
+    applyAboutContent();
+    
+    // Apply contact section content
+    applyContactContent();
+    
+    // Apply navigation content
+    applyNavigationContent();
+    
+    // Apply modal content
+    applyModalContent();
+    
+    console.log('CMS content applied successfully');
+}
+
+// Apply intro section content
+function applyIntroContent() {
+    if (!cmsContent.intro) return;
+    
+    const introSection = document.getElementById('intro');
+    if (!introSection) return;
+    
+    console.log('Applying intro content:', cmsContent.intro);
+    
+    // Update intro title
+    const title = introSection.querySelector('h1[data-translate="intro.title"]');
+    if (title && cmsContent.intro.title) {
+        title.textContent = cmsContent.intro.title;
+        console.log('Updated intro title to:', cmsContent.intro.title);
+    }
+    
+    // Update intro subtitle
+    const subtitle = introSection.querySelector('.intro-subtitle[data-translate="intro.subtitle"]');
+    if (subtitle && cmsContent.intro.subtitle) {
+        subtitle.textContent = cmsContent.intro.subtitle;
+        console.log('Updated intro subtitle to:', cmsContent.intro.subtitle);
+    }
+    
+    // Update intro features
+    const feature1 = introSection.querySelector('[data-translate="intro.feature1"]');
+    if (feature1 && cmsContent.intro.feature1) {
+        feature1.textContent = cmsContent.intro.feature1;
+    }
+    
+    const feature2 = introSection.querySelector('[data-translate="intro.feature2"]');
+    if (feature2 && cmsContent.intro.feature2) {
+        feature2.textContent = cmsContent.intro.feature2;
+    }
+    
+    const feature3 = introSection.querySelector('[data-translate="intro.feature3"]');
+    if (feature3 && cmsContent.intro.feature3) {
+        feature3.textContent = cmsContent.intro.feature3;
+    }
+    
+    // Update intro description
+    const description = introSection.querySelector('.intro-description[data-translate="intro.description"]');
+    if (description && cmsContent.intro.description) {
+        description.textContent = cmsContent.intro.description;
+    }
+    
+    // Update CTA button
+    const ctaButton = introSection.querySelector('.cta-button[data-translate="intro.cta"]');
+    if (ctaButton && cmsContent.intro.cta) {
+        ctaButton.textContent = cmsContent.intro.cta;
+    }
+    
+    // Update doctor image if provided
+    const doctorImg = introSection.querySelector('#doctor-image');
+    if (doctorImg && cmsContent.intro.doctorImage) {
+        doctorImg.src = cmsContent.intro.doctorImage;
+    }
+}
+
+// Apply services section content
+function applyServicesContent() {
+    if (!cmsContent.services) return;
+    
+    const servicesSection = document.getElementById('services');
+    if (!servicesSection) return;
+    
+    console.log('Applying services content:', cmsContent.services);
+    
+    // Update services title
+    const title = servicesSection.querySelector('h2[data-translate="services.title"]');
+    if (title && cmsContent.services.title) {
+        title.textContent = cmsContent.services.title;
+        console.log('Updated services title to:', cmsContent.services.title);
+    }
+    
+    // Update services subtitle
+    const subtitle = servicesSection.querySelector('p[data-translate="services.subtitle"]');
+    if (subtitle && cmsContent.services.subtitle) {
+        subtitle.textContent = cmsContent.services.subtitle;
+        console.log('Updated services subtitle to:', cmsContent.services.subtitle);
+    }
+    
+    // Update individual service cards if available
+    if (cmsContent.services.items && Array.isArray(cmsContent.services.items)) {
+        const serviceCards = servicesSection.querySelectorAll('.service-card');
+        
+        serviceCards.forEach((card, index) => {
+            if (cmsContent.services.items[index]) {
+                const serviceData = cmsContent.services.items[index];
+                
+                // Update service icon
+                const icon = card.querySelector('.service-icon i');
+                if (icon && serviceData.icon) {
+                    icon.className = serviceData.icon;
+                }
+                
+                // Update service title
+                const serviceTitle = card.querySelector('h3');
+                if (serviceTitle && serviceData.title) {
+                    serviceTitle.textContent = serviceData.title;
+                }
+                
+                // Update service description
+                const serviceDesc = card.querySelector('p');
+                if (serviceDesc && serviceData.description) {
+                    serviceDesc.textContent = serviceData.description;
+                }
+            }
+        });
+    }
+}
+
+// Apply about section content
+function applyAboutContent() {
+    if (!cmsContent.about) return;
+    
+    const aboutSection = document.getElementById('about');
+    if (!aboutSection) return;
+    
+    console.log('Applying about content:', cmsContent.about);
+    
+    // Update about title
+    const title = aboutSection.querySelector('h2[data-translate="about.title"]');
+    if (title && cmsContent.about.title) {
+        title.textContent = cmsContent.about.title;
+        console.log('Updated about title to:', cmsContent.about.title);
+    }
+    
+    // Update doctor name
+    const doctorName = aboutSection.querySelector('h3[data-translate="about.doctor"]');
+    if (doctorName && cmsContent.about.doctorName) {
+        doctorName.textContent = cmsContent.about.doctorName;
+        console.log('Updated doctor name to:', cmsContent.about.doctorName);
+    }
+    
+    // Update qualification
+    const qualification = aboutSection.querySelector('p[data-translate="about.qualification"]');
+    if (qualification && cmsContent.about.qualification) {
+        qualification.textContent = cmsContent.about.qualification;
+        console.log('Updated qualification to:', cmsContent.about.qualification);
+    }
+    
+    // Update welcome text
+    const welcome = aboutSection.querySelector('p[data-translate="about.welcome"]');
+    if (welcome && cmsContent.about.welcome) {
+        welcome.textContent = cmsContent.about.welcome;
+        console.log('Updated welcome to:', cmsContent.about.welcome);
+    }
+    
+    // Update languages title
+    const languagesTitle = aboutSection.querySelector('h4[data-translate="about.languages.title"]');
+    if (languagesTitle && cmsContent.about.languagesTitle) {
+        languagesTitle.textContent = cmsContent.about.languagesTitle;
+    }
+    
+    // Update languages description
+    const languagesDesc = aboutSection.querySelector('p[data-translate="about.languages.desc"]');
+    if (languagesDesc && cmsContent.about.languagesDesc) {
+        languagesDesc.textContent = cmsContent.about.languagesDesc;
+    }
+    
+    // Update team title
+    const teamTitle = aboutSection.querySelector('h4[data-translate="about.team.title"]');
+    if (teamTitle && cmsContent.about.teamTitle) {
+        teamTitle.textContent = cmsContent.about.teamTitle;
+    }
+    
+    // Update team description
+    const teamDesc = aboutSection.querySelector('p[data-translate="about.team.desc"]');
+    if (teamDesc && cmsContent.about.teamDesc) {
+        teamDesc.textContent = cmsContent.about.teamDesc;
+    }
+    
+    // Update team image if provided
+    const teamImg = aboutSection.querySelector('.team-image');
+    if (teamImg && cmsContent.about.teamImage) {
+        teamImg.src = cmsContent.about.teamImage;
+    }
+}
+
+// Apply contact section content
+function applyContactContent() {
+    if (!cmsContent.contact) return;
+    
+    const contactSection = document.getElementById('contact');
+    if (!contactSection) return;
+    
+    console.log('Applying contact content:', cmsContent.contact);
+    
+    // Update contact title
+    const title = contactSection.querySelector('h2[data-translate="contact.title"]');
+    if (title && cmsContent.contact.title) {
+        title.textContent = cmsContent.contact.title;
+        console.log('Updated contact title to:', cmsContent.contact.title);
+    }
+    
+    // Update contact subtitle
+    const subtitle = contactSection.querySelector('p[data-translate="contact.subtitle"]');
+    if (subtitle && cmsContent.contact.subtitle) {
+        subtitle.textContent = cmsContent.contact.subtitle;
+        console.log('Updated contact subtitle to:', cmsContent.contact.subtitle);
+    }
+    
+    // Update address - more robust approach
+    const infoItems = contactSection.querySelectorAll('.info-item');
+    infoItems.forEach(item => {
+        const icon = item.querySelector('i');
+        if (icon && icon.classList.contains('fa-map-marker-alt')) {
+            const addressP = item.querySelector('p');
+            if (addressP && cmsContent.contact.addressValue) {
+                // Convert \r\n and \n to HTML line breaks
+                const addressWithBreaks = cmsContent.contact.addressValue
+                    .replace(/\r\n/g, '<br>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/\r/g, '<br>');
+                addressP.innerHTML = addressWithBreaks;
+                console.log('Updated address to:', cmsContent.contact.addressValue);
+            }
+        }
+        
+        // Update phone
+        if (icon && icon.classList.contains('fa-phone')) {
+            const phoneLink = item.querySelector('a[href^="tel:"]');
+            if (phoneLink && cmsContent.contact.phoneValue) {
+                phoneLink.textContent = cmsContent.contact.phoneValue;
+                phoneLink.href = `tel:${cmsContent.contact.phoneValue.replace(/\s/g, '')}`;
+                console.log('Updated phone to:', cmsContent.contact.phoneValue);
+            }
+        }
+        
+        // Update email
+        if (icon && icon.classList.contains('fa-envelope')) {
+            const emailLink = item.querySelector('a[href^="mailto:"]');
+            if (emailLink && cmsContent.contact.emailValue) {
+                emailLink.textContent = cmsContent.contact.emailValue;
+                emailLink.href = `mailto:${cmsContent.contact.emailValue}`;
+                console.log('Updated email to:', cmsContent.contact.emailValue);
+            }
+        }
+    });
+    
+    // Update opening hours
+    if (cmsContent.contact.hours && Array.isArray(cmsContent.contact.hours)) {
+        const hoursItems = contactSection.querySelectorAll('.hours-item');
+        
+        hoursItems.forEach((item, index) => {
+            if (cmsContent.contact.hours[index]) {
+                const hourData = cmsContent.contact.hours[index];
+                const spans = item.querySelectorAll('span');
+                
+                if (spans.length >= 2) {
+                    if (hourData.days) {
+                        spans[0].textContent = hourData.days;
+                    }
+                    if (hourData.time) {
+                        spans[1].textContent = hourData.time;
+                    }
+                }
+            }
+        });
+    }
+}
+
+// Apply navigation content
+function applyNavigationContent() {
+    if (!cmsContent.navigation) return;
+    
+    // Update logo
+    const logo = document.querySelector('.logo span');
+    if (logo && cmsContent.navigation.logo) {
+        logo.textContent = cmsContent.navigation.logo;
+    }
+}
+
+// Apply modal content
+function applyModalContent() {
+    if (!cmsContent.modals) return;
+    
+    // Update each modal
+    Object.keys(cmsContent.modals).forEach(modalKey => {
+        const modalData = cmsContent.modals[modalKey];
+        const modal = document.getElementById(`modal-${modalKey}`);
+        
+        if (modal && modalData) {
+            // Update modal title
+            const title = modal.querySelector('h3');
+            if (title && modalData.title) {
+                title.textContent = modalData.title;
+            }
+            
+            // Update modal intro
+            const intro = modal.querySelector('.modal-body p:first-child');
+            if (intro && modalData.intro) {
+                intro.textContent = modalData.intro;
+            }
+            
+            // Update list title
+            const listTitle = modal.querySelector('.modal-body h4');
+            if (listTitle && modalData.listTitle) {
+                listTitle.textContent = modalData.listTitle;
+            }
+            
+            // Update list items
+            const list = modal.querySelector('.modal-body ul');
+            if (list && modalData.items && Array.isArray(modalData.items)) {
+                list.innerHTML = '';
+                modalData.items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item.replace(/\r/g, '');
+                    list.appendChild(li);
+                });
+            }
+            
+            // Update note if exists (for hausbesuche modal)
+            if (modalData.note) {
+                const noteP = modal.querySelector('.modal-body p:last-child strong');
+                if (noteP) {
+                    noteP.textContent = modalData.note;
+                }
+            }
+            
+            // Update outro if exists (for dmp modal)
+            if (modalData.outro) {
+                const lastP = modal.querySelector('.modal-body p:last-child');
+                if (lastP && !lastP.querySelector('strong')) {
+                    lastP.textContent = modalData.outro;
+                }
+            }
+        }
+    });
+}
+
 // Custom Scroll Behavior Setup
 let isScrollbarDragging = false;
 let isMouseWheelScrolling = false;
@@ -80,6 +590,14 @@ function changeLanguage(lang) {
                 missing++;
             }
         });
+        
+        // Re-apply CMS content after language change ONLY if CMS content is loaded
+        if (cmsContent) {
+            setTimeout(() => {
+                console.log('Re-applying CMS content after language change to:', lang);
+                applyCMSContent();
+            }, 100);
+        }
         
         // Save language preference
         localStorage.setItem('preferredLanguage', lang);
@@ -651,14 +1169,42 @@ document.addEventListener('keydown', function(e) {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize language switcher
-    initializeLanguageSwitcher();
-    loadLanguagePreference();
-    
-    // Initialize sections and custom scrolling
-    if (isMainPage) {
-        initializeCustomScrolling();
-    }
+    // Load CMS content first, then initialize everything else
+    loadCMSContent().then(loaded => {
+        console.log(loaded ? 'CMS content loaded successfully' : 'Using static content');
+        
+        // Initialize language switcher
+        initializeLanguageSwitcher();
+        
+        // Load language preference - this might trigger changeLanguage
+        loadLanguagePreference();
+        
+        // Apply CMS content after language setup with multiple delays to ensure success
+        if (loaded) {
+            // Try immediately
+            setTimeout(() => {
+                console.log('First attempt: Applying CMS content...');
+                applyCMSContent();
+            }, 100);
+            
+            // Try again after 500ms
+            setTimeout(() => {
+                console.log('Second attempt: Applying CMS content...');
+                applyCMSContent();
+            }, 500);
+            
+            // Try once more after 1 second
+            setTimeout(() => {
+                console.log('Final attempt: Applying CMS content...');
+                applyCMSContent();
+            }, 1000);
+        }
+        
+        // Initialize sections and custom scrolling
+        if (isMainPage) {
+            initializeCustomScrolling();
+        }
+    });
     
     // Add active class to navigation based on scroll position
     window.addEventListener('scroll', function() {

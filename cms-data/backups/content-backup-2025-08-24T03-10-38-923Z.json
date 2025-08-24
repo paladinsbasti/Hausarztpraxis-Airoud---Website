@@ -10,7 +10,7 @@
   },
   "intro": {
     "title": "Willkommen in der Hausarztpraxis Dr. Airoud",
-    "subtitle": "sdasdas",
+    "subtitle": "Ihre Gesundheit liegt uns am Herzen",
     "feature1": "Flexible Sprechzeiten",
     "feature2": "Erfahrenes Team",
     "feature3": "Persönliche Betreuung",
@@ -56,7 +56,7 @@
   },
   "modals": {
     "hausarzt": {
-      "title": "Hausarztmedizin",
+      "title": "dasdasd",
       "intro": "Als Ihr Hausarzt sind wir Ihr erster Ansprechpartner für alle gesundheitlichen Fragen. Wir bieten eine umfassende medizinische Grundversorgung für Patienten jeden Alters.",
       "listTitle": "Unsere Leistungen umfassen:",
       "items": [
@@ -152,7 +152,7 @@
     "phone": "Telefon",
     "phoneValue": "Telefon",
     "email": "E-Mail",
-    "emailValue": "E-Mail",
+    "emailValue": "sodhaoisdhisoa",
     "hoursTitle": "Sprechzeiten",
     "hours": [
       {
