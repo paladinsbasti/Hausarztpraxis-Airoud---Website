@@ -907,6 +907,207 @@ app.get('/admin', requireAuth, (req, res) => {
                             </div>
                         </div>
 
+                        <!-- Modals Section -->
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fas fa-window-maximize"></i>
+                                    Service-Details (Modals)
+                                </h2>
+                                <div class="btn btn-info" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+                                    <i class="fas fa-info-circle"></i>
+                                    Detaillierte Informationen zu den Leistungen
+                                </div>
+                            </div>
+                            <div class="section-body">
+                                
+                                <!-- Hausarztmedizin Modal -->
+                                <div style="border: 1px solid var(--light-border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                                    <h4><i class="fas fa-stethoscope"></i> Hausarztmedizin</h4>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="modal_hausarzt_title">Titel:</label>
+                                            <input type="text" id="modal_hausarzt_title" name="modal_hausarzt_title" 
+                                                   value="${content.modals?.hausarzt?.title || 'Hausarztmedizin'}" 
+                                                   maxlength="100">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal_hausarzt_listTitle">Listen-Titel:</label>
+                                            <input type="text" id="modal_hausarzt_listTitle" name="modal_hausarzt_listTitle" 
+                                                   value="${content.modals?.hausarzt?.listTitle || 'Unsere Leistungen umfassen:'}" 
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_hausarzt_intro">Einleitung:</label>
+                                        <textarea id="modal_hausarzt_intro" name="modal_hausarzt_intro" 
+                                                  maxlength="500">${content.modals?.hausarzt?.intro || 'Als Ihr Hausarzt sind wir Ihr erster Ansprechpartner für alle gesundheitlichen Fragen. Wir bieten eine umfassende medizinische Grundversorgung für Patienten jeden Alters.'}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_hausarzt_items">Leistungen (eine pro Zeile):</label>
+                                        <textarea id="modal_hausarzt_items" name="modal_hausarzt_items" 
+                                                  maxlength="1000">${content.modals?.hausarzt?.items ? content.modals.hausarzt.items.join('\n') : 'Allgemeine Diagnostik und Behandlung\nGesundheitsberatung und Präventionsmedizin\nChronische Krankheiten (Diabetes, Bluthochdruck, etc.)\nAkute Erkrankungen und Verletzungen\nKoordination mit Fachärzten'}</textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Vorsorgeuntersuchungen Modal -->
+                                <div style="border: 1px solid var(--light-border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                                    <h4><i class="fas fa-shield-alt"></i> Vorsorgeuntersuchungen</h4>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="modal_vorsorge_title">Titel:</label>
+                                            <input type="text" id="modal_vorsorge_title" name="modal_vorsorge_title" 
+                                                   value="${content.modals?.vorsorge?.title || 'Vorsorgeuntersuchungen'}" 
+                                                   maxlength="100">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal_vorsorge_listTitle">Listen-Titel:</label>
+                                            <input type="text" id="modal_vorsorge_listTitle" name="modal_vorsorge_listTitle" 
+                                                   value="${content.modals?.vorsorge?.listTitle || 'Unser Vorsorgeprogramm:'}" 
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_vorsorge_intro">Einleitung:</label>
+                                        <textarea id="modal_vorsorge_intro" name="modal_vorsorge_intro" 
+                                                  maxlength="500">${content.modals?.vorsorge?.intro || 'Vorbeugung ist der beste Schutz vor Krankheiten. Unsere umfassenden Vorsorgeuntersuchungen helfen dabei, Gesundheitsrisiken frühzeitig zu erkennen.'}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_vorsorge_items">Leistungen (eine pro Zeile):</label>
+                                        <textarea id="modal_vorsorge_items" name="modal_vorsorge_items" 
+                                                  maxlength="1000">${content.modals?.vorsorge?.items ? content.modals.vorsorge.items.join('\n') : 'Check-ups Untersuchungen\nHautkrebsscreening\nImpfberatung und Impfungen\nKrebsvorsorge beim Mann mit Prostatauntersuchung\nBeratung zur Darmkrebs-Früherkennung'}</textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Labor Modal -->
+                                <div style="border: 1px solid var(--light-border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                                    <h4><i class="fas fa-flask"></i> Blutuntersuchungen & Labor</h4>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="modal_labor_title">Titel:</label>
+                                            <input type="text" id="modal_labor_title" name="modal_labor_title" 
+                                                   value="${content.modals?.labor?.title || 'Blutuntersuchungen und Labordiagnostik'}" 
+                                                   maxlength="100">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal_labor_listTitle">Listen-Titel:</label>
+                                            <input type="text" id="modal_labor_listTitle" name="modal_labor_listTitle" 
+                                                   value="${content.modals?.labor?.listTitle || 'Unsere Laborleistungen:'}" 
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_labor_intro">Einleitung:</label>
+                                        <textarea id="modal_labor_intro" name="modal_labor_intro" 
+                                                  maxlength="500">${content.modals?.labor?.intro || 'Moderne Labordiagnostik direkt in unserer Praxis ermöglicht schnelle und präzise Ergebnisse für eine optimale Behandlung und Diagnosestellung.'}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_labor_items">Leistungen (eine pro Zeile):</label>
+                                        <textarea id="modal_labor_items" name="modal_labor_items" 
+                                                  maxlength="1000">${content.modals?.labor?.items ? content.modals.labor.items.join('\n') : 'Blutuntersuchungen (Blutbild, Blutzucker, Cholesterin)\nLabordiagnostik für verschiedene Erkrankungen\nSchnelle Ergebnisse durch praxiseigene Geräte\nPräventive Blutanalysen\nVerlaufskontrolle bei chronischen Erkrankungen'}</textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Diagnostik Modal -->
+                                <div style="border: 1px solid var(--light-border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                                    <h4><i class="fas fa-heartbeat"></i> Diagnostik</h4>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="modal_diagnostik_title">Titel:</label>
+                                            <input type="text" id="modal_diagnostik_title" name="modal_diagnostik_title" 
+                                                   value="${content.modals?.diagnostik?.title || 'Diagnostik'}" 
+                                                   maxlength="100">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal_diagnostik_listTitle">Listen-Titel:</label>
+                                            <input type="text" id="modal_diagnostik_listTitle" name="modal_diagnostik_listTitle" 
+                                                   value="${content.modals?.diagnostik?.listTitle || 'Unsere diagnostischen Leistungen:'}" 
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_diagnostik_intro">Einleitung:</label>
+                                        <textarea id="modal_diagnostik_intro" name="modal_diagnostik_intro" 
+                                                  maxlength="500">${content.modals?.diagnostik?.intro || 'Moderne Diagnoseverfahren für eine präzise Untersuchung und optimale Behandlung. Wir verfügen über modernste Geräte für verschiedene Untersuchungen.'}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_diagnostik_items">Leistungen (eine pro Zeile):</label>
+                                        <textarea id="modal_diagnostik_items" name="modal_diagnostik_items" 
+                                                  maxlength="1000">${content.modals?.diagnostik?.items ? content.modals.diagnostik.items.join('\n') : 'EKG (Elektrokardiogramm)\nLangzeit-EKG\nBelastungs-EKG\nLangzeit-Blutdruckmessung\nLungenfunktionstest\nUltraschalldiagnostik'}</textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Hausbesuche Modal -->
+                                <div style="border: 1px solid var(--light-border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                                    <h4><i class="fas fa-home"></i> Hausbesuche</h4>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="modal_hausbesuche_title">Titel:</label>
+                                            <input type="text" id="modal_hausbesuche_title" name="modal_hausbesuche_title" 
+                                                   value="${content.modals?.hausbesuche?.title || 'Hausbesuche'}" 
+                                                   maxlength="100">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal_hausbesuche_listTitle">Listen-Titel:</label>
+                                            <input type="text" id="modal_hausbesuche_listTitle" name="modal_hausbesuche_listTitle" 
+                                                   value="${content.modals?.hausbesuche?.listTitle || 'Hausbesuche bieten wir an bei:'}" 
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_hausbesuche_intro">Einleitung:</label>
+                                        <textarea id="modal_hausbesuche_intro" name="modal_hausbesuche_intro" 
+                                                  maxlength="500">${content.modals?.hausbesuche?.intro || 'Wenn Sie nicht zu uns kommen können, kommen wir zu Ihnen. Unsere Hausbesuche ermöglichen eine medizinische Versorgung in der gewohnten Umgebung.'}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_hausbesuche_items">Situationen (eine pro Zeile):</label>
+                                        <textarea id="modal_hausbesuche_items" name="modal_hausbesuche_items" 
+                                                  maxlength="1000">${content.modals?.hausbesuche?.items ? content.modals.hausbesuche.items.join('\n') : 'Akuten Erkrankungen, wenn Sie bettlägerig sind\nChronischen Erkrankungen mit eingeschränkter Mobilität\nPalliativmedizinischer Betreuung\nNachsorge nach Krankenhausaufenthalten\nMedizinischen Notfällen im häuslichen Bereich'}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_hausbesuche_note">Hinweis:</label>
+                                        <input type="text" id="modal_hausbesuche_note" name="modal_hausbesuche_note" 
+                                               value="${content.modals?.hausbesuche?.note || 'Bitte vereinbaren Sie Hausbesuche rechtzeitig telefonisch mit uns.'}" 
+                                               maxlength="200">
+                                    </div>
+                                </div>
+
+                                <!-- DMP Modal -->
+                                <div style="border: 1px solid var(--light-border); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                                    <h4><i class="fas fa-clipboard-list"></i> Disease Management</h4>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="modal_dmp_title">Titel:</label>
+                                            <input type="text" id="modal_dmp_title" name="modal_dmp_title" 
+                                                   value="${content.modals?.dmp?.title || 'Disease-Management-Programme (DMP)'}" 
+                                                   maxlength="100">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal_dmp_listTitle">Listen-Titel:</label>
+                                            <input type="text" id="modal_dmp_listTitle" name="modal_dmp_listTitle" 
+                                                   value="${content.modals?.dmp?.listTitle || 'DMP-Programme für:'}" 
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_dmp_intro">Einleitung:</label>
+                                        <textarea id="modal_dmp_intro" name="modal_dmp_intro" 
+                                                  maxlength="500">${content.modals?.dmp?.intro || 'Strukturierte Behandlungsprogramme für chronische Erkrankungen bieten eine optimale, langfristige Betreuung und Therapie.'}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_dmp_items">Programme (eine pro Zeile):</label>
+                                        <textarea id="modal_dmp_items" name="modal_dmp_items" 
+                                                  maxlength="1000">${content.modals?.dmp?.items ? content.modals.dmp.items.join('\n') : 'Diabetes mellitus Typ 1 und Typ 2\nKoronare Herzkrankheit (KHK)\nAsthma bronchiale\nChronisch obstruktive Lungenerkrankung (COPD)\nBrustkrebs\nDarmkrebs'}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modal_dmp_outro">Schlusstext:</label>
+                                        <textarea id="modal_dmp_outro" name="modal_dmp_outro" 
+                                                  maxlength="300">${content.modals?.dmp?.outro || 'Diese Programme beinhalten regelmäßige Kontrolluntersuchungen, Schulungen und eine strukturierte Therapieplanung.'}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="save-section">
                             <button type="submit" class="btn btn-success">
                                 <i class="fas fa-save"></i>
@@ -957,10 +1158,57 @@ app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
         // Update contact section
         if (req.body.contact_title) content.contact.title = req.body.contact_title;
         if (req.body.contact_subtitle) content.contact.subtitle = req.body.contact_subtitle;
-        if (req.body.contact_address) content.contact.address = req.body.contact_address;
-        if (req.body.contact_phone) content.contact.phone = req.body.contact_phone;
-        if (req.body.contact_email) content.contact.email = req.body.contact_email;
+        if (req.body.contact_address) content.contact.addressValue = req.body.contact_address;
+        if (req.body.contact_phone) content.contact.phoneValue = req.body.contact_phone;
+        if (req.body.contact_email) content.contact.emailValue = req.body.contact_email;
         if (req.body.contact_hoursTitle) content.contact.hoursTitle = req.body.contact_hoursTitle;
+        
+        // Initialize modals if not exists
+        if (!content.modals) content.modals = {};
+        
+        // Update modal content - Hausarztmedizin
+        if (!content.modals.hausarzt) content.modals.hausarzt = {};
+        if (req.body.modal_hausarzt_title) content.modals.hausarzt.title = req.body.modal_hausarzt_title;
+        if (req.body.modal_hausarzt_intro) content.modals.hausarzt.intro = req.body.modal_hausarzt_intro;
+        if (req.body.modal_hausarzt_listTitle) content.modals.hausarzt.listTitle = req.body.modal_hausarzt_listTitle;
+        if (req.body.modal_hausarzt_items) content.modals.hausarzt.items = req.body.modal_hausarzt_items.split('\n').filter(item => item.trim());
+        
+        // Update modal content - Vorsorge
+        if (!content.modals.vorsorge) content.modals.vorsorge = {};
+        if (req.body.modal_vorsorge_title) content.modals.vorsorge.title = req.body.modal_vorsorge_title;
+        if (req.body.modal_vorsorge_intro) content.modals.vorsorge.intro = req.body.modal_vorsorge_intro;
+        if (req.body.modal_vorsorge_listTitle) content.modals.vorsorge.listTitle = req.body.modal_vorsorge_listTitle;
+        if (req.body.modal_vorsorge_items) content.modals.vorsorge.items = req.body.modal_vorsorge_items.split('\n').filter(item => item.trim());
+        
+        // Update modal content - Labor
+        if (!content.modals.labor) content.modals.labor = {};
+        if (req.body.modal_labor_title) content.modals.labor.title = req.body.modal_labor_title;
+        if (req.body.modal_labor_intro) content.modals.labor.intro = req.body.modal_labor_intro;
+        if (req.body.modal_labor_listTitle) content.modals.labor.listTitle = req.body.modal_labor_listTitle;
+        if (req.body.modal_labor_items) content.modals.labor.items = req.body.modal_labor_items.split('\n').filter(item => item.trim());
+        
+        // Update modal content - Diagnostik
+        if (!content.modals.diagnostik) content.modals.diagnostik = {};
+        if (req.body.modal_diagnostik_title) content.modals.diagnostik.title = req.body.modal_diagnostik_title;
+        if (req.body.modal_diagnostik_intro) content.modals.diagnostik.intro = req.body.modal_diagnostik_intro;
+        if (req.body.modal_diagnostik_listTitle) content.modals.diagnostik.listTitle = req.body.modal_diagnostik_listTitle;
+        if (req.body.modal_diagnostik_items) content.modals.diagnostik.items = req.body.modal_diagnostik_items.split('\n').filter(item => item.trim());
+        
+        // Update modal content - Hausbesuche
+        if (!content.modals.hausbesuche) content.modals.hausbesuche = {};
+        if (req.body.modal_hausbesuche_title) content.modals.hausbesuche.title = req.body.modal_hausbesuche_title;
+        if (req.body.modal_hausbesuche_intro) content.modals.hausbesuche.intro = req.body.modal_hausbesuche_intro;
+        if (req.body.modal_hausbesuche_listTitle) content.modals.hausbesuche.listTitle = req.body.modal_hausbesuche_listTitle;
+        if (req.body.modal_hausbesuche_items) content.modals.hausbesuche.items = req.body.modal_hausbesuche_items.split('\n').filter(item => item.trim());
+        if (req.body.modal_hausbesuche_note) content.modals.hausbesuche.note = req.body.modal_hausbesuche_note;
+        
+        // Update modal content - DMP
+        if (!content.modals.dmp) content.modals.dmp = {};
+        if (req.body.modal_dmp_title) content.modals.dmp.title = req.body.modal_dmp_title;
+        if (req.body.modal_dmp_intro) content.modals.dmp.intro = req.body.modal_dmp_intro;
+        if (req.body.modal_dmp_listTitle) content.modals.dmp.listTitle = req.body.modal_dmp_listTitle;
+        if (req.body.modal_dmp_items) content.modals.dmp.items = req.body.modal_dmp_items.split('\n').filter(item => item.trim());
+        if (req.body.modal_dmp_outro) content.modals.dmp.outro = req.body.modal_dmp_outro;
         
         // Save content
         if (saveContent(content)) {

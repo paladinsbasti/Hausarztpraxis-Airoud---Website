@@ -1,9 +1,18 @@
 {
+  "navigation": {
+    "logo": "Dr. Airoud",
+    "home": "Startseite",
+    "services": "Leistungen", 
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz"
+  },
   "intro": {
     "title": "Willkommen in der Hausarztpraxis Dr. Airoud",
     "subtitle": "Ihre Gesundheit liegt uns am Herzen",
     "feature1": "Flexible Sprechzeiten",
-    "feature2": "Erfahrenes Team",
+    "feature2": "Erfahrenes Team", 
     "feature3": "Persönliche Betreuung",
     "description": "Seit über 15 Jahren stehen wir Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.",
     "cta": "Termin vereinbaren",
@@ -45,6 +54,84 @@
       }
     ]
   },
+  "modals": {
+    "hausarzt": {
+      "title": "Hausarztmedizin",
+      "intro": "Als Ihr Hausarzt sind wir Ihr erster Ansprechpartner für alle gesundheitlichen Fragen. Wir bieten eine umfassende medizinische Grundversorgung für Patienten jeden Alters.",
+      "listTitle": "Unsere Leistungen umfassen:",
+      "items": [
+        "Allgemeine Diagnostik und Behandlung",
+        "Gesundheitsberatung und Präventionsmedizin", 
+        "Chronische Krankheiten (Diabetes, Bluthochdruck, etc.)",
+        "Akute Erkrankungen und Verletzungen",
+        "Koordination mit Fachärzten"
+      ]
+    },
+    "vorsorge": {
+      "title": "Vorsorgeuntersuchungen",
+      "intro": "Vorbeugung ist der beste Schutz vor Krankheiten. Unsere umfassenden Vorsorgeuntersuchungen helfen dabei, Gesundheitsrisiken frühzeitig zu erkennen.",
+      "listTitle": "Unser Vorsorgeprogramm:",
+      "items": [
+        "Check-ups Untersuchungen",
+        "Hautkrebsscreening",
+        "Impfberatung und Impfungen",
+        "Krebsvorsorge beim Mann mit Prostatauntersuchung",
+        "Beratung zur Darmkrebs-Früherkennung"
+      ]
+    },
+    "labor": {
+      "title": "Blutuntersuchungen und Labordiagnostik",
+      "intro": "Moderne Labordiagnostik direkt in unserer Praxis ermöglicht schnelle und präzise Ergebnisse für eine optimale Behandlung und Diagnosestellung.",
+      "listTitle": "Unsere Laborleistungen:",
+      "items": [
+        "Blutuntersuchungen (Blutbild, Blutzucker, Cholesterin)",
+        "Labordiagnostik für verschiedene Erkrankungen",
+        "Schnelle Ergebnisse durch praxiseigene Geräte",
+        "Präventive Blutanalysen",
+        "Verlaufskontrolle bei chronischen Erkrankungen"
+      ]
+    },
+    "diagnostik": {
+      "title": "Diagnostik", 
+      "intro": "Moderne Diagnoseverfahren für eine präzise Untersuchung und optimale Behandlung. Wir verfügen über modernste Geräte für verschiedene Untersuchungen.",
+      "listTitle": "Unsere diagnostischen Leistungen:",
+      "items": [
+        "EKG (Elektrokardiogramm)",
+        "Langzeit-EKG",
+        "Belastungs-EKG", 
+        "Langzeit-Blutdruckmessung",
+        "Lungenfunktionstest",
+        "Ultraschalldiagnostik"
+      ]
+    },
+    "hausbesuche": {
+      "title": "Hausbesuche",
+      "intro": "Wenn Sie nicht zu uns kommen können, kommen wir zu Ihnen. Unsere Hausbesuche ermöglichen eine medizinische Versorgung in der gewohnten Umgebung.",
+      "listTitle": "Hausbesuche bieten wir an bei:",
+      "items": [
+        "Akuten Erkrankungen, wenn Sie bettlägerig sind",
+        "Chronischen Erkrankungen mit eingeschränkter Mobilität",
+        "Palliativmedizinischer Betreuung",
+        "Nachsorge nach Krankenhausaufenthalten",
+        "Medizinischen Notfällen im häuslichen Bereich"
+      ],
+      "note": "Bitte vereinbaren Sie Hausbesuche rechtzeitig telefonisch mit uns."
+    },
+    "dmp": {
+      "title": "Disease-Management-Programme (DMP)",
+      "intro": "Strukturierte Behandlungsprogramme für chronische Erkrankungen bieten eine optimale, langfristige Betreuung und Therapie.",
+      "listTitle": "DMP-Programme für:",
+      "items": [
+        "Diabetes mellitus Typ 1 und Typ 2",
+        "Koronare Herzkrankheit (KHK)",
+        "Asthma bronchiale",
+        "Chronisch obstruktive Lungenerkrankung (COPD)",
+        "Brustkrebs",
+        "Darmkrebs"
+      ],
+      "outro": "Diese Programme beinhalten regelmäßige Kontrolluntersuchungen, Schulungen und eine strukturierte Therapieplanung."
+    }
+  },
   "about": {
     "title": "Über uns",
     "doctorName": "Abdullah Airoud",
@@ -59,9 +146,13 @@
   "contact": {
     "title": "Kontakt",
     "subtitle": "Wir sind für Sie da - kontaktieren Sie uns",
-    "address": "Eschenstr. 138<br>42283 Wuppertal",
-    "phone": "0202 25 350 880",
-    "email": "info@hausarztpraxis-airoud.de",
+    "info": "Kontaktdaten",
+    "address": "Adresse",
+    "addressValue": "Eschenstr. 138<br>42283 Wuppertal",
+    "phone": "Telefon",
+    "phoneValue": "0202 25 350 880",
+    "email": "E-Mail",
+    "emailValue": "info@hausarztpraxis-airoud.de",
     "hoursTitle": "Sprechzeiten",
     "hours": [
       {
@@ -85,5 +176,14 @@
         "time": "nach Vereinbarung"
       }
     ]
+  },
+  "legal": {
+    "imprint": "Impressum",
+    "privacy": "Datenschutz"
+  },
+  "meta": {
+    "title": "Hausarztpraxis Dr. Airoud - Ihre Gesundheit ist unser Anliegen",
+    "description": "Moderne Hausarztpraxis Dr. Airoud - Umfassende medizinische Betreuung in vertrauensvoller Atmosphäre. Termine online buchbar.",
+    "lastUpdated": "2025-08-24"
   }
 }
