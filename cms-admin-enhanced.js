@@ -236,7 +236,6 @@ class CMSAdmin {
     async autoSave() {
         if (this.isAutoSaving) return;
         
-        console.log('Auto-saving draft...');
         this.saveDraft();
         
         // Show subtle auto-save indicator

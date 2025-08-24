@@ -1,5 +1,24 @@
 # CMS für Hausarztpraxis Dr. Airoud
 
+## 🧹 Code-Bereinigung (24. August 2025)
+
+Das Projekt wurde umfassend bereinigt und optimiert:
+
+### Entfernte redundante Dateien:
+- ❌ `server-simple.js` (redundanter einfacher Server)
+- ❌ `cms-content-loader.js` (nicht verwendet)
+- ❌ `Arzt_stock.webp` & `PTH_ArztTeam_Web.jpg` (nicht referenzierte Bilder)
+- ❌ 7 veraltete Backup-Dateien (nur 3 neueste beibehalten)
+
+### Bereinigte Dependencies:
+- ❌ `path` & `fs` packages (sind Node.js built-ins)
+- ✅ 5 Packages entfernt, keine Vulnerabilities
+
+### Code-Optimierungen:
+- ❌ Debug-Console.log Statements entfernt
+- ✅ Nur essential Error-Logging und Startup-Messages beibehalten
+- ✅ Keine Syntax-Fehler, alle Tests bestanden
+
 ## 🛠️ Installation und Einrichtung
 
 ### 1. Abhängigkeiten installieren

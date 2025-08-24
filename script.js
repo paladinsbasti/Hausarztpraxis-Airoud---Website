@@ -40,56 +40,50 @@ function initializeLanguageSwitcher() {
 
 // Change language function
 function changeLanguage(lang) {
-    console.log('🌍 Changing language to:', lang);
-    
-    // Check if language exists
-    if (!translations[lang]) {
-        console.error('❌ Language not found:', lang);
-        return;
-    }
-    
-    currentLanguage = lang;
-    
-    // Update active button
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === lang) {
-            btn.classList.add('active');
-            console.log('✅ Active button updated for:', lang);
-        }
-    });
-    
-    // Count translatable elements
-    const translatableElements = document.querySelectorAll('[data-translate]');
-    console.log('📄 Found', translatableElements.length, 'translatable elements');
-    
-    let translated = 0;
-    let missing = 0;
-    
-    // Update all translatable elements
-    translatableElements.forEach(element => {
-        const key = element.getAttribute('data-translate');
+    if (lang in translations) {
+        currentLang = lang;
         
-        if (translations[lang] && translations[lang][key]) {
-            element.textContent = translations[lang][key];
-            translated++;
-        } else {
-            console.warn('⚠️ Missing translation for key:', key, 'in language:', lang);
-            missing++;
-        }
-    });
-    
-    console.log('✅ Translated:', translated, 'elements');
-    console.log('⚠️ Missing:', missing, 'translations');
-    
-    // Update HTML direction for Arabic
-    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-    document.documentElement.setAttribute('lang', lang);
-    
-    // Store preference
-    localStorage.setItem('preferredLanguage', lang);
-    
-    console.log('🎉 Language change completed for:', lang);
+        // Update active button state
+        const langButtons = document.querySelectorAll('.lang-btn');
+        langButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-lang') === lang) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // Find all elements with data-translate attribute
+        const translatableElements = document.querySelectorAll('[data-translate]');
+        
+        let translated = 0;
+        let missing = 0;
+        
+        translatableElements.forEach(element => {
+            const key = element.getAttribute('data-translate');
+            const keys = key.split('.');
+            let translation = translations[lang];
+            
+            // Navigate through nested object
+            for (let i = 0; i < keys.length; i++) {
+                if (translation && translation[keys[i]]) {
+                    translation = translation[keys[i]];
+                } else {
+                    translation = null;
+                    break;
+                }
+            }
+            
+            if (translation) {
+                element.textContent = translation;
+                translated++;
+            } else {
+                missing++;
+            }
+        });
+        
+        // Save language preference
+        localStorage.setItem('preferredLanguage', lang);
+    }
 }
 
 // Load saved language preference
@@ -657,8 +651,6 @@ document.addEventListener('keydown', function(e) {
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Hausarztpraxis Dr. Airoud - Website geladen');
-    
     // Initialize language switcher
     initializeLanguageSwitcher();
     loadLanguagePreference();
