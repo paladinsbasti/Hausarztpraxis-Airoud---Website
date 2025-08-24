@@ -1440,3 +1440,327 @@ section {
         font-size: 4.8rem;
     }
 }
+
+/* Vacation Modal Styles */
+.vacation-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.1s ease-out;
+}
+
+.vacation-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.vacation-modal-content {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-heavy);
+    width: 90%;
+    max-width: min(600px, 90vw);
+    height: auto;
+    max-height: 85vh;
+    position: relative;
+    animation: slideInUp 0.1s ease-out;
+    margin: auto;
+    overflow: hidden;
+}
+
+.vacation-modal-header {
+    background: linear-gradient(135deg, #ff6b6b, #ff5252);
+    color: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    text-align: center;
+    position: relative;
+}
+
+.vacation-modal-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" opacity="0.1"><path d="M12 2L13.09 8.26L22 9L13.09 15.74L12 22L10.91 15.74L2 9L10.91 8.26L12 2Z"/></svg>');
+    background-size: 50px 50px;
+    opacity: 0.1;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.vacation-modal-header .vacation-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+    animation: bounce 2s infinite;
+}
+
+.vacation-modal-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.vacation-modal-body {
+    padding: 2rem;
+    text-align: center;
+    overflow-y: auto;
+    max-height: calc(85vh - 180px);
+}
+
+/* Hide scrollbars in vacation modal body */
+.vacation-modal-body::-webkit-scrollbar {
+    display: none;
+}
+
+.vacation-modal-body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.vacation-message {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+.vacation-dates {
+    display: none !important; /* Force hide dates container */
+    background: var(--background-light);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-left: 4px solid #ff6b6b;
+}
+
+.vacation-dates .date-range {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.vacation-dates .date-item {
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    font-family: 'Inter', sans-serif;
+}
+
+.vacation-emergency {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.vacation-emergency-title {
+    color: #856404;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.vacation-emergency-info {
+    color: #856404;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: pre-line;
+    font-family: 'Inter', sans-serif;
+}
+
+.vacation-modal-footer {
+    padding: 1.5rem 2rem;
+    text-align: center;
+}
+
+.vacation-close-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    overflow: hidden;
+}
+
+.vacation-close-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.vacation-close-btn:hover::before {
+    left: 100%;
+}
+
+.vacation-close-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-heavy);
+}
+
+.vacation-close-btn:active {
+    transform: translateY(0);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 53%, 100% {
+        transform: translateY(0);
+    }
+    40%, 43% {
+        transform: translateY(-10px);
+    }
+    70% {
+        transform: translateY(-5px);
+    }
+    90% {
+        transform: translateY(-2px);
+    }
+}
+
+/* Responsive styles for vacation modal */
+@media (max-width: 768px) {
+    .vacation-modal-content {
+        width: 95%;
+        max-width: 95vw;
+        margin: 0.5rem;
+        max-height: 90vh;
+        border-radius: var(--border-radius);
+    }
+    
+    .vacation-modal-header {
+        padding: 1rem;
+    }
+    
+    .vacation-modal-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .vacation-modal-header .vacation-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .vacation-modal-body {
+        padding: 1.5rem;
+        max-height: calc(90vh - 140px);
+    }
+    
+    .vacation-message {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .vacation-dates {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .vacation-dates .date-range {
+        flex-direction: column;
+        gap: 0.5rem;
+        font-size: 1rem;
+    }
+    
+    .vacation-emergency {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .vacation-modal-footer {
+        padding: 1rem 1.5rem;
+    }
+    
+    .vacation-close-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .vacation-modal-content {
+        width: 98%;
+        max-width: 98vw;
+        margin: 0.25rem;
+        max-height: 95vh;
+    }
+    
+    .vacation-modal-header {
+        padding: 0.75rem;
+    }
+    
+    .vacation-modal-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    .vacation-modal-body {
+        padding: 1rem;
+        max-height: calc(95vh - 120px);
+    }
+    
+    .vacation-message {
+        font-size: 0.95rem;
+    }
+    
+    .vacation-dates .date-range {
+        font-size: 0.9rem;
+    }
+    
+    .vacation-emergency-info {
+        font-size: 0.9rem;
+    }
+}

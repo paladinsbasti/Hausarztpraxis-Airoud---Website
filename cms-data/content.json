@@ -1,4 +1,14 @@
 {
+  "vacation": {
+    "enabled": false,
+    "title": "Praxisurlaub",
+    "message": "Unsere Praxis ist vom [STARTDATUM] bis [ENDDATUM] geschlossen.",
+    "startDate": "2025-09-15",
+    "endDate": "2025-09-19",
+    "emergencyTitle": "Im Notfall wenden Sie sich bitte an:",
+    "emergencyInfo": "Ärztlicher Bereitschaftsdienst: 116 117\r\nNotfallambulanz: Ihr nächstes Krankenhaus",
+    "buttonText": "Verstanden"
+  },
   "navigation": {
     "logo": "Dr. Airoud",
     "home": "Startseite",
@@ -14,7 +24,7 @@
     "feature1": "Flexible Sprechzeiten",
     "feature2": "Erfahrenes Team",
     "feature3": "Persönliche Betreuung",
-    "description": "Seit über 15 Jahren stehen wir Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.",
+    "description": "Wir stehen Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.",
     "cta": "Termin vereinbaren",
     "doctorImage": "https://via.placeholder.com/400x500/4a90a4/ffffff?text=Dr.+Airoud"
   },
@@ -148,11 +158,11 @@
     "subtitle": "Wir sind für Sie da - kontaktieren Sie uns",
     "info": "Kontaktdaten",
     "address": "Adresse",
-    "addressValue": "Adresse",
+    "addressValue": "Eschenstr. 138\r\n42283 Wuppertal",
     "phone": "Telefon",
-    "phoneValue": "Telefon",
+    "phoneValue": "0202 25 350 880",
     "email": "E-Mail",
-    "emailValue": "E-Mail",
+    "emailValue": "info@hausarztpraxis-airoud.de",
     "hoursTitle": "Sprechzeiten",
     "hours": [
       {

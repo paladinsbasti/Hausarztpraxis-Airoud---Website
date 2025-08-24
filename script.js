@@ -36,6 +36,7 @@ function applyCMSContent() {
     applyContactContent();
     applyNavigationContent();
     applyModalContent();
+    applyVacationModal();
 }
 
 // Apply intro section content
@@ -1294,3 +1295,176 @@ function initializeLegalPageScrolling() {
         }
     }, { passive: false });
 }
+
+// Vacation Modal Functions
+function applyVacationModal() {
+    if (!cmsContent.vacation || !cmsContent.vacation.enabled) {
+        // Remove existing modal if vacation is disabled
+        const existingModal = document.getElementById('vacation-modal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        return;
+    }
+    
+    // Check if modal already exists
+    let modal = document.getElementById('vacation-modal');
+    if (!modal) {
+        // Create modal if it doesn't exist
+        modal = createVacationModal();
+        document.body.appendChild(modal);
+    }
+    
+    // Update modal content
+    updateVacationModalContent(modal);
+    
+    // Always show modal on every page load/refresh
+    setTimeout(() => {
+        showVacationModal();
+    }, 1000); // Show after 1 second delay
+}
+
+function createVacationModal() {
+    const modal = document.createElement('div');
+    modal.id = 'vacation-modal';
+    modal.className = 'vacation-modal';
+    modal.innerHTML = `
+        <div class="vacation-modal-content">
+            <div class="vacation-modal-header">
+                <i class="fas fa-umbrella-beach vacation-icon"></i>
+                <h2 id="vacation-title">Praxisurlaub</h2>
+            </div>
+            <div class="vacation-modal-body">
+                <p class="vacation-message" id="vacation-message"></p>
+                <div class="vacation-dates" id="vacation-dates-container" style="display: none;">
+                    <div class="date-range">
+                        <div class="date-item">
+                            <span id="vacation-start-date"></span>
+                        </div>
+                        <div>
+                            <i class="fas fa-arrow-right" style="color: #ff6b6b;"></i>
+                        </div>
+                        <div class="date-item">
+                            <span id="vacation-end-date"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="vacation-emergency" id="vacation-emergency-container" style="display: none;">
+                    <div class="vacation-emergency-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span id="vacation-emergency-title">Im Notfall</span>
+                    </div>
+                    <div class="vacation-emergency-info" id="vacation-emergency-info"></div>
+                </div>
+            </div>
+            <div class="vacation-modal-footer">
+                <button class="vacation-close-btn" onclick="closeVacationModal()">
+                    <i class="fas fa-check"></i>
+                    <span id="vacation-button-text">Verstanden</span>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeVacationModal();
+        }
+    });
+    
+    return modal;
+}
+
+function updateVacationModalContent(modal) {
+    const vacation = cmsContent.vacation;
+    
+    // Update title
+    const titleElement = modal.querySelector('#vacation-title');
+    if (titleElement && vacation.title) {
+        titleElement.textContent = vacation.title;
+    }
+    
+    // Update message
+    const messageElement = modal.querySelector('#vacation-message');
+    if (messageElement && vacation.message) {
+        let message = vacation.message;
+        
+        // Replace date placeholders if dates are provided
+        if (vacation.startDate && vacation.endDate) {
+            const startDate = formatDate(vacation.startDate);
+            const endDate = formatDate(vacation.endDate);
+            message = message.replace('[STARTDATUM]', startDate).replace('[ENDDATUM]', endDate);
+        }
+        
+        // Always hide the dates container (remove screenshot content)
+        const datesContainer = modal.querySelector('#vacation-dates-container');
+        if (datesContainer) {
+            datesContainer.style.display = 'none';
+        }
+        
+        messageElement.textContent = message;
+    }
+    
+    // Update emergency information
+    if (vacation.emergencyTitle || vacation.emergencyInfo) {
+        const emergencyContainer = modal.querySelector('#vacation-emergency-container');
+        const emergencyTitle = modal.querySelector('#vacation-emergency-title');
+        const emergencyInfo = modal.querySelector('#vacation-emergency-info');
+        
+        if (emergencyContainer) {
+            emergencyContainer.style.display = 'block';
+        }
+        if (emergencyTitle && vacation.emergencyTitle) {
+            emergencyTitle.textContent = vacation.emergencyTitle;
+        }
+        if (emergencyInfo && vacation.emergencyInfo) {
+            emergencyInfo.textContent = vacation.emergencyInfo;
+        }
+    } else {
+        const emergencyContainer = modal.querySelector('#vacation-emergency-container');
+        if (emergencyContainer) {
+            emergencyContainer.style.display = 'none';
+        }
+    }
+    
+    // Update button text
+    const buttonTextElement = modal.querySelector('#vacation-button-text');
+    if (buttonTextElement && vacation.buttonText) {
+        buttonTextElement.textContent = vacation.buttonText;
+    }
+}
+
+function formatDate(dateString) {
+    if (!dateString) return '';
+    
+    const date = new Date(dateString + 'T00:00:00');
+    return date.toLocaleDateString('de-DE', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
+
+function showVacationModal() {
+    const modal = document.getElementById('vacation-modal');
+    if (modal) {
+        modal.classList.add('active');
+        // Prevent background scrolling
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeVacationModal() {
+    const modal = document.getElementById('vacation-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        // Restore background scrolling
+        document.body.style.overflow = '';
+        // Modal will show again on next page refresh
+    }
+}
+
+// Make closeVacationModal globally available for onclick handler
+window.closeVacationModal = closeVacationModal;

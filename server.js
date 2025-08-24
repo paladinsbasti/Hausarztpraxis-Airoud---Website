@@ -581,6 +581,179 @@ app.get('/admin', requireAuth, (req, res) => {
 
                     <form id="contentForm" method="POST" action="/admin/save" enctype="multipart/form-data">
                         
+                        <!-- Vacation Section -->
+                        <div class="section-card" style="border-left: 4px solid #ff6b6b;">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fas fa-umbrella-beach"></i>
+                                    Praxisurlaub / Schließzeiten
+                                </h2>
+                                <div class="btn" style="background: #ff6b6b; color: white; font-size: 0.85rem; padding: 0.5rem 1rem;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Wichtige Mitteilung
+                                </div>
+                            </div>
+                            <div class="section-body">
+                                <div class="form-grid">
+                                    <div class="form-group" style="grid-column: span 2;">
+                                        <div class="toggle-container" style="
+                                            display: flex; 
+                                            align-items: center; 
+                                            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+                                            padding: 1.5rem; 
+                                            border-radius: 12px; 
+                                            border: 2px solid #dee2e6;
+                                            transition: all 0.3s ease;
+                                            cursor: pointer;
+                                            position: relative;
+                                            overflow: hidden;
+                                        " onclick="toggleVacationMode(this)">
+                                            <div class="toggle-switch" style="
+                                                width: 60px; 
+                                                height: 32px; 
+                                                background: ${content.vacation?.enabled ? 'linear-gradient(135deg, #28a745, #20c997)' : '#6c757d'}; 
+                                                border-radius: 20px; 
+                                                position: relative; 
+                                                transition: background 0.3s ease;
+                                                margin-right: 1rem;
+                                                box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+                                                flex-shrink: 0;
+                                            ">
+                                                <div class="toggle-circle" style="
+                                                    width: 28px; 
+                                                    height: 28px; 
+                                                    background: white; 
+                                                    border-radius: 50%; 
+                                                    position: absolute; 
+                                                    top: 2px; 
+                                                    left: ${content.vacation?.enabled ? '30px' : '2px'}; 
+                                                    transition: left 0.3s ease;
+                                                    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+                                                "></div>
+                                            </div>
+                                            <div style="flex: 1;">
+                                                <div class="status-text" style="
+                                                    font-weight: 700; 
+                                                    font-size: 1.1rem; 
+                                                    color: ${content.vacation?.enabled ? '#28a745' : '#6c757d'};
+                                                    transition: color 0.3s ease;
+                                                ">
+                                                    <i class="fas ${content.vacation?.enabled ? 'fa-check-circle' : 'fa-times-circle'}" style="margin-right: 0.5rem;"></i>
+                                                    Urlaub-Pop-up ${content.vacation?.enabled ? 'AKTIV' : 'INAKTIV'}
+                                                </div>
+                                            </div>
+                                            <input type="checkbox" id="vacation_enabled" name="vacation_enabled" 
+                                                   ${content.vacation?.enabled ? 'checked' : ''}
+                                                   style="display: none;">
+                                        </div>
+                                        <script>
+                                        function toggleVacationMode(container) {
+                                            const checkbox = container.querySelector('input[type="checkbox"]');
+                                            const toggleCircle = container.querySelector('.toggle-circle');
+                                            const toggleSwitch = container.querySelector('.toggle-switch');
+                                            const statusText = container.querySelector('.status-text');
+                                            const icon = statusText.querySelector('i');
+                                            
+                                            checkbox.checked = !checkbox.checked;
+                                            
+                                            if (checkbox.checked) {
+                                                // Aktiviert
+                                                toggleCircle.style.left = '30px';
+                                                toggleSwitch.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+                                                statusText.style.color = '#28a745';
+                                                icon.className = 'fas fa-check-circle';
+                                                statusText.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i>Urlaub-Pop-up AKTIV';
+                                                container.style.borderColor = '#28a745';
+                                                container.style.background = 'linear-gradient(135deg, #d4edda, #c3e6cb)';
+                                            } else {
+                                                // Deaktiviert
+                                                toggleCircle.style.left = '2px';
+                                                toggleSwitch.style.background = '#6c757d';
+                                                statusText.style.color = '#6c757d';
+                                                icon.className = 'fas fa-times-circle';
+                                                statusText.innerHTML = '<i class="fas fa-times-circle" style="margin-right: 0.5rem;"></i>Urlaub-Pop-up INAKTIV';
+                                                container.style.borderColor = '#dee2e6';
+                                                container.style.background = 'linear-gradient(135deg, #f8f9fa, #e9ecef)';
+                                            }
+                                        }
+                                        </script>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="vacation_title">
+                                            <i class="fas fa-heading"></i>
+                                            Pop-up Titel:
+                                        </label>
+                                        <input type="text" id="vacation_title" name="vacation_title" 
+                                               value="${content.vacation?.title || 'Praxisurlaub'}" 
+                                               maxlength="50"
+                                               placeholder="z.B. Praxisurlaub, Betriebsferien, etc.">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="vacation_message">
+                                            <i class="fas fa-comment"></i>
+                                            Mitteilung:
+                                        </label>
+                                        <textarea id="vacation_message" name="vacation_message" 
+                                                  rows="3" maxlength="300"
+                                                  placeholder="z.B. Unsere Praxis ist vom [STARTDATUM] bis [ENDDATUM] geschlossen.">${content.vacation?.message || 'Unsere Praxis ist vom [STARTDATUM] bis [ENDDATUM] geschlossen.'}</textarea>
+                                        <small style="color: #666;">Verwenden Sie [STARTDATUM] und [ENDDATUM] als Platzhalter</small>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="vacation_startDate">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            Von Datum:
+                                        </label>
+                                        <input type="date" id="vacation_startDate" name="vacation_startDate" 
+                                               value="${content.vacation?.startDate || ''}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="vacation_endDate">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            Bis Datum:
+                                        </label>
+                                        <input type="date" id="vacation_endDate" name="vacation_endDate" 
+                                               value="${content.vacation?.endDate || ''}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="vacation_emergencyTitle">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                            Notfall Titel:
+                                        </label>
+                                        <input type="text" id="vacation_emergencyTitle" name="vacation_emergencyTitle" 
+                                               value="${content.vacation?.emergencyTitle || 'Im Notfall wenden Sie sich bitte an:'}" 
+                                               maxlength="100"
+                                               placeholder="Überschrift für Notfallinformationen">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="vacation_emergencyInfo">
+                                            <i class="fas fa-phone"></i>
+                                            Notfall Informationen:
+                                        </label>
+                                        <textarea id="vacation_emergencyInfo" name="vacation_emergencyInfo" 
+                                                  rows="3" maxlength="300"
+                                                  placeholder="Ärztlicher Bereitschaftsdienst: 116 117">${content.vacation?.emergencyInfo || 'Ärztlicher Bereitschaftsdienst: 116 117\\nNotfallambulanz: Ihr nächstes Krankenhaus'}</textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="vacation_buttonText">
+                                            <i class="fas fa-mouse-pointer"></i>
+                                            Button Text:
+                                        </label>
+                                        <input type="text" id="vacation_buttonText" name="vacation_buttonText" 
+                                               value="${content.vacation?.buttonText || 'Verstanden'}" 
+                                               maxlength="20"
+                                               placeholder="Text für den Schließen-Button">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <!-- Intro Section -->
                         <div class="section-card">
                             <div class="section-header">
@@ -1142,6 +1315,17 @@ app.get('/admin', requireAuth, (req, res) => {
 app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
     try {
         const content = loadContent();
+        
+        // Update vacation section
+        if (!content.vacation) content.vacation = {};
+        content.vacation.enabled = req.body.vacation_enabled === 'on';
+        if (req.body.vacation_title !== undefined) content.vacation.title = req.body.vacation_title;
+        if (req.body.vacation_message !== undefined) content.vacation.message = req.body.vacation_message;
+        if (req.body.vacation_startDate !== undefined) content.vacation.startDate = req.body.vacation_startDate;
+        if (req.body.vacation_endDate !== undefined) content.vacation.endDate = req.body.vacation_endDate;
+        if (req.body.vacation_emergencyTitle !== undefined) content.vacation.emergencyTitle = req.body.vacation_emergencyTitle;
+        if (req.body.vacation_emergencyInfo !== undefined) content.vacation.emergencyInfo = req.body.vacation_emergencyInfo;
+        if (req.body.vacation_buttonText !== undefined) content.vacation.buttonText = req.body.vacation_buttonText;
         
         // Update intro section
         if (req.body.intro_title) content.intro.title = req.body.intro_title;
