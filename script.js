@@ -17,209 +17,25 @@ async function loadCMSContent() {
         const response = await fetch('/api/content');
         if (response.ok) {
             cmsContent = await response.json();
-            console.log('CMS content loaded:', cmsContent);
             return true;
         } else {
-            console.warn('Failed to load CMS content, using static content');
             return false;
         }
     } catch (error) {
-        console.warn('Error loading CMS content:', error);
         return false;
     }
 }
 
-// Refresh CMS content (useful for testing or live updates)
-async function refreshCMSContent() {
-    console.log('Refreshing CMS content...');
-    const loaded = await loadCMSContent();
-    console.log(loaded ? 'CMS content refreshed successfully' : 'Failed to refresh CMS content');
-    return loaded;
-}
-
-// Make refresh function globally available for testing
-window.refreshCMSContent = refreshCMSContent;
-
-// Debug function to test selectors
-window.testSelectors = function() {
-    console.log('=== TESTING SELECTORS ===');
-    
-    // Test services selectors
-    const servicesSection = document.getElementById('services');
-    console.log('Services section:', servicesSection);
-    
-    const servicesTitle = servicesSection?.querySelector('h2[data-translate="services.title"]');
-    console.log('Services title element:', servicesTitle);
-    console.log('Services title text:', servicesTitle?.textContent);
-    
-    // Test about selectors
-    const aboutSection = document.getElementById('about');
-    console.log('About section:', aboutSection);
-    
-    const aboutTitle = aboutSection?.querySelector('h2[data-translate="about.title"]');
-    console.log('About title element:', aboutTitle);
-    console.log('About title text:', aboutTitle?.textContent);
-    
-    // Test contact selectors  
-    const contactSection = document.getElementById('contact');
-    console.log('Contact section:', contactSection);
-    
-    const contactTitle = contactSection?.querySelector('h2[data-translate="contact.title"]');
-    console.log('Contact title element:', contactTitle);
-    console.log('Contact title text:', contactTitle?.textContent);
-    
-    const emailItem = contactSection?.querySelector('.info-item i.fa-envelope')?.closest('.info-item');
-    console.log('Email info item:', emailItem);
-    
-    const emailLink = emailItem?.querySelector('a[href^="mailto:"]');
-    console.log('Email link:', emailLink);
-    console.log('Email link text:', emailLink?.textContent);
-    
-    console.log('=== CURRENT CMS CONTENT ===');
-    console.log(cmsContent);
-};
-
-// Force apply CMS content manually (for testing)
-window.forceApplyCMS = function() {
-    if (!cmsContent) {
-        console.log('No CMS content loaded. Loading now...');
-        loadCMSContent().then(() => {
-            console.log('CMS content loaded. Applying...');
-            applyCMSContent();
-        });
-        return;
-    }
-    
-    console.log('Force applying CMS content...');
-    applyCMSContent();
-};
-
-// Apply all sections manually with detailed logging
-window.applyAllSections = function() {
-    if (!cmsContent) {
-        console.log('No CMS content available');
-        return;
-    }
-    
-    console.log('=== MANUALLY APPLYING ALL SECTIONS ===');
-    
-    // Services
-    const servicesH2 = document.querySelector('#services h2[data-translate="services.title"]');
-    if (servicesH2 && cmsContent.services.title) {
-        console.log('Updating services title from', servicesH2.textContent, 'to', cmsContent.services.title);
-        servicesH2.textContent = cmsContent.services.title;
-        servicesH2.style.color = 'red'; // Visual indicator
-    }
-    
-    // Service Cards
-    const serviceCards = document.querySelectorAll('#services .service-card');
-    console.log('Found service cards:', serviceCards.length);
-    if (cmsContent.services.items) {
-        serviceCards.forEach((card, index) => {
-            if (cmsContent.services.items[index]) {
-                const serviceData = cmsContent.services.items[index];
-                
-                // Update icon
-                const icon = card.querySelector('.service-icon i');
-                if (icon && serviceData.icon) {
-                    console.log(`Updating service ${index + 1} icon to:`, serviceData.icon);
-                    icon.className = serviceData.icon;
-                    icon.style.color = 'orange'; // Visual indicator
-                }
-                
-                // Update title
-                const title = card.querySelector('h3');
-                if (title && serviceData.title) {
-                    console.log(`Updating service ${index + 1} title to:`, serviceData.title);
-                    title.textContent = serviceData.title;
-                    title.style.color = 'purple'; // Visual indicator
-                }
-                
-                // Update description
-                const desc = card.querySelector('p');
-                if (desc && serviceData.description) {
-                    console.log(`Updating service ${index + 1} description to:`, serviceData.description);
-                    desc.textContent = serviceData.description;
-                    desc.style.backgroundColor = 'lightgreen'; // Visual indicator
-                }
-            }
-        });
-    }
-    
-    // About
-    const aboutH2 = document.querySelector('#about h2[data-translate="about.title"]');
-    if (aboutH2 && cmsContent.about.title) {
-        console.log('Updating about title from', aboutH2.textContent, 'to', cmsContent.about.title);
-        aboutH2.textContent = cmsContent.about.title;
-        aboutH2.style.color = 'blue'; // Visual indicator
-    }
-    
-    // Contact
-    const contactH2 = document.querySelector('#contact h2[data-translate="contact.title"]');
-    if (contactH2 && cmsContent.contact.title) {
-        console.log('Updating contact title from', contactH2.textContent, 'to', cmsContent.contact.title);
-        contactH2.textContent = cmsContent.contact.title;
-        contactH2.style.color = 'green'; // Visual indicator
-    }
-    
-    // Email
-    const allLinks = document.querySelectorAll('#contact a[href^="mailto:"]');
-    console.log('Found email links:', allLinks);
-    allLinks.forEach(link => {
-        if (cmsContent.contact.emailValue) {
-            console.log('Updating email from', link.textContent, 'to', cmsContent.contact.emailValue);
-            link.textContent = cmsContent.contact.emailValue;
-            link.href = `mailto:${cmsContent.contact.emailValue}`;
-            link.style.backgroundColor = 'yellow'; // Visual indicator
-        }
-    });
-    
-    // Address with line breaks
-    const allInfoItems = document.querySelectorAll('#contact .info-item');
-    allInfoItems.forEach(item => {
-        const icon = item.querySelector('i.fa-map-marker-alt');
-        if (icon) {
-            const addressP = item.querySelector('p');
-            if (addressP && cmsContent.contact.addressValue) {
-                const addressWithBreaks = cmsContent.contact.addressValue
-                    .replace(/\r\n/g, '<br>')
-                    .replace(/\n/g, '<br>')
-                    .replace(/\r/g, '<br>');
-                console.log('Updating address to:', cmsContent.contact.addressValue, 'with breaks:', addressWithBreaks);
-                addressP.innerHTML = addressWithBreaks;
-                addressP.style.backgroundColor = 'lightblue'; // Visual indicator
-            }
-        }
-    });
-    
-    console.log('Manual application complete');
-};
-
 // Apply CMS content to the page
 function applyCMSContent() {
     if (!cmsContent) return;
-
-    console.log('Starting to apply CMS content:', cmsContent);
     
-    // Apply intro section content
     applyIntroContent();
-    
-    // Apply services section content
     applyServicesContent();
-    
-    // Apply about section content
     applyAboutContent();
-    
-    // Apply contact section content
     applyContactContent();
-    
-    // Apply navigation content
     applyNavigationContent();
-    
-    // Apply modal content
     applyModalContent();
-    
-    console.log('CMS content applied successfully');
 }
 
 // Apply intro section content
@@ -229,20 +45,16 @@ function applyIntroContent() {
     const introSection = document.getElementById('intro');
     if (!introSection) return;
     
-    console.log('Applying intro content:', cmsContent.intro);
-    
     // Update intro title
     const title = introSection.querySelector('h1[data-translate="intro.title"]');
     if (title && cmsContent.intro.title) {
         title.textContent = cmsContent.intro.title;
-        console.log('Updated intro title to:', cmsContent.intro.title);
     }
     
     // Update intro subtitle
     const subtitle = introSection.querySelector('.intro-subtitle[data-translate="intro.subtitle"]');
     if (subtitle && cmsContent.intro.subtitle) {
         subtitle.textContent = cmsContent.intro.subtitle;
-        console.log('Updated intro subtitle to:', cmsContent.intro.subtitle);
     }
     
     // Update intro features
@@ -287,20 +99,16 @@ function applyServicesContent() {
     const servicesSection = document.getElementById('services');
     if (!servicesSection) return;
     
-    console.log('Applying services content:', cmsContent.services);
-    
     // Update services title
     const title = servicesSection.querySelector('h2[data-translate="services.title"]');
     if (title && cmsContent.services.title) {
         title.textContent = cmsContent.services.title;
-        console.log('Updated services title to:', cmsContent.services.title);
     }
     
     // Update services subtitle
     const subtitle = servicesSection.querySelector('p[data-translate="services.subtitle"]');
     if (subtitle && cmsContent.services.subtitle) {
         subtitle.textContent = cmsContent.services.subtitle;
-        console.log('Updated services subtitle to:', cmsContent.services.subtitle);
     }
     
     // Update individual service cards if available
@@ -315,26 +123,21 @@ function applyServicesContent() {
                 const icon = card.querySelector('.service-icon i');
                 if (icon && serviceData.icon) {
                     icon.className = serviceData.icon;
-                    console.log(`Updated service ${index + 1} icon to:`, serviceData.icon);
                 }
                 
                 // Update service title
                 const serviceTitle = card.querySelector('h3');
                 if (serviceTitle && serviceData.title) {
                     serviceTitle.textContent = serviceData.title;
-                    console.log(`Updated service ${index + 1} title to:`, serviceData.title);
                 }
                 
                 // Update service description
                 const serviceDesc = card.querySelector('p');
                 if (serviceDesc && serviceData.description) {
                     serviceDesc.textContent = serviceData.description;
-                    console.log(`Updated service ${index + 1} description to:`, serviceData.description);
                 }
             }
         });
-        
-        console.log(`Updated ${Math.min(serviceCards.length, cmsContent.services.items.length)} service cards`);
     }
 }
 
@@ -345,34 +148,28 @@ function applyAboutContent() {
     const aboutSection = document.getElementById('about');
     if (!aboutSection) return;
     
-    console.log('Applying about content:', cmsContent.about);
-    
     // Update about title
     const title = aboutSection.querySelector('h2[data-translate="about.title"]');
     if (title && cmsContent.about.title) {
         title.textContent = cmsContent.about.title;
-        console.log('Updated about title to:', cmsContent.about.title);
     }
     
     // Update doctor name
     const doctorName = aboutSection.querySelector('h3[data-translate="about.doctor"]');
     if (doctorName && cmsContent.about.doctorName) {
         doctorName.textContent = cmsContent.about.doctorName;
-        console.log('Updated doctor name to:', cmsContent.about.doctorName);
     }
     
     // Update qualification
     const qualification = aboutSection.querySelector('p[data-translate="about.qualification"]');
     if (qualification && cmsContent.about.qualification) {
         qualification.textContent = cmsContent.about.qualification;
-        console.log('Updated qualification to:', cmsContent.about.qualification);
     }
     
     // Update welcome text
     const welcome = aboutSection.querySelector('p[data-translate="about.welcome"]');
     if (welcome && cmsContent.about.welcome) {
         welcome.textContent = cmsContent.about.welcome;
-        console.log('Updated welcome to:', cmsContent.about.welcome);
     }
     
     // Update languages title
@@ -413,20 +210,16 @@ function applyContactContent() {
     const contactSection = document.getElementById('contact');
     if (!contactSection) return;
     
-    console.log('Applying contact content:', cmsContent.contact);
-    
     // Update contact title
     const title = contactSection.querySelector('h2[data-translate="contact.title"]');
     if (title && cmsContent.contact.title) {
         title.textContent = cmsContent.contact.title;
-        console.log('Updated contact title to:', cmsContent.contact.title);
     }
     
     // Update contact subtitle
     const subtitle = contactSection.querySelector('p[data-translate="contact.subtitle"]');
     if (subtitle && cmsContent.contact.subtitle) {
         subtitle.textContent = cmsContent.contact.subtitle;
-        console.log('Updated contact subtitle to:', cmsContent.contact.subtitle);
     }
     
     // Update address - more robust approach
@@ -442,7 +235,6 @@ function applyContactContent() {
                     .replace(/\n/g, '<br>')
                     .replace(/\r/g, '<br>');
                 addressP.innerHTML = addressWithBreaks;
-                console.log('Updated address to:', cmsContent.contact.addressValue);
             }
         }
         
@@ -452,7 +244,6 @@ function applyContactContent() {
             if (phoneLink && cmsContent.contact.phoneValue) {
                 phoneLink.textContent = cmsContent.contact.phoneValue;
                 phoneLink.href = `tel:${cmsContent.contact.phoneValue.replace(/\s/g, '')}`;
-                console.log('Updated phone to:', cmsContent.contact.phoneValue);
             }
         }
         
@@ -462,7 +253,6 @@ function applyContactContent() {
             if (emailLink && cmsContent.contact.emailValue) {
                 emailLink.textContent = cmsContent.contact.emailValue;
                 emailLink.href = `mailto:${cmsContent.contact.emailValue}`;
-                console.log('Updated email to:', cmsContent.contact.emailValue);
             }
         }
     });
@@ -634,7 +424,6 @@ function changeLanguage(lang) {
         // Re-apply CMS content after language change ONLY if CMS content is loaded
         if (cmsContent) {
             setTimeout(() => {
-                console.log('Re-applying CMS content after language change to:', lang);
                 applyCMSContent();
             }, 100);
         }
@@ -1211,8 +1000,6 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('DOMContentLoaded', function() {
     // Load CMS content first, then initialize everything else
     loadCMSContent().then(loaded => {
-        console.log(loaded ? 'CMS content loaded successfully' : 'Using static content');
-        
         // Initialize language switcher
         initializeLanguageSwitcher();
         
@@ -1223,19 +1010,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (loaded) {
             // Try immediately
             setTimeout(() => {
-                console.log('First attempt: Applying CMS content...');
                 applyCMSContent();
             }, 100);
             
             // Try again after 500ms
             setTimeout(() => {
-                console.log('Second attempt: Applying CMS content...');
                 applyCMSContent();
             }, 500);
             
             // Try once more after 1 second
             setTimeout(() => {
-                console.log('Final attempt: Applying CMS content...');
                 applyCMSContent();
             }, 1000);
         }
