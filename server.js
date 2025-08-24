@@ -742,171 +742,6 @@ app.get('/admin', requireAuth, (req, res) => {
                             </div>
                         </div>
 
-                        <!-- About Section -->
-                        <div class="section-card">
-                            <div class="section-header">
-                                <h2 class="section-title">
-                                    <i class="fas fa-user-md"></i>
-                                    Über uns
-                                </h2>
-                            </div>
-                            <div class="section-body">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label for="about_title">
-                                            <i class="fas fa-heading"></i>
-                                            Titel:
-                                        </label>
-                                        <input type="text" id="about_title" name="about_title" 
-                                               value="${content.about.title}" 
-                                               maxlength="50"
-                                               placeholder="Überschrift des Über-uns-Bereichs">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="about_doctorName">
-                                            <i class="fas fa-id-badge"></i>
-                                            Arztname:
-                                        </label>
-                                        <input type="text" id="about_doctorName" name="about_doctorName" 
-                                               value="${content.about.doctorName}" 
-                                               maxlength="100"
-                                               placeholder="Name des Arztes">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="about_qualification">
-                                            <i class="fas fa-graduation-cap"></i>
-                                            Qualifikation:
-                                        </label>
-                                        <input type="text" id="about_qualification" name="about_qualification" 
-                                               value="${content.about.qualification}" 
-                                               maxlength="200"
-                                               placeholder="Fachrichtung und Qualifikationen">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="about_languagesTitle">
-                                            <i class="fas fa-language"></i>
-                                            Sprachen Titel:
-                                        </label>
-                                        <input type="text" id="about_languagesTitle" name="about_languagesTitle" 
-                                               value="${content.about.languagesTitle}" 
-                                               maxlength="50"
-                                               placeholder="Überschrift für Sprachkenntnisse">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="about_languagesDesc">
-                                            <i class="fas fa-globe"></i>
-                                            Sprachen Beschreibung:
-                                        </label>
-                                        <input type="text" id="about_languagesDesc" name="about_languagesDesc" 
-                                               value="${content.about.languagesDesc}" 
-                                               maxlength="200"
-                                               placeholder="Aufzählung der gesprochenen Sprachen">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="about_teamTitle">
-                                            <i class="fas fa-users"></i>
-                                            Team Titel:
-                                        </label>
-                                        <input type="text" id="about_teamTitle" name="about_teamTitle" 
-                                               value="${content.about.teamTitle}" 
-                                               maxlength="50"
-                                               placeholder="Überschrift für Team-Bereich">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="about_welcome">
-                                        <i class="fas fa-heart"></i>
-                                        Willkommenstext:
-                                    </label>
-                                    <textarea id="about_welcome" name="about_welcome" 
-                                              maxlength="300"
-                                              placeholder="Persönlicher Willkommenstext...">${content.about.welcome}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="about_teamDesc">
-                                        <i class="fas fa-handshake"></i>
-                                        Team Beschreibung:
-                                    </label>
-                                    <textarea id="about_teamDesc" name="about_teamDesc" 
-                                              maxlength="400"
-                                              placeholder="Beschreibung des Praxis-Teams...">${content.about.teamDesc}</textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Contact Section -->
-                        <div class="section-card">
-                            <div class="section-header">
-                                <h2 class="section-title">
-                                    <i class="fas fa-phone"></i>
-                                    Kontakt
-                                </h2>
-                            </div>
-                            <div class="section-body">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label for="contact_title">
-                                            <i class="fas fa-heading"></i>
-                                            Titel:
-                                        </label>
-                                        <input type="text" id="contact_title" name="contact_title" 
-                                               value="${content.contact.title}" 
-                                               maxlength="50"
-                                               placeholder="Überschrift für Kontakt-Bereich">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="contact_subtitle">
-                                            <i class="fas fa-text-height"></i>
-                                            Untertitel:
-                                        </label>
-                                        <input type="text" id="contact_subtitle" name="contact_subtitle" 
-                                               value="${content.contact.subtitle}" 
-                                               maxlength="100"
-                                               placeholder="Aufforderung zur Kontaktaufnahme">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="contact_phone">
-                                            <i class="fas fa-phone-alt"></i>
-                                            Telefon:
-                                        </label>
-                                        <input type="tel" id="contact_phone" name="contact_phone" 
-                                               value="${content.contact.phone}" 
-                                               maxlength="20"
-                                               placeholder="Telefonnummer der Praxis">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="contact_email">
-                                            <i class="fas fa-envelope"></i>
-                                            E-Mail:
-                                        </label>
-                                        <input type="email" id="contact_email" name="contact_email" 
-                                               value="${content.contact.email}" 
-                                               maxlength="100"
-                                               placeholder="E-Mail-Adresse der Praxis">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="contact_hoursTitle">
-                                            <i class="fas fa-clock"></i>
-                                            Sprechzeiten Titel:
-                                        </label>
-                                        <input type="text" id="contact_hoursTitle" name="contact_hoursTitle" 
-                                               value="${content.contact.hoursTitle}" 
-                                               maxlength="50"
-                                               placeholder="Überschrift für Öffnungszeiten">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="contact_address">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        Adresse:
-                                    </label>
-                                    <textarea id="contact_address" name="contact_address" 
-                                              maxlength="200"
-                                              placeholder="Straße, Hausnummer, PLZ, Ort...">${content.contact.address}</textarea>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Modals Section -->
                         <div class="section-card">
                             <div class="section-header">
@@ -1104,6 +939,171 @@ app.get('/admin', requireAuth, (req, res) => {
                                         <textarea id="modal_dmp_outro" name="modal_dmp_outro" 
                                                   maxlength="300">${content.modals?.dmp?.outro || 'Diese Programme beinhalten regelmäßige Kontrolluntersuchungen, Schulungen und eine strukturierte Therapieplanung.'}</textarea>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- About Section -->
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fas fa-user-md"></i>
+                                    Über uns
+                                </h2>
+                            </div>
+                            <div class="section-body">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="about_title">
+                                            <i class="fas fa-heading"></i>
+                                            Titel:
+                                        </label>
+                                        <input type="text" id="about_title" name="about_title" 
+                                               value="${content.about.title}" 
+                                               maxlength="50"
+                                               placeholder="Überschrift des Über-uns-Bereichs">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about_doctorName">
+                                            <i class="fas fa-id-badge"></i>
+                                            Arztname:
+                                        </label>
+                                        <input type="text" id="about_doctorName" name="about_doctorName" 
+                                               value="${content.about.doctorName}" 
+                                               maxlength="100"
+                                               placeholder="Name des Arztes">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about_qualification">
+                                            <i class="fas fa-graduation-cap"></i>
+                                            Qualifikation:
+                                        </label>
+                                        <input type="text" id="about_qualification" name="about_qualification" 
+                                               value="${content.about.qualification}" 
+                                               maxlength="200"
+                                               placeholder="Fachrichtung und Qualifikationen">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about_languagesTitle">
+                                            <i class="fas fa-language"></i>
+                                            Sprachen Titel:
+                                        </label>
+                                        <input type="text" id="about_languagesTitle" name="about_languagesTitle" 
+                                               value="${content.about.languagesTitle}" 
+                                               maxlength="50"
+                                               placeholder="Überschrift für Sprachkenntnisse">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about_languagesDesc">
+                                            <i class="fas fa-globe"></i>
+                                            Sprachen Beschreibung:
+                                        </label>
+                                        <input type="text" id="about_languagesDesc" name="about_languagesDesc" 
+                                               value="${content.about.languagesDesc}" 
+                                               maxlength="200"
+                                               placeholder="Aufzählung der gesprochenen Sprachen">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about_teamTitle">
+                                            <i class="fas fa-users"></i>
+                                            Team Titel:
+                                        </label>
+                                        <input type="text" id="about_teamTitle" name="about_teamTitle" 
+                                               value="${content.about.teamTitle}" 
+                                               maxlength="50"
+                                               placeholder="Überschrift für Team-Bereich">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="about_welcome">
+                                        <i class="fas fa-heart"></i>
+                                        Willkommenstext:
+                                    </label>
+                                    <textarea id="about_welcome" name="about_welcome" 
+                                              maxlength="300"
+                                              placeholder="Persönlicher Willkommenstext...">${content.about.welcome}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="about_teamDesc">
+                                        <i class="fas fa-handshake"></i>
+                                        Team Beschreibung:
+                                    </label>
+                                    <textarea id="about_teamDesc" name="about_teamDesc" 
+                                              maxlength="400"
+                                              placeholder="Beschreibung des Praxis-Teams...">${content.about.teamDesc}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Section -->
+                        <div class="section-card">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fas fa-phone"></i>
+                                    Kontakt
+                                </h2>
+                            </div>
+                            <div class="section-body">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="contact_title">
+                                            <i class="fas fa-heading"></i>
+                                            Titel:
+                                        </label>
+                                        <input type="text" id="contact_title" name="contact_title" 
+                                               value="${content.contact.title}" 
+                                               maxlength="50"
+                                               placeholder="Überschrift für Kontakt-Bereich">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact_subtitle">
+                                            <i class="fas fa-text-height"></i>
+                                            Untertitel:
+                                        </label>
+                                        <input type="text" id="contact_subtitle" name="contact_subtitle" 
+                                               value="${content.contact.subtitle}" 
+                                               maxlength="100"
+                                               placeholder="Aufforderung zur Kontaktaufnahme">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact_phone">
+                                            <i class="fas fa-phone-alt"></i>
+                                            Telefon:
+                                        </label>
+                                        <input type="tel" id="contact_phone" name="contact_phone" 
+                                               value="${content.contact.phone}" 
+                                               maxlength="20"
+                                               placeholder="Telefonnummer der Praxis">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact_email">
+                                            <i class="fas fa-envelope"></i>
+                                            E-Mail:
+                                        </label>
+                                        <input type="email" id="contact_email" name="contact_email" 
+                                               value="${content.contact.email}" 
+                                               maxlength="100"
+                                               placeholder="E-Mail-Adresse der Praxis">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contact_hoursTitle">
+                                            <i class="fas fa-clock"></i>
+                                            Sprechzeiten Titel:
+                                        </label>
+                                        <input type="text" id="contact_hoursTitle" name="contact_hoursTitle" 
+                                               value="${content.contact.hoursTitle}" 
+                                               maxlength="50"
+                                               placeholder="Überschrift für Öffnungszeiten">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact_address">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        Adresse:
+                                    </label>
+                                    <textarea id="contact_address" name="contact_address" 
+                                              maxlength="200"
+                                              placeholder="Straße, Hausnummer, PLZ, Ort...">${content.contact.address}</textarea>
                                 </div>
                             </div>
                         </div>

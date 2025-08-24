@@ -2,7 +2,7 @@
   "navigation": {
     "logo": "Dr. Airoud",
     "home": "Startseite",
-    "services": "Leistungen",
+    "services": "Leistungen", 
     "about": "Über uns",
     "contact": "Kontakt",
     "imprint": "Impressum",
@@ -12,7 +12,7 @@
     "title": "Willkommen in der Hausarztpraxis Dr. Airoud",
     "subtitle": "Ihre Gesundheit liegt uns am Herzen",
     "feature1": "Flexible Sprechzeiten",
-    "feature2": "Erfahrenes Team",
+    "feature2": "Erfahrenes Team", 
     "feature3": "Persönliche Betreuung",
     "description": "Seit über 15 Jahren stehen wir Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.",
     "cta": "Termin vereinbaren",
@@ -60,10 +60,10 @@
       "intro": "Als Ihr Hausarzt sind wir Ihr erster Ansprechpartner für alle gesundheitlichen Fragen. Wir bieten eine umfassende medizinische Grundversorgung für Patienten jeden Alters.",
       "listTitle": "Unsere Leistungen umfassen:",
       "items": [
-        "Allgemeine Diagnostik und Behandlung\r",
-        "Gesundheitsberatung und Präventionsmedizin\r",
-        "Chronische Krankheiten (Diabetes, Bluthochdruck, etc.)\r",
-        "Akute Erkrankungen und Verletzungen\r",
+        "Allgemeine Diagnostik und Behandlung",
+        "Gesundheitsberatung und Präventionsmedizin", 
+        "Chronische Krankheiten (Diabetes, Bluthochdruck, etc.)",
+        "Akute Erkrankungen und Verletzungen",
         "Koordination mit Fachärzten"
       ]
     },
@@ -72,10 +72,10 @@
       "intro": "Vorbeugung ist der beste Schutz vor Krankheiten. Unsere umfassenden Vorsorgeuntersuchungen helfen dabei, Gesundheitsrisiken frühzeitig zu erkennen.",
       "listTitle": "Unser Vorsorgeprogramm:",
       "items": [
-        "Check-ups Untersuchungen\r",
-        "Hautkrebsscreening\r",
-        "Impfberatung und Impfungen\r",
-        "Krebsvorsorge beim Mann mit Prostatauntersuchung\r",
+        "Check-ups Untersuchungen",
+        "Hautkrebsscreening",
+        "Impfberatung und Impfungen",
+        "Krebsvorsorge beim Mann mit Prostatauntersuchung",
         "Beratung zur Darmkrebs-Früherkennung"
       ]
     },
@@ -84,23 +84,23 @@
       "intro": "Moderne Labordiagnostik direkt in unserer Praxis ermöglicht schnelle und präzise Ergebnisse für eine optimale Behandlung und Diagnosestellung.",
       "listTitle": "Unsere Laborleistungen:",
       "items": [
-        "Blutuntersuchungen (Blutbild, Blutzucker, Cholesterin)\r",
-        "Labordiagnostik für verschiedene Erkrankungen\r",
-        "Schnelle Ergebnisse durch praxiseigene Geräte\r",
-        "Präventive Blutanalysen\r",
+        "Blutuntersuchungen (Blutbild, Blutzucker, Cholesterin)",
+        "Labordiagnostik für verschiedene Erkrankungen",
+        "Schnelle Ergebnisse durch praxiseigene Geräte",
+        "Präventive Blutanalysen",
         "Verlaufskontrolle bei chronischen Erkrankungen"
       ]
     },
     "diagnostik": {
-      "title": "Diagnostik",
+      "title": "Diagnostik", 
       "intro": "Moderne Diagnoseverfahren für eine präzise Untersuchung und optimale Behandlung. Wir verfügen über modernste Geräte für verschiedene Untersuchungen.",
       "listTitle": "Unsere diagnostischen Leistungen:",
       "items": [
-        "EKG (Elektrokardiogramm)\r",
-        "Langzeit-EKG\r",
-        "Belastungs-EKG\r",
-        "Langzeit-Blutdruckmessung\r",
-        "Lungenfunktionstest\r",
+        "EKG (Elektrokardiogramm)",
+        "Langzeit-EKG",
+        "Belastungs-EKG", 
+        "Langzeit-Blutdruckmessung",
+        "Lungenfunktionstest",
         "Ultraschalldiagnostik"
       ]
     },
@@ -109,10 +109,10 @@
       "intro": "Wenn Sie nicht zu uns kommen können, kommen wir zu Ihnen. Unsere Hausbesuche ermöglichen eine medizinische Versorgung in der gewohnten Umgebung.",
       "listTitle": "Hausbesuche bieten wir an bei:",
       "items": [
-        "Akuten Erkrankungen, wenn Sie bettlägerig sind\r",
-        "Chronischen Erkrankungen mit eingeschränkter Mobilität\r",
-        "Palliativmedizinischer Betreuung\r",
-        "Nachsorge nach Krankenhausaufenthalten\r",
+        "Akuten Erkrankungen, wenn Sie bettlägerig sind",
+        "Chronischen Erkrankungen mit eingeschränkter Mobilität",
+        "Palliativmedizinischer Betreuung",
+        "Nachsorge nach Krankenhausaufenthalten",
         "Medizinischen Notfällen im häuslichen Bereich"
       ],
       "note": "Bitte vereinbaren Sie Hausbesuche rechtzeitig telefonisch mit uns."
@@ -122,11 +122,11 @@
       "intro": "Strukturierte Behandlungsprogramme für chronische Erkrankungen bieten eine optimale, langfristige Betreuung und Therapie.",
       "listTitle": "DMP-Programme für:",
       "items": [
-        "Diabetes mellitus Typ 1 und Typ 2\r",
-        "Koronare Herzkrankheit (KHK)\r",
-        "Asthma bronchiale\r",
-        "Chronisch obstruktive Lungenerkrankung (COPD)\r",
-        "Brustkrebs\r",
+        "Diabetes mellitus Typ 1 und Typ 2",
+        "Koronare Herzkrankheit (KHK)",
+        "Asthma bronchiale",
+        "Chronisch obstruktive Lungenerkrankung (COPD)",
+        "Brustkrebs",
         "Darmkrebs"
       ],
       "outro": "Diese Programme beinhalten regelmäßige Kontrolluntersuchungen, Schulungen und eine strukturierte Therapieplanung."
@@ -148,11 +148,11 @@
     "subtitle": "Wir sind für Sie da - kontaktieren Sie uns",
     "info": "Kontaktdaten",
     "address": "Adresse",
-    "addressValue": "Adresse",
+    "addressValue": "Eschenstr. 138<br>42283 Wuppertal",
     "phone": "Telefon",
-    "phoneValue": "Telefon",
+    "phoneValue": "0202 25 350 880",
     "email": "E-Mail",
-    "emailValue": "E-Mail",
+    "emailValue": "info@hausarztpraxis-airoud.de",
     "hoursTitle": "Sprechzeiten",
     "hours": [
       {
