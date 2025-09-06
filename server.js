@@ -1,12 +1,9 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const bodyParser = require('body-parser');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const multer = require('multer');
-const cluster = require('cluster');
-const os = require('os');
 
 // Load environment variables
 require('dotenv').config();
@@ -14,9 +11,8 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Performance optimizations
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json({ limit: '512kb' }));
+app.use(express.urlencoded({ extended: true, limit: '512kb' }));
 
 // Enhanced static file serving with caching
 app.use(express.static('.', {
@@ -82,10 +78,10 @@ function checkRateLimit(req, res, next) {
 app.use(session({
     secret: process.env.SESSION_SECRET || 'bBYOhT1vjPlWuwYnVdEMKVASnSFIM/YxsD3/aTzNKlU=',
     name: 'praxis.session',
-    resave: true, // Changed to true for better compatibility
+    resave: false,
     saveUninitialized: false,
-    cookie: { 
-        secure: false, // Set to false for development (change to true in production with HTTPS)
+    cookie: {
+        secure: false, // set true behind HTTPS / proxy
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
         sameSite: 'lax' // Changed from 'strict' to 'lax' for better compatibility
@@ -238,116 +234,70 @@ if (!fs.existsSync(contentFile)) {
     fs.writeFileSync(contentFile, JSON.stringify(defaultContent, null, 2));
 }
 
-// Enhanced helper functions with validation and sanitization
+// --- Content Helpers ---
+const sanitizeString = (value) => {
+    if (typeof value !== 'string') return value;
+    return value
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(/javascript:/gi, '')
+        .replace(/on\w+\s*=/gi, '')
+        .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+        .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
+        .replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '')
+        .replace(/eval\s*\(/gi, '')
+        .replace(/expression\s*\(/gi, '');
+};
+
+const deepSanitize = (data) => {
+    if (Array.isArray(data)) return data.map(deepSanitize);
+    if (data && typeof data === 'object') {
+        return Object.keys(data).reduce((acc, key) => {
+            const safeKey = key.replace(/[^a-zA-Z0-9_.-]/g, '');
+            acc[safeKey] = deepSanitize(data[key]);
+            return acc;
+        }, {});
+    }
+    return sanitizeString(data);
+};
+
 function loadContent() {
     try {
-        const data = fs.readFileSync(contentFile, 'utf8');
-        const content = JSON.parse(data);
-        return validateContent(content);
-    } catch (error) {
-        console.error('Error loading content:', error);
+        const raw = fs.readFileSync(contentFile, 'utf8');
+        return deepSanitize(JSON.parse(raw));
+    } catch (e) {
+        console.error('Error loading content:', e.message);
         return defaultContent;
     }
 }
 
-function validateContent(content) {
-    // Enhanced sanitization to prevent XSS
-    const sanitize = (str) => {
-        if (typeof str !== 'string') return str;
-        return str.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-                  .replace(/javascript:/gi, '')
-                  .replace(/on\w+\s*=/gi, '')
-                  .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
-                  .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
-                  .replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '')
-                  .replace(/eval\s*\(/gi, '')
-                  .replace(/expression\s*\(/gi, '');
-    };
-    
-    const sanitizeObject = (obj) => {
-        if (typeof obj === 'string') return sanitize(obj);
-        if (Array.isArray(obj)) return obj.map(sanitizeObject);
-        if (typeof obj === 'object' && obj !== null) {
-            const sanitized = {};
-            for (const key in obj) {
-                // Validate key names too
-                const safeKey = key.replace(/[^a-zA-Z0-9_.-]/g, '');
-                sanitized[safeKey] = sanitizeObject(obj[key]);
-            }
-            return sanitized;
-        }
-        return obj;
-    };
-    
-    return sanitizeObject(content);
-}
-
 function saveContent(content) {
     try {
-        // Validate content before saving
-        const validatedContent = validateContent(content);
-        
-        // Save new content directly
-        fs.writeFileSync(contentFile, JSON.stringify(validatedContent, null, 2));
+        fs.writeFileSync(contentFile, JSON.stringify(deepSanitize(content), null, 2));
         return true;
-    } catch (error) {
-        console.error('Error saving content:', error);
+    } catch (e) {
+        console.error('Error saving content:', e.message);
         return false;
     }
 }
 
+// Lightweight HTML updater (kept for backward compatibility – now minimal)
 function updateHtmlFile() {
     try {
         const content = loadContent();
         let html = fs.readFileSync('index.html', 'utf8');
-        
-        // Update intro section
-        html = html.replace(
-            /<h1 data-translate="intro\.title">.*?<\/h1>/,
-            `<h1 data-translate="intro.title">${content.intro.title}</h1>`
-        );
-        
-        html = html.replace(
-            /<p class="intro-subtitle" data-translate="intro\.subtitle">.*?<\/p>/,
-            `<p class="intro-subtitle" data-translate="intro.subtitle">${content.intro.subtitle}</p>`
-        );
-        
-        html = html.replace(
-            /<p class="intro-description" data-translate="intro\.description">.*?<\/p>/s,
-            `<p class="intro-description" data-translate="intro.description">${content.intro.description}</p>`
-        );
-        
-        // Update about section
-        html = html.replace(
-            /<h3 data-translate="about\.doctor">.*?<\/h3>/,
-            `<h3 data-translate="about.doctor">${content.about.doctorName}</h3>`
-        );
-        
-        html = html.replace(
-            /<p class="qualification" data-translate="about\.qualification">.*?<\/p>/,
-            `<p class="qualification" data-translate="about.qualification">${content.about.qualification}</p>`
-        );
-        
-        // Update contact information
-        html = html.replace(
-            /<p>Eschenstr\. 138<br>42283 Wuppertal<\/p>/,
-            `<p>${content.contact.address}</p>`
-        );
-        
-        html = html.replace(
-            /<p><a href="tel:\+4920225350880">.*?<\/a><\/p>/,
-            `<p><a href="tel:+49${content.contact.phone.replace(/\s/g, '')}">${content.contact.phone}</a></p>`
-        );
-        
-        html = html.replace(
-            /<p><a href="mailto:.*?">.*?<\/a><\/p>/,
-            `<p><a href="mailto:${content.contact.email}">${content.contact.email}</a></p>`
-        );
-        
+        const safeReplace = (pattern, replacement) => {
+            html = html.replace(pattern, replacement);
+        };
+        safeReplace(/<h1 data-translate="intro\.title">.*?<\/h1>/,
+            `<h1 data-translate="intro.title">${content.intro.title}</h1>`);
+        safeReplace(/<p class="intro-subtitle" data-translate="intro\.subtitle">.*?<\/p>/,
+            `<p class="intro-subtitle" data-translate="intro.subtitle">${content.intro.subtitle}</p>`);
+        safeReplace(/<p class="intro-description" data-translate="intro\.description">.*?<\/p>/s,
+            `<p class="intro-description" data-translate="intro.description">${content.intro.description}</p>`);
         fs.writeFileSync('index.html', html);
         return true;
-    } catch (error) {
-        console.error('Error updating HTML file:', error);
+    } catch (e) {
+        console.error('Error updating HTML file:', e.message);
         return false;
     }
 }
@@ -360,27 +310,16 @@ function getSystemStats() {
 
 // Authentication middleware
 function requireAuth(req, res, next) {
-    console.log(`[DEBUG] Auth check - Session exists: ${!!req.session}, Authenticated: ${req.session?.authenticated}`);
-    
     if (req.session && req.session.authenticated) {
-        console.log(`[DEBUG] Authentication successful, proceeding to admin panel`);
-        next();
-    } else {
-        console.log(`[DEBUG] Authentication failed, redirecting to login`);
-        res.redirect('/admin/login');
+        return next();
     }
+    res.redirect('/admin/login');
 }
 
 // Routes
 // API endpoint to serve content.json
 app.get('/api/content', (req, res) => {
-    try {
-        const content = loadContent();
-        res.json(content);
-    } catch (error) {
-        console.error('Error serving content:', error);
-        res.status(500).json({ error: 'Failed to load content' });
-    }
+    try { res.json(loadContent()); } catch { res.status(500).json({ error: 'Failed to load content' }); }
 });
 
 app.get('/', (req, res) => {
@@ -499,7 +438,7 @@ app.get('/admin/login', (req, res) => {
 });
 
 // Admin login handler with rate limiting
-app.post('/admin/login', checkRateLimit, async (req, res) => {
+app.post('/admin/login', checkRateLimit, (req, res) => {
     const { username, password } = req.body;
     const ip = req.ip || req.connection.remoteAddress;
     const timestamp = new Date().toISOString();
@@ -1426,9 +1365,9 @@ app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
         // Update contact section
         if (req.body.contact_title) content.contact.title = req.body.contact_title;
         if (req.body.contact_subtitle) content.contact.subtitle = req.body.contact_subtitle;
-        if (req.body.contact_address) content.contact.addressValue = req.body.contact_address;
-        if (req.body.contact_phone) content.contact.phoneValue = req.body.contact_phone;
-        if (req.body.contact_email) content.contact.emailValue = req.body.contact_email;
+    if (req.body.contact_address) content.contact.addressValue = req.body.contact_address;
+    if (req.body.contact_phone) content.contact.phoneValue = req.body.contact_phone;
+    if (req.body.contact_email) content.contact.emailValue = req.body.contact_email;
         if (req.body.contact_hoursTitle) content.contact.hoursTitle = req.body.contact_hoursTitle;
         
         // Initialize modals if not exists
@@ -1492,10 +1431,7 @@ app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
     }
 });
 
-// API endpoint to get current content
-app.get('/api/content', (req, res) => {
-    res.json(loadContent());
-});
+// (duplicate /api/content route removed above)
 
 // Start server
 app.listen(PORT, () => {

@@ -42,55 +42,23 @@ function applyCMSContent() {
 // Apply intro section content
 function applyIntroContent() {
     if (!cmsContent.intro) return;
-    
     const introSection = document.getElementById('intro');
     if (!introSection) return;
-    
-    // Update intro title
-    const title = introSection.querySelector('h1[data-translate="intro.title"]');
-    if (title && cmsContent.intro.title) {
-        title.textContent = cmsContent.intro.title;
-    }
-    
-    // Update intro subtitle
-    const subtitle = introSection.querySelector('.intro-subtitle[data-translate="intro.subtitle"]');
-    if (subtitle && cmsContent.intro.subtitle) {
-        subtitle.textContent = cmsContent.intro.subtitle;
-    }
-    
-    // Update intro features
-    const feature1 = introSection.querySelector('[data-translate="intro.feature1"]');
-    if (feature1 && cmsContent.intro.feature1) {
-        feature1.textContent = cmsContent.intro.feature1;
-    }
-    
-    const feature2 = introSection.querySelector('[data-translate="intro.feature2"]');
-    if (feature2 && cmsContent.intro.feature2) {
-        feature2.textContent = cmsContent.intro.feature2;
-    }
-    
-    const feature3 = introSection.querySelector('[data-translate="intro.feature3"]');
-    if (feature3 && cmsContent.intro.feature3) {
-        feature3.textContent = cmsContent.intro.feature3;
-    }
-    
-    // Update intro description
-    const description = introSection.querySelector('.intro-description[data-translate="intro.description"]');
-    if (description && cmsContent.intro.description) {
-        description.textContent = cmsContent.intro.description;
-    }
-    
-    // Update CTA button
-    const ctaButton = introSection.querySelector('.cta-button[data-translate="intro.cta"]');
-    if (ctaButton && cmsContent.intro.cta) {
-        ctaButton.textContent = cmsContent.intro.cta;
-    }
-    
-    // Update doctor image if provided
+    const mapping = [
+        ['h1[data-translate="intro.title"]', 'title'],
+        ['.intro-subtitle[data-translate="intro.subtitle"]', 'subtitle'],
+        ['[data-translate="intro.feature1"]', 'feature1'],
+        ['[data-translate="intro.feature2"]', 'feature2'],
+        ['[data-translate="intro.feature3"]', 'feature3'],
+        ['.intro-description[data-translate="intro.description"]', 'description'],
+        ['.cta-button[data-translate="intro.cta"]', 'cta']
+    ];
+    mapping.forEach(([selector, key]) => {
+        const el = introSection.querySelector(selector);
+        if (el && cmsContent.intro[key]) el.textContent = cmsContent.intro[key];
+    });
     const doctorImg = introSection.querySelector('#doctor-image');
-    if (doctorImg && cmsContent.intro.doctorImage) {
-        doctorImg.src = cmsContent.intro.doctorImage;
-    }
+    if (doctorImg && cmsContent.intro.doctorImage) doctorImg.src = cmsContent.intro.doctorImage;
 }
 
 // Apply services section content
@@ -145,63 +113,24 @@ function applyServicesContent() {
 // Apply about section content
 function applyAboutContent() {
     if (!cmsContent.about) return;
-    
     const aboutSection = document.getElementById('about');
     if (!aboutSection) return;
-    
-    // Update about title
-    const title = aboutSection.querySelector('h2[data-translate="about.title"]');
-    if (title && cmsContent.about.title) {
-        title.textContent = cmsContent.about.title;
-    }
-    
-    // Update doctor name
-    const doctorName = aboutSection.querySelector('h3[data-translate="about.doctor"]');
-    if (doctorName && cmsContent.about.doctorName) {
-        doctorName.textContent = cmsContent.about.doctorName;
-    }
-    
-    // Update qualification
-    const qualification = aboutSection.querySelector('p[data-translate="about.qualification"]');
-    if (qualification && cmsContent.about.qualification) {
-        qualification.textContent = cmsContent.about.qualification;
-    }
-    
-    // Update welcome text
-    const welcome = aboutSection.querySelector('p[data-translate="about.welcome"]');
-    if (welcome && cmsContent.about.welcome) {
-        welcome.textContent = cmsContent.about.welcome;
-    }
-    
-    // Update languages title
-    const languagesTitle = aboutSection.querySelector('h4[data-translate="about.languages.title"]');
-    if (languagesTitle && cmsContent.about.languagesTitle) {
-        languagesTitle.textContent = cmsContent.about.languagesTitle;
-    }
-    
-    // Update languages description
-    const languagesDesc = aboutSection.querySelector('p[data-translate="about.languages.desc"]');
-    if (languagesDesc && cmsContent.about.languagesDesc) {
-        languagesDesc.textContent = cmsContent.about.languagesDesc;
-    }
-    
-    // Update team title
-    const teamTitle = aboutSection.querySelector('h4[data-translate="about.team.title"]');
-    if (teamTitle && cmsContent.about.teamTitle) {
-        teamTitle.textContent = cmsContent.about.teamTitle;
-    }
-    
-    // Update team description
-    const teamDesc = aboutSection.querySelector('p[data-translate="about.team.desc"]');
-    if (teamDesc && cmsContent.about.teamDesc) {
-        teamDesc.textContent = cmsContent.about.teamDesc;
-    }
-    
-    // Update team image if provided
+    const mapping = [
+        ['h2[data-translate="about.title"]', 'title'],
+        ['h3[data-translate="about.doctor"]', 'doctorName'],
+        ['p[data-translate="about.qualification"]', 'qualification'],
+        ['p[data-translate="about.welcome"]', 'welcome'],
+        ['h4[data-translate="about.languages.title"]', 'languagesTitle'],
+        ['p[data-translate="about.languages.desc"]', 'languagesDesc'],
+        ['h4[data-translate="about.team.title"]', 'teamTitle'],
+        ['p[data-translate="about.team.desc"]', 'teamDesc']
+    ];
+    mapping.forEach(([selector, key]) => {
+        const el = aboutSection.querySelector(selector);
+        if (el && cmsContent.about[key]) el.textContent = cmsContent.about[key];
+    });
     const teamImg = aboutSection.querySelector('.team-image');
-    if (teamImg && cmsContent.about.teamImage) {
-        teamImg.src = cmsContent.about.teamImage;
-    }
+    if (teamImg && cmsContent.about.teamImage) teamImg.src = cmsContent.about.teamImage;
 }
 
 // Apply contact section content
@@ -229,9 +158,9 @@ function applyContactContent() {
         const icon = item.querySelector('i');
         if (icon && icon.classList.contains('fa-map-marker-alt')) {
             const addressP = item.querySelector('p');
-            if (addressP && cmsContent.contact.addressValue) {
-                // Convert \r\n and \n to HTML line breaks
-                const addressWithBreaks = cmsContent.contact.addressValue
+            const addressValue = cmsContent.contact.addressValue || cmsContent.contact.address;
+            if (addressP && addressValue) {
+                const addressWithBreaks = addressValue
                     .replace(/\r\n/g, '<br>')
                     .replace(/\n/g, '<br>')
                     .replace(/\r/g, '<br>');
@@ -242,18 +171,20 @@ function applyContactContent() {
         // Update phone
         if (icon && icon.classList.contains('fa-phone')) {
             const phoneLink = item.querySelector('a[href^="tel:"]');
-            if (phoneLink && cmsContent.contact.phoneValue) {
-                phoneLink.textContent = cmsContent.contact.phoneValue;
-                phoneLink.href = `tel:${cmsContent.contact.phoneValue.replace(/\s/g, '')}`;
+            const phoneValue = cmsContent.contact.phoneValue || cmsContent.contact.phone;
+            if (phoneLink && phoneValue) {
+                phoneLink.textContent = phoneValue;
+                phoneLink.href = `tel:${phoneValue.replace(/\s/g, '')}`;
             }
         }
         
         // Update email
         if (icon && icon.classList.contains('fa-envelope')) {
             const emailLink = item.querySelector('a[href^="mailto:"]');
-            if (emailLink && cmsContent.contact.emailValue) {
-                emailLink.textContent = cmsContent.contact.emailValue;
-                emailLink.href = `mailto:${cmsContent.contact.emailValue}`;
+            const emailValue = cmsContent.contact.emailValue || cmsContent.contact.email;
+            if (emailLink && emailValue) {
+                emailLink.textContent = emailValue;
+                emailLink.href = `mailto:${emailValue}`;
             }
         }
     });
@@ -382,7 +313,7 @@ function initializeLanguageSwitcher() {
 // Change language function
 function changeLanguage(lang) {
     if (lang in translations) {
-        currentLang = lang;
+        currentLanguage = lang;
         
         // Update active button state
         const langButtons = document.querySelectorAll('.lang-btn');
@@ -394,7 +325,7 @@ function changeLanguage(lang) {
         });
         
         // Find all elements with data-translate attribute
-        const translatableElements = document.querySelectorAll('[data-translate]');
+    const translatableElements = document.querySelectorAll('[data-translate]');
         
         let translated = 0;
         let missing = 0;
