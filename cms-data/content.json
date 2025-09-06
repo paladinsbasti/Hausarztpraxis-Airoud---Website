@@ -10,7 +10,7 @@
     "buttonText": "Verstanden"
   },
   "navigation": {
-    "logo": "Dr. Airoud",
+    "logo": "Hausarztpraxis Airoud",
     "home": "Startseite",
     "services": "Leistungen",
     "about": "Über uns",
@@ -19,14 +19,14 @@
     "privacy": "Datenschutz"
   },
   "intro": {
-    "title": "Willkommen in der Hausarztpraxis Dr. Airoud",
+    "title": "Willkommen in der Hausarztpraxis Airoud",
     "subtitle": "Ihre Gesundheit liegt uns am Herzen",
     "feature1": "Flexible Sprechzeiten",
     "feature2": "Erfahrenes Team",
     "feature3": "Persönliche Betreuung",
     "description": "Wir stehen Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.",
     "cta": "Termin vereinbaren",
-    "doctorImage": "https://via.placeholder.com/400x500/4a90a4/ffffff?text=Dr.+Airoud"
+  "doctorImage": "https://via.placeholder.com/400x500/4a90a4/ffffff?text=Hausarztpraxis+Airoud"
   },
   "services": {
     "title": "Unsere Leistungen",
@@ -192,8 +192,8 @@
     "privacy": "Datenschutz"
   },
   "meta": {
-    "title": "Hausarztpraxis Dr. Airoud - Ihre Gesundheit ist unser Anliegen",
-    "description": "Moderne Hausarztpraxis Dr. Airoud - Umfassende medizinische Betreuung in vertrauensvoller Atmosphäre. Termine online buchbar.",
+    "title": "Hausarztpraxis Airoud - Ihre Gesundheit ist unser Anliegen",
+    "description": "Moderne Hausarztpraxis Airoud - Umfassende medizinische Betreuung in vertrauensvoller Atmosphäre. Termine online buchbar.",
     "lastUpdated": "2025-08-24"
   }
 }

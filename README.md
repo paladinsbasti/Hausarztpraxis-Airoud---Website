@@ -1,4 +1,4 @@
-# CMS für Hausarztpraxis Dr. Airoud
+# CMS für Hausarztpraxis Airoud
 
 ## 🧹 Code-Bereinigung (24. August 2025)
 
@@ -223,7 +223,7 @@ Dieses CMS ist speziell für Ihre Hausarztpraxis entwickelt und kann bei Bedarf 
 
 ---
 
-**Entwickelt für Hausarztpraxis Dr. Airoud** ⚕️
+**Entwickelt für Hausarztpraxis Airoud** ⚕️
 
 # Hausarztpraxis-Airoud---Website
 

@@ -10,7 +10,7 @@ const translations = {
         'nav.privacy': 'Datenschutz',
         
         // Intro Section
-        'intro.title': 'Willkommen in der Hausarztpraxis Dr. Airoud',
+    'intro.title': 'Willkommen in der Hausarztpraxis Airoud',
         'intro.subtitle': 'Ihre Gesundheit liegt uns am Herzen',
         'intro.feature1': 'Flexible Sprechzeiten',
         'intro.feature2': 'Erfahrenes Team',
@@ -73,7 +73,7 @@ const translations = {
         'footer.tagline': 'Ihre Gesundheit liegt uns am Herzen',
         'footer.quicklinks': 'Schnelllinks',
         'footer.legal': 'Rechtliches',
-        'footer.copyright': '2025 Hausarztpraxis Dr. Airoud. Alle Rechte vorbehalten.'
+    'footer.copyright': '2025 Hausarztpraxis Airoud. Alle Rechte vorbehalten.'
     ,
     // Opening hours labels
     'contact.hours.days.mon_tue': 'Mo | Di:',
@@ -163,7 +163,7 @@ const translations = {
         'nav.privacy': 'Privacy Policy',
         
         // Intro Section
-        'intro.title': 'Welcome to Dr. Airoud Family Practice',
+    'intro.title': 'Welcome to Airoud Family Practice',
         'intro.subtitle': 'Your health is our priority',
         'intro.feature1': 'Flexible Office Hours',
         'intro.feature2': 'Experienced Team',
@@ -226,7 +226,7 @@ const translations = {
         'footer.tagline': 'Your health is our priority',
         'footer.quicklinks': 'Quick Links',
     'footer.legal': 'Legal',
-    'footer.copyright': '2025 Dr. Airoud Family Practice. All rights reserved.',
+    'footer.copyright': '2025 Airoud Family Practice. All rights reserved.',
 
     // Opening hours labels
     'contact.hours.days.mon_tue': 'Mon | Tue:',
@@ -475,7 +475,7 @@ const translations = {
         'nav.privacy': 'Privacy',
         
         // Intro Section
-        'intro.title': 'Benvenuti nello Studio Medico Dr. Airoud',
+    'intro.title': 'Benvenuti nello Studio Medico Airoud',
         'intro.subtitle': 'La vostra salute è la nostra priorità',
         'intro.feature1': 'Orari Flessibili',
         'intro.feature2': 'Team Esperto',
@@ -538,7 +538,7 @@ const translations = {
         'footer.tagline': 'La vostra salute è la nostra priorità',
         'footer.quicklinks': 'Link Rapidi',
     'footer.legal': 'Note Legali',
-    'footer.copyright': '2025 Studio Medico Dr. Airoud. Tutti i diritti riservati.',
+    'footer.copyright': '2025 Studio Medico Airoud. Tutti i diritti riservati.',
 
     // Opening hours labels
     'contact.hours.days.mon_tue': 'Lun | Mar:',

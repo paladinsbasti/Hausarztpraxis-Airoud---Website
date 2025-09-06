@@ -257,10 +257,8 @@ app.get('/admin', requireAuth, (req, res) => {
                     <nav class="admin-nav">
                         <div class="admin-logo">
                             <i class="fas fa-user-md"></i>
-                            <span>Dr. Airoud CMS</span>
-                            <div style="font-size: 0.7rem; opacity: 0.8; margin-left: 0.5rem;">
-                                v2.1 Enhanced
-                            </div>
+                            <span>Hausarztpraxis Airoud</span>
+                            <span style="background:#2d6cdf;color:#fff;font-size:0.65rem;padding:2px 6px;border-radius:12px;margin-left:6px;letter-spacing:.5px;">ADMIN</span>
                         </div>
                         <div class="admin-actions">
                             <button id="previewBtn" class="btn btn-primary">

@@ -1,5 +1,5 @@
 # 🔐 SICHERHEITSFIXES ABGESCHLOSSEN
-*Hausarztpraxis Dr. Airoud - Produktionsbereit*
+*Hausarztpraxis Airoud - Produktionsbereit*
 
 ## ✅ BEHOBENE SICHERHEITSPROBLEME
 

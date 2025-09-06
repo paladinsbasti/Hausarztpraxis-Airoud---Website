@@ -1,5 +1,5 @@
 # 🚀 MASTERPLAN ZUSAMMENFASSUNG
-*Hausarztpraxis Dr. Airoud - Website Optimierung*
+*Hausarztpraxis Airoud - Website Optimierung*
 
 ## ⏰ ZEITPLAN (GESAMT: 10-17 TAGE)
 

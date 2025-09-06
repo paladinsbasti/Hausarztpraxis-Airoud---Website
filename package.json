@@ -1,7 +1,7 @@
 {
   "name": "hausarztpraxis-airoud-cms",
   "version": "1.0.0",
-  "description": "CMS für Hausarztpraxis Dr. Airoud Website",
+  "description": "CMS für Hausarztpraxis Airoud Website",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -13,7 +13,7 @@
     "healthcare",
     "arztpraxis"
   ],
-  "author": "Dr. Airoud Praxis",
+  "author": "Hausarztpraxis Airoud",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
