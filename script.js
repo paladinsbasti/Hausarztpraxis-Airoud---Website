@@ -287,12 +287,12 @@ let scrollTimeout;
 let lastScrollTime = 0;
 let currentSectionIndex = 0;
 
-// Define sections for snapping
+// Define sections for snapping (updated order after moving services below contact)
 const sections = [
     { id: 'intro', element: null },
-    { id: 'services', element: null },
     { id: 'about', element: null },
-    { id: 'contact', element: null }
+    { id: 'contact', element: null },
+    { id: 'services', element: null }
 ];
 
 // Check if we're on the main page
@@ -1055,34 +1055,9 @@ function updateCurrentSection() {
 
 // Scroll boundary enforcement - prevents scrolling beyond legal references
 function enforceScrollBoundary() {
-    const contactSection = document.getElementById('contact');
-    const legalReferences = document.querySelector('.legal-references');
-    
-    if (!contactSection || !legalReferences) return;
-    
-    const contactSectionBottom = contactSection.offsetTop + contactSection.offsetHeight;
-    const maxScrollPosition = contactSectionBottom - window.innerHeight;
-    
-    // Prevent scrolling beyond the legal references
-    window.addEventListener('scroll', function() {
-        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (currentScroll > maxScrollPosition) {
-            window.scrollTo(0, maxScrollPosition);
-        }
-    }, { passive: false });
-    
-    // Also prevent wheel scrolling beyond boundary
-    window.addEventListener('wheel', function(e) {
-        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollingDown = e.deltaY > 0;
-        
-        if (scrollingDown && currentScroll >= maxScrollPosition) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
-    }, { passive: false });
+    // Boundary deaktiviert, da Services jetzt unter Kontakt liegen.
+    // Frühere Begrenzung führte dazu, dass man die Services nicht sehen konnte.
+    return; 
 }
 
 // Initialize scroll boundary when page loads
