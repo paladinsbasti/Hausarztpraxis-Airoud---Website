@@ -314,6 +314,14 @@ function initializeLanguageSwitcher() {
 function changeLanguage(lang) {
     if (lang in translations) {
         currentLanguage = lang;
+        // HTML Attribut anpassen
+        const htmlEl = document.documentElement;
+        htmlEl.setAttribute('lang', lang);
+        if (lang === 'ar') {
+            htmlEl.setAttribute('dir', 'rtl');
+        } else {
+            htmlEl.setAttribute('dir', 'ltr');
+        }
         
         // Update active button state
         const langButtons = document.querySelectorAll('.lang-btn');
@@ -573,9 +581,8 @@ function enableScroll() {
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
-        // Verhindere Scrollen aber behalte Scrollbar
-        disableScroll();
-        
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
         modal.classList.add('active');
         modal.style.display = 'flex';
         
@@ -591,9 +598,8 @@ function closeModal(modal) {
     setTimeout(() => {
         modal.classList.remove('active');
         modal.style.display = 'none';
-        
-        // Erlaube Scrollen wieder
-        enableScroll();
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
     }, 300);
 }
 
@@ -956,8 +962,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 1000);
         }
         
-        // Initialize sections and custom scrolling
-        if (isMainPage) {
+        // Initialize sections and custom scrolling (nur Desktop > 1024px)
+        if (isMainPage && window.innerWidth > 1024) {
             initializeCustomScrolling();
         }
     });
@@ -981,117 +987,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Initialize sections after DOM is loaded
 function initializeCustomScrolling() {
-    // Populate section elements
-    sections.forEach(section => {
-        section.element = document.getElementById(section.id);
-    });
-    
-    // Initialize scroll behavior
+    sections.forEach(section => { section.element = document.getElementById(section.id); });
     document.body.classList.add('smooth-scroll', 'snap-scroll');
-    
-    // Mouse wheel event listener for custom scrolling
-    document.addEventListener('wheel', handleWheelScroll, { passive: false });
-    
-    // Touch events for mobile
-    let touchStartY = 0;
-    let touchEndY = 0;
-    
-    document.addEventListener('touchstart', (e) => {
-        touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-    
-    document.addEventListener('touchend', (e) => {
-        touchEndY = e.changedTouches[0].clientY;
-        const deltaY = touchStartY - touchEndY;
-        
-        if (Math.abs(deltaY) > 50) {
-            handleTouchScroll(deltaY);
-        }
-    }, { passive: true });
-    
-    // Keyboard navigation
+    // Nur Keyboard Unterstützung lassen – Wheel bleibt nativ
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-            e.preventDefault();
-            scrollToNext();
-        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-            e.preventDefault();
-            scrollToPrevious();
-        } else if (e.key === 'Home') {
-            e.preventDefault();
-            scrollToSection(0);
-        } else if (e.key === 'End') {
-            e.preventDefault();
-            scrollToSection(sections.length - 1);
-        }
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); scrollToNext(); }
+        else if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); scrollToPrevious(); }
+        else if (e.key === 'Home') { e.preventDefault(); scrollToSection(0); }
+        else if (e.key === 'End') { e.preventDefault(); scrollToSection(sections.length - 1); }
     });
-    
-    // Update current section on scroll
     window.addEventListener('scroll', updateCurrentSection, { passive: true });
-    
-    // Initial section update
     updateCurrentSection();
 }
 
-function handleWheelScroll(e) {
-    if (isScrollbarDragging) return;
-    
-    const now = Date.now();
-    
-    // Detect platform and input device
-    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-    const isTrackpad = Math.abs(e.deltaX) > 0 || (Math.abs(e.deltaY) < 50 && e.deltaMode === 0);
-    
-    // On macOS with trackpad, allow natural scrolling
-    if (isMac && isTrackpad) {
-        // Don't prevent default - let natural macOS scrolling work
-        return;
-    }
-    
-    // Different throttling for different platforms/devices
-    let throttleTime = 100;
-    if (isMac && isTrackpad) {
-        throttleTime = 150; // Longer throttle for Mac trackpad
-    }
-    
-    if (now - lastScrollTime < throttleTime) return;
-    
-    // Only prevent default for non-trackpad or non-Mac
-    e.preventDefault();
-    
-    const delta = e.deltaY;
-    
-    // Different delta thresholds for different platforms
-    let deltaThreshold = 0;
-    if (isMac && isTrackpad) {
-        deltaThreshold = 30; // Higher threshold for Mac trackpad
-    } else {
-        deltaThreshold = 0; // Windows mouse or other devices
-    }
-    
-    if (Math.abs(delta) < deltaThreshold) return;
-    
-    lastScrollTime = now;
-    
-    clearTimeout(scrollTimeout);
-    
-    isMouseWheelScrolling = true;
-    
-    // Different delay for different platforms
-    const scrollDelay = isMac && isTrackpad ? 100 : 50;
-    
-    scrollTimeout = setTimeout(() => {
-        if (delta > 0) {
-            scrollToNext();
-        } else {
-            scrollToPrevious();
-        }
-        
-        setTimeout(() => {
-            isMouseWheelScrolling = false;
-        }, 500);
-    }, scrollDelay);
-}
+// handleWheelScroll entfernt – natives Scrolling wird genutzt
 
 function handleTouchScroll(deltaY) {
     if (deltaY > 0) {
@@ -1382,8 +1291,8 @@ function showVacationModal() {
     const modal = document.getElementById('vacation-modal');
     if (modal) {
         modal.classList.add('active');
-        // Prevent background scrolling
-        document.body.style.overflow = 'hidden';
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
     }
 }
 
@@ -1391,8 +1300,8 @@ function closeVacationModal() {
     const modal = document.getElementById('vacation-modal');
     if (modal) {
         modal.classList.remove('active');
-        // Restore background scrolling
-        document.body.style.overflow = '';
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
         // Modal will show again on next page refresh
     }
 }

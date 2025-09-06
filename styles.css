@@ -37,11 +37,7 @@ body {
 }
 
 /* Main page with 4 sections */
-body:not(.legal-page) {
-    /* Begrenzt Scrolling auf 4 Sections */
-    height: 400vh;
-    max-height: 400vh;
-}
+/* Entfernte frühere künstliche 400vh-Begrenzung: kein Ersatz nötig */
 
 /* Legal pages without infinite scroll */
 body.legal-page {
@@ -299,12 +295,12 @@ section {
 
 /* Intro Section */
 .intro-section {
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100dvh; /* dynamic viewport für Mobile */
     display: flex;
     align-items: center;
     position: relative;
     background: linear-gradient(135deg, var(--background-light) 0%, #e3f2fd 100%);
-    overflow: hidden;
 }
 
 .intro-background {
@@ -438,11 +434,11 @@ section {
 
 /* Services Section */
 .services-section {
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100dvh;
     background: var(--white);
     display: flex;
     align-items: center;
-    overflow: hidden;
 }
 
 .services-section .container {
@@ -473,10 +469,10 @@ section {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     gap: 20px;
     margin-top: 30px;
-    max-width: 100%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -490,13 +486,11 @@ section {
     transition: var(--transition);
     cursor: pointer;
     border: 2px solid transparent;
-    height: 260px;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    overflow: hidden;
 }
 
 .service-card:hover {
@@ -538,14 +532,7 @@ section {
     color: var(--text-light);
     line-height: 1.4;
     font-size: clamp(0.75rem, 4vw, 0.9rem);
-    margin: 0;
-    flex-grow: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-    -webkit-box-orient: vertical;
+    margin: 0 0 8px 0;
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
@@ -553,11 +540,11 @@ section {
 
 /* About Section */
 .about-section {
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100dvh;
     background: var(--background-light);
     display: flex;
     align-items: center;
-    overflow: hidden;
 }
 
 .about-section .container {
@@ -658,12 +645,11 @@ section {
 
 /* Contact Section */
 .contact-section {
-    height: 100vh;
+    min-height: 100vh;
+    min-height: 100dvh;
     background: var(--white);
     display: flex;
     align-items: center;
-    overflow: hidden;
-    /* Als letzte Section - verhindert weiteres Scrollen */
     scroll-snap-align: end;
     scroll-snap-stop: always;
 }
@@ -790,11 +776,8 @@ section {
 /* Legal References */
 .legal-references {
     width: 100%;
-    margin: 0;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    margin-top: 40px;
+    position: static;
 }
 
 .legal-links {
@@ -858,12 +841,10 @@ section {
     margin: 20px;
     padding: 0;
     border-radius: var(--border-radius);
-    width: 90%;
-    max-width: 700px;
-    min-width: 500px;
+    width: min(100% - 2rem, 700px);
     height: auto;
-    max-height: 90vh;
-    min-height: 400px;
+    max-height: 90dvh;
+    min-height: 320px;
     overflow-y: auto;
     position: relative;
     animation: slideUp 0.3s ease;
@@ -1200,19 +1181,15 @@ section {
     }
     
     .services-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 15px;
     }
     
     .service-card {
-        height: 220px;
         padding: 15px 12px;
     }
     
-    .service-card p {
-        -webkit-line-clamp: 3;
-        line-clamp: 3;
-    }
+    /* Hinweis: kein line-clamp mehr für .service-card p auf Mobile */
     
     .service-icon {
         width: 45px;
@@ -1277,20 +1254,15 @@ section {
     }
     
     .services-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
         gap: 12px;
     }
     
     .service-card {
-        height: 200px;
         padding: 12px 10px;
     }
     
-    .service-card p {
-        line-height: 1.3;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
-    }
+    .service-card p { line-height: 1.3; /* keine Clamp */ }
     
     .service-icon {
         width: 40px;
@@ -1325,19 +1297,14 @@ section {
     flex-direction: row-reverse;
 }
 
-[dir="rtl"] .intro-content {
-    grid-template-columns: 1fr 1fr;
-    text-align: right;
-}
+[dir="rtl"] .intro-content { text-align: right; }
+[dir="rtl"] .about-content { text-align: right; }
 
-[dir="rtl"] .about-content {
-    grid-template-columns: 1fr 1fr;
-    text-align: right;
-}
-
-[dir="rtl"] .contact-content {
-    grid-template-columns: 1fr 1fr;
-    direction: rtl;
+[dir="rtl"] .contact-content { direction: rtl; }
+@media (max-width:768px){
+    [dir="rtl"] .intro-content,
+    [dir="rtl"] .about-content,
+    [dir="rtl"] .contact-content { grid-template-columns:1fr; }
 }
 
 [dir="rtl"] .feature {
