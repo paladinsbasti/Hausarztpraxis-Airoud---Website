@@ -8,6 +8,9 @@ const multer = require('multer');
 // Load environment variables
 require('dotenv').config();
 
+const { loadContent, saveContent } = require('./lib/contentService');
+const { loginTemplate, adminLayout } = require('./lib/templates');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -137,148 +140,9 @@ const DEFAULT_ADMIN = {
     password: '$2a$12$LLdavEchB6JMldr8xn02BeuAGt0dMi66iQJF7cJGi4qD1COUe0X36' // Password: Hausarztpraxis_Airoud_CMS_2025
 };
 
-// Create data directory if it doesn't exist
-const dataDir = path.join(__dirname, 'cms-data');
-if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-}
+// Default Content moved to contentService
 
-// Initialize content data file
-const contentFile = path.join(dataDir, 'content.json');
-
-// Default content structure
-const defaultContent = {
-    // Intro Section
-    intro: {
-        title: 'Willkommen in der Hausarztpraxis Dr. Airoud',
-        subtitle: 'Ihre Gesundheit liegt uns am Herzen',
-        feature1: 'Flexible Sprechzeiten',
-        feature2: 'Erfahrenes Team',
-        feature3: 'Persönliche Betreuung',
-        description: 'Seit über 15 Jahren stehen wir Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.',
-        cta: 'Termin vereinbaren',
-        doctorImage: 'https://via.placeholder.com/400x500/4a90a4/ffffff?text=Dr.+Airoud'
-    },
-    
-    // Services Section
-    services: {
-        title: 'Unsere Leistungen',
-        subtitle: 'Umfassende medizinische Versorgung für die ganze Familie',
-        items: [
-            {
-                icon: 'fas fa-stethoscope',
-                title: 'Hausarztmedizin',
-                description: 'Umfassende medizinische Grundversorgung'
-            },
-            {
-                icon: 'fas fa-shield-alt',
-                title: 'Vorsorgeuntersuchungen',
-                description: 'Check-ups, Hautkrebsscreening, Impfberatung'
-            },
-            {
-                icon: 'fas fa-flask',
-                title: 'Blutuntersuchungen & Labor',
-                description: 'Moderne Labordiagnostik'
-            },
-            {
-                icon: 'fas fa-heartbeat',
-                title: 'Diagnostik',
-                description: 'EKG, Ultraschall, Lungenfunktion'
-            },
-            {
-                icon: 'fas fa-home',
-                title: 'Hausbesuche',
-                description: 'Medizinische Betreuung zu Hause'
-            },
-            {
-                icon: 'fas fa-clipboard-list',
-                title: 'Disease Management',
-                description: 'Strukturierte Behandlungsprogramme'
-            }
-        ]
-    },
-    
-    // About Section
-    about: {
-        title: 'Über uns',
-        doctorName: 'Abdullah Airoud',
-        qualification: 'Facharzt für Innere Medizin-Notfallmedizin',
-        welcome: 'Herzlich willkommen in unserer Hausarztpraxis! Mit Kompetenz und Mitgefühl stehen wir unseren Patienten zur Seite. Ihre Gesundheit ist unsere Priorität.',
-        languagesTitle: 'Sprachkenntnisse:',
-        languagesDesc: 'Wir sprechen deutsch, englisch, arabisch und italienisch.',
-        teamTitle: 'Unser Team',
-        teamDesc: 'Unser engagiertes Team sorgt dafür, dass Sie sich in unserer Praxis wohlfühlen und optimal betreut werden. Wir nehmen uns Zeit für Ihre Anliegen und behandeln jeden Patienten individuell.',
-        teamImage: 'https://via.placeholder.com/500x400/4a90a4/ffffff?text=Unser+Team'
-    },
-    
-    // Contact Section
-    contact: {
-        title: 'Kontakt',
-        subtitle: 'Wir sind für Sie da - kontaktieren Sie uns',
-        address: 'Eschenstr. 138<br>42283 Wuppertal',
-        phone: '0202 25 350 880',
-        email: 'info@hausarztpraxis-airoud.de',
-        hoursTitle: 'Sprechzeiten',
-        hours: [
-            { days: 'Mo | Di:', time: '08:30 - 13:00 | 16:00 - 18:00 Uhr' },
-            { days: 'Mi:', time: '08:30 - 13:00 Uhr' },
-            { days: 'Do:', time: '08:30 - 13:00 | 16:00 - 18:00 Uhr' },
-            { days: 'Fr:', time: '08:30 - 13:00 Uhr' },
-            { days: 'Termine:', time: 'nach Vereinbarung' }
-        ]
-    }
-};
-
-// Initialize content file if it doesn't exist
-if (!fs.existsSync(contentFile)) {
-    fs.writeFileSync(contentFile, JSON.stringify(defaultContent, null, 2));
-}
-
-// --- Content Helpers ---
-const sanitizeString = (value) => {
-    if (typeof value !== 'string') return value;
-    return value
-        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-        .replace(/javascript:/gi, '')
-        .replace(/on\w+\s*=/gi, '')
-        .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
-        .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
-        .replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '')
-        .replace(/eval\s*\(/gi, '')
-        .replace(/expression\s*\(/gi, '');
-};
-
-const deepSanitize = (data) => {
-    if (Array.isArray(data)) return data.map(deepSanitize);
-    if (data && typeof data === 'object') {
-        return Object.keys(data).reduce((acc, key) => {
-            const safeKey = key.replace(/[^a-zA-Z0-9_.-]/g, '');
-            acc[safeKey] = deepSanitize(data[key]);
-            return acc;
-        }, {});
-    }
-    return sanitizeString(data);
-};
-
-function loadContent() {
-    try {
-        const raw = fs.readFileSync(contentFile, 'utf8');
-        return deepSanitize(JSON.parse(raw));
-    } catch (e) {
-        console.error('Error loading content:', e.message);
-        return defaultContent;
-    }
-}
-
-function saveContent(content) {
-    try {
-        fs.writeFileSync(contentFile, JSON.stringify(deepSanitize(content), null, 2));
-        return true;
-    } catch (e) {
-        console.error('Error saving content:', e.message);
-        return false;
-    }
-}
+// Helpers ausgelagert nach lib/
 
 // Lightweight HTML updater (kept for backward compatibility – now minimal)
 function updateHtmlFile() {
@@ -328,113 +192,7 @@ app.get('/', (req, res) => {
 
 // Admin login page
 app.get('/admin/login', (req, res) => {
-    res.send(`
-        <!DOCTYPE html>
-        <html lang="de">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Admin Login - Hausarztpraxis Dr. Airoud</title>
-            <link rel="stylesheet" href="/styles.css">
-            <style>
-                .login-container {
-                    min-height: 100vh;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                }
-                .login-form {
-                    background: white;
-                    padding: 3rem;
-                    border-radius: var(--border-radius);
-                    box-shadow: var(--shadow-heavy);
-                    width: 100%;
-                    max-width: 400px;
-                }
-                .login-form h2 {
-                    text-align: center;
-                    margin-bottom: 2rem;
-                    color: var(--text-dark);
-                }
-                .form-group {
-                    margin-bottom: 1.5rem;
-                }
-                .form-group label {
-                    display: block;
-                    margin-bottom: 0.5rem;
-                    color: var(--text-dark);
-                    font-weight: 500;
-                }
-                .form-group input {
-                    width: 100%;
-                    padding: 0.75rem;
-                    border: 2px solid var(--gray-light);
-                    border-radius: var(--border-radius);
-                    font-size: 1rem;
-                    transition: var(--transition);
-                }
-                .form-group input:focus {
-                    outline: none;
-                    border-color: var(--primary-color);
-                }
-                .login-btn {
-                    width: 100%;
-                    padding: 0.75rem;
-                    background: var(--primary-color);
-                    color: white;
-                    border: none;
-                    border-radius: var(--border-radius);
-                    font-size: 1rem;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: var(--transition);
-                }
-                .login-btn:hover {
-                    background: var(--secondary-color);
-                }
-                .error {
-                    color: var(--danger);
-                    text-align: center;
-                    margin-top: 1rem;
-                }
-                .praxis-logo {
-                    text-align: center;
-                    margin-bottom: 2rem;
-                }
-                .praxis-logo i {
-                    font-size: 3rem;
-                    color: var(--primary-color);
-                    margin-bottom: 0.5rem;
-                }
-            </style>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        </head>
-        <body>
-            <div class="login-container">
-                <div class="login-form">
-                    <div class="praxis-logo">
-                        <i class="fas fa-user-md"></i>
-                        <h3>Dr. Airoud</h3>
-                    </div>
-                    <h2>Admin Login</h2>
-                    <form method="POST" action="/admin/login">
-                        <div class="form-group">
-                            <label for="username">Benutzername:</label>
-                            <input type="text" id="username" name="username" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Passwort:</label>
-                            <input type="password" id="password" name="password" required>
-                        </div>
-                        <button type="submit" class="login-btn">Anmelden</button>
-                        ${req.query.error ? '<div class="error">Ungültige Anmeldedaten</div>' : ''}
-                    </form>
-                </div>
-            </div>
-        </body>
-        </html>
-    `);
+    res.send(loginTemplate(!!req.query.error));
 });
 
 // Admin login handler with rate limiting
@@ -493,22 +251,7 @@ app.get('/admin/logout', (req, res) => {
 // Admin dashboard with enhanced UI
 app.get('/admin', requireAuth, (req, res) => {
     const content = loadContent();
-    const stats = getSystemStats();
-    
-    res.send(`
-        <!DOCTYPE html>
-        <html lang="de">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>CMS Admin - Hausarztpraxis Dr. Airoud</title>
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            <link rel="stylesheet" href="/cms-admin-styles.css">
-        </head>
-        <body>
+    const inner = `
             <div class="admin-container">
                 <header class="admin-header">
                     <nav class="admin-nav">
@@ -1295,10 +1038,8 @@ app.get('/admin', requireAuth, (req, res) => {
                 </main>
             </div>
 
-            <script src="/cms-admin-enhanced.js"></script>
-        </body>
-        </html>
-    `);
+    `;
+    res.send(adminLayout(inner));
 });
 
 // Save content
