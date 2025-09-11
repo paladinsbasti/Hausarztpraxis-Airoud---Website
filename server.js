@@ -1,6 +1,8 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
+const http = require('http');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const multer = require('multer');
@@ -84,7 +86,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // set true behind HTTPS / proxy
+        secure: process.env.NODE_ENV === 'production' && process.env.USE_SSL === 'true',
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
         sameSite: 'lax' // Changed from 'strict' to 'lax' for better compatibility
@@ -1172,13 +1174,100 @@ app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
 
 // (duplicate /api/content route removed above)
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚀 CMS Server läuft auf http://localhost:${PORT}`);
-    console.log(`📊 Admin Panel: http://localhost:${PORT}/admin`);
-    console.log(`🔑 Login: admin / Hausarztpraxis_Airoud_CMS_2025`);
-    console.log(`✅ Sicherheit: Produktionsbereit mit verschärften Einstellungen`);
-    console.log(`📝 Session: Sichere Konfiguration aktiviert`);
-});
+// Start server with SSL support
+function startServer() {
+    const isProduction = process.env.NODE_ENV === 'production';
+    const useSSL = process.env.USE_SSL === 'true' || isProduction;
+    
+    if (useSSL) {
+        // HTTPS Server for Production
+        const sslOptions = getSSLOptions();
+        
+        if (sslOptions) {
+            // Create HTTPS server
+            const httpsServer = https.createServer(sslOptions, app);
+            const httpsPort = process.env.HTTPS_PORT || 443;
+            
+            httpsServer.listen(httpsPort, () => {
+                console.log(`� HTTPS Server läuft auf https://localhost:${httpsPort}`);
+                console.log(`📊 Admin Panel: https://localhost:${httpsPort}/admin`);
+                console.log(`🔑 Login: admin / Praxis2025AiroudSecure`);
+                console.log(`✅ SSL: Aktiviert mit Zertifikat`);
+                console.log(`🛡️  Sicherheit: Enterprise-Grade HTTPS`);
+            });
+            
+            // Optional: HTTP to HTTPS redirect server
+            if (process.env.REDIRECT_HTTP === 'true') {
+                const httpRedirectApp = express();
+                httpRedirectApp.use((req, res) => {
+                    const httpsPort = process.env.HTTPS_PORT || 443;
+                    const redirectUrl = `https://${req.get('host').split(':')[0]}${httpsPort !== 443 ? ':' + httpsPort : ''}${req.url}`;
+                    res.redirect(301, redirectUrl);
+                });
+                
+                const httpPort = process.env.HTTP_PORT || 80;
+                httpRedirectApp.listen(httpPort, () => {
+                    console.log(`🔄 HTTP Redirect Server läuft auf Port ${httpPort} -> HTTPS`);
+                });
+            }
+        } else {
+            console.warn('⚠️  SSL-Zertifikate nicht gefunden, starte HTTP Server...');
+            startHttpServer();
+        }
+    } else {
+        // Development HTTP Server
+        startHttpServer();
+    }
+}
+
+function startHttpServer() {
+    const httpServer = http.createServer(app);
+    const httpPort = process.env.PORT || 3000;
+    
+    httpServer.listen(httpPort, () => {
+        console.log(`🚀 HTTP Server läuft auf http://localhost:${httpPort}`);
+        console.log(`📊 Admin Panel: http://localhost:${httpPort}/admin`);
+        console.log(`🔑 Login: admin / Praxis2025AiroudSecure`);
+        console.log(`⚠️  Development Mode: HTTP nur für Entwicklung verwenden`);
+        console.log(`� Production: SSL-Zertifikat für HTTPS erforderlich`);
+    });
+}
+
+function getSSLOptions() {
+    try {
+        const sslKeyPath = process.env.SSL_KEY_PATH || './ssl/private.key';
+        const sslCertPath = process.env.SSL_CERT_PATH || './ssl/certificate.crt';
+        const sslCaPath = process.env.SSL_CA_PATH || './ssl/ca_bundle.crt';
+        
+        // Check if certificate files exist
+        if (!fs.existsSync(sslKeyPath) || !fs.existsSync(sslCertPath)) {
+            console.log('📝 SSL-Zertifikate nicht gefunden. Erwartete Pfade:');
+            console.log(`   Private Key: ${sslKeyPath}`);
+            console.log(`   Certificate: ${sslCertPath}`);
+            console.log(`   CA Bundle: ${sslCaPath} (optional)`);
+            return null;
+        }
+        
+        const sslOptions = {
+            key: fs.readFileSync(sslKeyPath, 'utf8'),
+            cert: fs.readFileSync(sslCertPath, 'utf8')
+        };
+        
+        // Add CA bundle if available (for intermediate certificates)
+        if (fs.existsSync(sslCaPath)) {
+            sslOptions.ca = fs.readFileSync(sslCaPath, 'utf8');
+        }
+        
+        console.log('✅ SSL-Zertifikate erfolgreich geladen');
+        return sslOptions;
+        
+    } catch (error) {
+        console.error('❌ Fehler beim Laden der SSL-Zertifikate:', error.message);
+        return null;
+    }
+}
+
+// Start the server
+startServer();
 
 module.exports = app;

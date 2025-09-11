@@ -3,6 +3,14 @@
 .env.local
 .env.production
 
+# SSL Certificates (NEVER commit private keys!)
+ssl/private.key
+ssl/*.key
+ssl/*.crt
+ssl/*.pem
+ssl/*.p12
+ssl/*.pfx
+
 # Node modules
 node_modules/
 
