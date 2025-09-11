@@ -415,6 +415,8 @@ section {
     width: 100%;
     max-width: 400px;
     height: auto;
+    object-fit: contain;
+    object-position: center;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
     transition: var(--transition);
@@ -663,8 +665,10 @@ section {
 
 .team-image {
     width: 100%;
-    max-width: 280px;
+    max-width: 500px;
     height: auto;
+    object-fit: contain;
+    object-position: center;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
 }
