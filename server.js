@@ -1178,44 +1178,38 @@ app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
 function startServer() {
     const isProduction = process.env.NODE_ENV === 'production';
     const useSSL = process.env.USE_SSL === 'true' || isProduction;
-    
+
     if (useSSL) {
-        // HTTPS Server for Production
         const sslOptions = getSSLOptions();
-        
         if (sslOptions) {
-            // Create HTTPS server
-            const httpsServer = https.createServer(sslOptions, app);
-            const httpsPort = process.env.HTTPS_PORT || 443;
-            
-            httpsServer.listen(httpsPort, () => {
-                console.log(`� HTTPS Server läuft auf https://localhost:${httpsPort}`);
-                console.log(`📊 Admin Panel: https://localhost:${httpsPort}/admin`);
-                console.log(`🔑 Login: admin / Praxis2025AiroudSecure`);
-                console.log(`✅ SSL: Aktiviert mit Zertifikat`);
-                console.log(`🛡️  Sicherheit: Enterprise-Grade HTTPS`);
-            });
-            
-            // Optional: HTTP to HTTPS redirect server
-            if (process.env.REDIRECT_HTTP === 'true') {
-                const httpRedirectApp = express();
-                httpRedirectApp.use((req, res) => {
-                    const httpsPort = process.env.HTTPS_PORT || 443;
-                    const redirectUrl = `https://${req.get('host').split(':')[0]}${httpsPort !== 443 ? ':' + httpsPort : ''}${req.url}`;
-                    res.redirect(301, redirectUrl);
+            try {
+                const httpsServer = https.createServer(sslOptions, app);
+                const httpsPort = process.env.HTTPS_PORT || 443;
+                httpsServer.listen(httpsPort, () => {
+                    console.log(`🔐 HTTPS Server auf https://localhost:${httpsPort}`);
+                    console.log(`📊 Admin Panel: https://localhost:${httpsPort}/admin`);
                 });
-                
-                const httpPort = process.env.HTTP_PORT || 80;
-                httpRedirectApp.listen(httpPort, () => {
-                    console.log(`🔄 HTTP Redirect Server läuft auf Port ${httpPort} -> HTTPS`);
-                });
+                if (process.env.REDIRECT_HTTP === 'true') {
+                    const httpRedirectApp = express();
+                    httpRedirectApp.use((req, res) => {
+                        const httpsPort = process.env.HTTPS_PORT || 443;
+                        const host = req.get('host').split(':')[0];
+                        const redirectUrl = `https://${host}${httpsPort !== 443 ? ':' + httpsPort : ''}${req.url}`;
+                        res.redirect(301, redirectUrl);
+                    });
+                    const httpPort = process.env.HTTP_PORT || 80;
+                    httpRedirectApp.listen(httpPort, () => console.log(`🔄 Redirect HTTP:${httpPort} -> HTTPS`));
+                }
+            } catch (e) {
+                console.error('❌ HTTPS Start fehlgeschlagen:', e.message);
+                console.warn('➡️  Fallback auf HTTP. (Set USE_SSL=false um Warnung zu vermeiden)');
+                startHttpServer();
             }
         } else {
-            console.warn('⚠️  SSL-Zertifikate nicht gefunden, starte HTTP Server...');
+            console.warn('⚠️  Keine gültigen Zertifikate. Starte HTTP.');
             startHttpServer();
         }
     } else {
-        // Development HTTP Server
         startHttpServer();
     }
 }
@@ -1235,34 +1229,80 @@ function startHttpServer() {
 
 function getSSLOptions() {
     try {
-        const sslKeyPath = process.env.SSL_KEY_PATH || './ssl/private.key';
-        const sslCertPath = process.env.SSL_CERT_PATH || './ssl/certificate.crt';
-        const sslCaPath = process.env.SSL_CA_PATH || './ssl/ca_bundle.crt';
-        
-        // Check if certificate files exist
-        if (!fs.existsSync(sslKeyPath) || !fs.existsSync(sslCertPath)) {
-            console.log('📝 SSL-Zertifikate nicht gefunden. Erwartete Pfade:');
-            console.log(`   Private Key: ${sslKeyPath}`);
-            console.log(`   Certificate: ${sslCertPath}`);
-            console.log(`   CA Bundle: ${sslCaPath} (optional)`);
+        // Support PFX directly if provided
+        if (process.env.SSL_PFX_PATH) {
+            const pfxPath = process.env.SSL_PFX_PATH;
+            if (fs.existsSync(pfxPath)) {
+                console.log('🔐 Lade PFX Zertifikat');
+                return {
+                    pfx: fs.readFileSync(pfxPath),
+                    passphrase: process.env.SSL_PFX_PASSPHRASE || undefined,
+                    honorCipherOrder: true,
+                    minVersion: 'TLSv1.2'
+                };
+            } else {
+                console.warn('⚠️  Angegebenes PFX nicht gefunden:', pfxPath);
+            }
+        }
+
+        const keyPath = process.env.SSL_KEY_PATH || './ssl/private.key';
+        const certPath = process.env.SSL_CERT_PATH || './ssl/certificate.crt';
+        const caPath = process.env.SSL_CA_PATH || './ssl/ca_bundle.crt';
+
+        if (!fs.existsSync(keyPath) || !fs.existsSync(certPath)) {
             return null;
         }
-        
-        const sslOptions = {
-            key: fs.readFileSync(sslKeyPath, 'utf8'),
-            cert: fs.readFileSync(sslCertPath, 'utf8')
-        };
-        
-        // Add CA bundle if available (for intermediate certificates)
-        if (fs.existsSync(sslCaPath)) {
-            sslOptions.ca = fs.readFileSync(sslCaPath, 'utf8');
+
+        const keyPem = fs.readFileSync(keyPath, 'utf8').trim();
+        let certPem = fs.readFileSync(certPath, 'utf8').trim();
+
+        // Extract all cert blocks (fullchain handling)
+        const extractBlocks = (pem) => pem.match(/-----BEGIN CERTIFICATE-----[\s\S]*?-----END CERTIFICATE-----/g) || [];
+        const allCerts = extractBlocks(certPem);
+
+        if (allCerts.length === 0) {
+            console.error('❌ Keine gültigen CERT Blöcke gefunden.');
+            return null;
         }
-        
-        console.log('✅ SSL-Zertifikate erfolgreich geladen');
-        return sslOptions;
-        
-    } catch (error) {
-        console.error('❌ Fehler beim Laden der SSL-Zertifikate:', error.message);
+
+        const primaryCert = allCerts[0];
+        const intermediates = allCerts.slice(1);
+
+        // Merge with external CA bundle if present
+        let ca = [];
+        if (intermediates.length) ca.push(...intermediates);
+        if (fs.existsSync(caPath)) {
+            const caRaw = fs.readFileSync(caPath, 'utf8');
+            const caBlocks = extractBlocks(caRaw);
+            if (caBlocks.length) ca.push(...caBlocks);
+        }
+
+        // De-duplicate CA certs
+        ca = [...new Set(ca)];
+
+        // Basic sanity checks
+        if (!/BEGIN (?:RSA |EC |)PRIVATE KEY/.test(keyPem)) {
+            console.warn('⚠️  Private Key scheint nicht im erwarteten PEM Format zu sein.');
+        }
+        if (!/-----BEGIN CERTIFICATE-----/.test(primaryCert)) {
+            console.error('❌ Primäres Zertifikat ungültig.');
+            return null;
+        }
+
+        const options = {
+            key: keyPem,
+            cert: primaryCert,
+            ca: ca.length ? ca : undefined,
+            honorCipherOrder: true,
+            requestCert: false,
+            rejectUnauthorized: false,
+            minVersion: 'TLSv1.2'
+        };
+
+        console.log(`✅ Zertifikate geladen (Chain Länge: ${1 + (ca ? ca.length : 0)})`);
+        return options;
+    } catch (err) {
+        console.error('❌ Fehler beim Verarbeiten der Zertifikate:', err.message);
         return null;
     }
 }
