@@ -437,14 +437,6 @@ section {
     z-index: 3;
 }
 
-.doctor-image-container:hover .image-overlay {
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.doctor-image-container:hover .intro-background {
-    filter: brightness(0.7);
-}
-
 /* Services Section */
 .services-section {
     min-height: 100vh;
