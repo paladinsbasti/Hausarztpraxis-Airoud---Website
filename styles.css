@@ -26,7 +26,8 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
+    /* scroll-snap nur noch über body.snap-scroll steuerbar */
+    scroll-snap-type: none;
 }
 
 body {
@@ -34,6 +35,9 @@ body {
     line-height: 1.6;
     color: var(--text-dark);
     overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Main page with 4 sections */
@@ -96,9 +100,16 @@ body.no-snap {
     scroll-snap-type: none;
 }
 
+/* Main content wrapper */
+main {
+    flex: 1;
+}
+
 /* Full viewport sections with scroll snap */
 section {
     scroll-snap-align: start;
+    /* Offset für fixe Navbar beim Anscrollen */
+    scroll-margin-top: 90px;
 }
 
 /* Section scroll snap behavior */
@@ -546,6 +557,21 @@ section {
     display: flex;
     align-items: center;
 }
+
+    /* Leistungen (About-Stil) */
+    .leistungen-head { background: var(--background-light); }
+    .leistung-section { background: var(--white); }
+    .leistung-section.alt-bg { background: var(--background-light); }
+    .leistung-section h3 { margin-bottom: 18px; color: var(--primary-color); font-size: 1.6rem; }
+    .leistung-list { list-style:none; padding:0; margin:0; }
+    .leistung-list li { position:relative; padding-left:24px; margin-bottom:10px; font-size:.9rem; color:var(--text-dark); }
+    .leistung-list li:before { content:""; width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg,var(--primary-color),var(--accent-color)); position:absolute; left:0; top:6px; box-shadow:0 0 0 4px rgba(74,144,164,.15); }
+    section.leistung-section, section.leistungen-head { scroll-snap-align:start; scroll-snap-stop:normal; }
+    @media (min-width:1100px){ .leistung-section h3 { font-size:1.9rem; } }
+    @media (max-width:900px){
+        .leistung-section h3 { text-align:center; }
+        .leistung-section .about-text p, .leistung-section .leistung-list { text-align:center; }
+    }
 
 .about-section .container {
     padding: 0 30px;
