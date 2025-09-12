@@ -415,6 +415,8 @@ section {
     width: 100%;
     max-width: 400px;
     height: auto;
+    object-fit: contain;
+    object-position: center;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
     transition: var(--transition);
@@ -433,14 +435,6 @@ section {
     transition: var(--transition);
     pointer-events: none;
     z-index: 3;
-}
-
-.doctor-image-container:hover .image-overlay {
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.doctor-image-container:hover .intro-background {
-    filter: brightness(0.7);
 }
 
 /* Services Section */
@@ -687,8 +681,10 @@ section {
 
 .team-image {
     width: 100%;
-    max-width: 280px;
+    max-width: 500px;
     height: auto;
+    object-fit: contain;
+    object-position: center;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-medium);
 }

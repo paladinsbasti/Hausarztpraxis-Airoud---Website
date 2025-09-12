@@ -26,7 +26,7 @@
     "feature3": "Persönliche Betreuung",
     "description": "Wir stehen Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.",
     "cta": "Termin vereinbaren",
-  "doctorImage": "https://via.placeholder.com/400x500/4a90a4/ffffff?text=Hausarztpraxis+Airoud"
+  "doctorImage": "images/Portrait_Export.jpg"
   },
   "services": {
     "title": "Unsere Leistungen",
@@ -151,7 +151,7 @@
     "languagesDesc": "Wir sprechen deutsch, englisch, arabisch und italienisch.",
     "teamTitle": "Unser Team",
     "teamDesc": "Unser engagiertes Team sorgt dafür, dass Sie sich in unserer Praxis wohlfühlen und optimal betreut werden. Wir nehmen uns Zeit für Ihre Anliegen und behandeln jeden Patienten individuell.",
-    "teamImage": "https://via.placeholder.com/500x400/4a90a4/ffffff?text=Unser+Team"
+  "teamImage": "images/Team_Export.jpg"
   },
   "contact": {
     "title": "Kontakt",
