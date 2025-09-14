@@ -435,8 +435,9 @@ section {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 20px;
+    /* auto-fill sorgt dafür, dass so viele Spalten wie möglich gefüllt werden, auch wenn letzte Zeile Lücken hat */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
     margin-top: 30px;
     width: 100%;
     margin-left: auto;
@@ -1072,8 +1073,8 @@ section {
 /* Medium screens (tablets and small desktops) */
 @media (max-width: 1200px) and (min-width: 769px) {
     .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        gap: 18px;
     }
     
     .service-card {
@@ -1164,8 +1165,8 @@ section {
     }
     
     .services-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 14px;
     }
     
     .service-card {
@@ -1237,7 +1238,7 @@ section {
     }
     
     .services-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
         gap: 12px;
     }
     
@@ -1347,9 +1348,9 @@ section {
     }
     
     .services-grid {
-        grid-template-columns: repeat(5, 1fr);
-        max-width: calc(5 * 250px + 4 * 30px);
-        gap: 30px;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 24px;
+        max-width: 100%;
     }
     
     .service-card {
@@ -1371,8 +1372,8 @@ section {
     }
     
     .services-grid {
-        grid-template-columns: repeat(6, 1fr);
-        gap: 30px;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 26px;
     }
     
     .service-card {
@@ -1461,6 +1462,36 @@ section {
     margin-bottom: 0.5rem;
     position: relative;
     z-index: 1;
+}
+
+/* Close X Button for Vacation Modal */
+.vacation-close-x {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: #fff;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 10px 6px;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.vacation-close-x:hover {
+    background: rgba(255,255,255,0.35);
+    transform: scale(1.05);
+}
+
+.vacation-close-x:active {
+    transform: scale(0.92);
+}
+
+.vacation-close-x:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
 }
 
 .vacation-modal-body {

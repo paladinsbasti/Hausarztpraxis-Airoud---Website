@@ -32,51 +32,21 @@
     "title": "Unsere Leistungen",
     "subtitle": "Umfassende medizinische Versorgung für die ganze Familie",
     "items": [
-      {
-        "icon": "fas fa-stethoscope",
-        "title": "Hausarztmedizin",
-        "description": "Umfassende medizinische Grundversorgung"
-      },
-      {
-        "icon": "fas fa-shield-alt",
-        "title": "Vorsorgeuntersuchungen",
-        "description": "Check-ups, Hautkrebsscreening, Impfberatung"
-      },
-      {
-        "icon": "fas fa-flask",
-        "title": "Blutuntersuchungen & Labor",
-        "description": "Moderne Labordiagnostik"
-      },
-      {
-        "icon": "fas fa-heartbeat",
-        "title": "Diagnostik",
-        "description": "EKG, Ultraschall, Lungenfunktion"
-      },
-      {
-        "icon": "fas fa-home",
-        "title": "Hausbesuche",
-        "description": "Medizinische Betreuung zu Hause"
-      },
-      {
-        "icon": "fas fa-clipboard-list",
-        "title": "Disease Management",
-        "description": "Strukturierte Behandlungsprogramme"
-      }
+      { "icon": "fas fa-shield-alt", "title": "Vorsorgeuntersuchungen", "description": "Check-ups, Hautkrebsscreening, Impfberatung" },
+      { "icon": "fas fa-flask", "title": "Blutuntersuchungen & Labor", "description": "Moderne Labordiagnostik" },
+      { "icon": "fas fa-heartbeat", "title": "EKG (Elektrokardiogramm)", "description": "Herzrhythmusdiagnostik" },
+      { "icon": "fas fa-clock", "title": "Langzeit-EKG", "description": "24-Stunden Herzrhythmus" },
+      { "icon": "fas fa-running", "title": "Belastungs-EKG", "description": "Herz unter Belastung" },
+      { "icon": "fas fa-chart-line", "title": "Langzeit-Blutdruckmessung", "description": "24-Stunden Blutdruck" },
+      { "icon": "fas fa-lungs", "title": "Lungenfunktionstest", "description": "Atemwegsdiagnostik" },
+      { "icon": "fas fa-search-plus", "title": "Ultraschalldiagnostik", "description": "Bildgebende Untersuchung" },
+      { "icon": "fas fa-clipboard-list", "title": "Disease-Management-Programme", "description": "Chronische Erkrankungen begleiten" },
+      { "icon": "fas fa-home", "title": "Hausbesuche", "description": "Betreuung zu Hause" },
+      { "icon": "fas fa-sun", "title": "Hautkrebsscreening", "description": "Früherkennung Hautveränderungen" },
+      { "icon": "fas fa-brain", "title": "Psychosomatische Grundversorgung", "description": "Ganzheitliche Einschätzung" }
     ]
   },
   "modals": {
-    "hausarzt": {
-      "title": "Hausarztmedizin",
-      "intro": "Als Ihr Hausarzt sind wir Ihr erster Ansprechpartner für alle gesundheitlichen Fragen. Wir bieten eine umfassende medizinische Grundversorgung für Patienten jeden Alters.",
-      "listTitle": "Unsere Leistungen umfassen:",
-      "items": [
-        "Allgemeine Diagnostik und Behandlung\r",
-        "Gesundheitsberatung und Präventionsmedizin\r",
-        "Chronische Krankheiten (Diabetes, Bluthochdruck, etc.)\r",
-        "Akute Erkrankungen und Verletzungen\r",
-        "Koordination mit Fachärzten"
-      ]
-    },
     "vorsorge": {
       "title": "Vorsorgeuntersuchungen",
       "intro": "Vorbeugung ist der beste Schutz vor Krankheiten. Unsere umfassenden Vorsorgeuntersuchungen helfen dabei, Gesundheitsrisiken frühzeitig zu erkennen.",
@@ -140,6 +110,30 @@
         "Darmkrebs"
       ],
       "outro": "Diese Programme beinhalten regelmäßige Kontrolluntersuchungen, Schulungen und eine strukturierte Therapieplanung."
+    },
+    "hautkrebsscreening": {
+      "title": "Hautkrebsscreening",
+      "intro": "Früherkennung von verdächtigen Hautveränderungen zur Verbesserung der Heilungschancen.",
+      "listTitle": "Untersuchungsinhalt:",
+      "items": [
+        "Ganzkörperinspektion der Haut\r",
+        "Beurteilung von Muttermalen (ABCDE-Regel)\r",
+        "Erkennen auffälliger Läsionen\r",
+        "Hinweise zu weiterem Vorgehen"
+      ],
+      "note": "Empfohlen besonders bei vielen Muttermalen oder hellem Hauttyp."
+    },
+    "psychosomatik": {
+      "title": "Psychosomatische Grundversorgung",
+      "intro": "Ganzheitlicher Blick auf das Zusammenspiel von Körper und Seele bei wiederkehrenden Beschwerden.",
+      "listTitle": "Typische Themen:",
+      "items": [
+        "Stressbedingte körperliche Symptome\r",
+        "Schlafstörungen und Erschöpfung\r",
+        "Unklare Schmerzen\r",
+        "Innere Unruhe, Anspannung"
+      ],
+      "outro": "Ziel ist frühzeitige Stabilisierung und ggf. Vermittlung weiterführender Therapieangebote."
     }
   },
   "about": {

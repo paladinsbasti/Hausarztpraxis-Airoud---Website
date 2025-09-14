@@ -85,78 +85,7 @@
         <div class="container">
             <h2>Unsere Leistungen</h2>
             <p class="section-subtitle">Umfassende medizinische Versorgung für die ganze Familie</p>
-            <div class="services-grid">
-                <div class="service-card" onclick="openModal('modal-vorsorge')">
-                    <div class="service-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Vorsorgeuntersuchungen</h3>
-                    <p>Check-ups, Hautkrebsscreening, Impfberatung</p>
-                </div>
-                <div class="service-card" onclick="openModal('modal-labor')">
-                    <div class="service-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <h3>Blutuntersuchungen & Labordiagnostik</h3>
-                    <p>Moderne Labordiagnostik</p>
-                </div>
-                <div class="service-card" onclick="openModal('modal-ekg')">
-                    <div class="service-icon">
-                        <i class="fas fa-heartbeat"></i>
-                    </div>
-                    <h3>EKG (Elektrokardiogramm)</h3>
-                    <p>Herzrhythmus- und Herzfunktionsdiagnostik</p>
-                </div>
-                <div class="service-card" onclick="openModal('modal-langzeit-ekg')">
-                    <div class="service-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h3>Langzeit-EKG</h3>
-                    <p>24-Stunden Herzrhythmusüberwachung</p>
-                </div>
-                <div class="service-card" onclick="openModal('modal-belastungs-ekg')">
-                    <div class="service-icon">
-                        <i class="fas fa-running"></i>
-                    </div>
-                    <h3>Belastungs-EKG</h3>
-                    <p>Herz-Kreislauf-Diagnostik unter Belastung</p>
-                </div>
-                <div class="service-card" onclick="openModal('modal-blutdruck')">
-                    <div class="service-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Langzeit-Blutdruckmessung</h3>
-                    <p>24-Stunden Blutdrucküberwachung</p>
-                </div>
-                <div class="service-card" onclick="openModal('modal-lungenfunktion')">
-                    <div class="service-icon">
-                        <i class="fas fa-lungs"></i>
-                    </div>
-                    <h3>Lungenfunktionstest</h3>
-                    <p>Atemwegs- und Lungendiagnostik</p>
-                </div>
-                <div class="service-card" onclick="openModal('modal-ultraschall')">
-                    <div class="service-icon">
-                        <i class="fas fa-search-plus"></i>
-                    </div>
-                    <h3>Ultraschalldiagnostik</h3>
-                    <p>Bildgebende Diagnostik verschiedener Organe</p>
-                </div>
-                <div class="service-card" onclick="openModal('modal-dmp')">
-                    <div class="service-icon">
-                        <i class="fas fa-clipboard-list"></i>
-                    </div>
-                    <h3>Disease-Management-Programme</h3>
-                    <p>Strukturierte Behandlungsprogramme</p>
-                </div>
-                <div class="service-card" onclick="openModal('modal-hausbesuche')">
-                    <div class="service-icon">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <h3>Hausbesuche</h3>
-                    <p>Medizinische Betreuung zu Hause</p>
-                </div>
-            </div>
+            <div class="services-grid"></div>
         </div>
     </section>
 
@@ -190,7 +119,7 @@
                 </div>
                 
                 <div class="team-image-container">
-                <img src="images/Team_Export.jpg" 
+                <img src="images/team02.jpg" 
                     alt="Praxisteam Hausarztpraxis Airoud" 
                          class="team-image">
                 </div>
@@ -489,6 +418,56 @@
                     <li>Beratung von Angehörigen</li>
                 </ul>
                 <p><strong>Bitte vereinbaren Sie Hausbesuche rechtzeitig telefonisch mit uns.</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-hautkrebsscreening" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Hautkrebsscreening</h3>
+            <div class="modal-body">
+                <p>Das Hautkrebsscreening dient der Früherkennung von bösartigen oder auffälligen Hautveränderungen. Je früher Hautkrebs erkannt wird, desto besser sind die Behandlungschancen.</p>
+                <h4>Untersuchungsinhalt:</h4>
+                <ul>
+                    <li>Ganzkörperinspektion der Haut</li>
+                    <li>Beurteilung von Muttermalen (ABCDE-Regel)</li>
+                    <li>Erkennung von Basalzell- und Plattenepithelkarzinomen</li>
+                    <li>Hinweise bei verdächtigen Läsionen</li>
+                </ul>
+                <h4>Empfohlen für:</h4>
+                <ul>
+                    <li>Alle gesetzlich Versicherten ab 35 Jahren (alle 2 Jahre)</li>
+                    <li>Menschen mit vielen Muttermalen</li>
+                    <li>Heller Hauttyp oder hohe UV-Belastung</li>
+                </ul>
+                <p>Gern beraten wir Sie zu individuellen Risikofaktoren und weiterführenden Maßnahmen.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-psychosomatik" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Psychosomatische Grundversorgung</h3>
+            <div class="modal-body">
+                <p>Die psychosomatische Grundversorgung betrachtet körperliche Beschwerden im Zusammenhang mit seelischen Belastungen. Ziel ist eine ganzheitliche Einschätzung und frühzeitige Unterstützung.</p>
+                <h4>Typische Beschwerdebilder:</h4>
+                <ul>
+                    <li>Stressbedingte körperliche Symptome</li>
+                    <li>Schlafstörungen und Erschöpfung</li>
+                    <li>Unklare Bauch-, Kopf- oder Muskelschmerzen</li>
+                    <li>Anspannung, innere Unruhe, Stimmungsschwankungen</li>
+                </ul>
+                <h4>Unser Vorgehen:</h4>
+                <ul>
+                    <li>Ärztliches Gespräch und Anamnese</li>
+                    <li>Basisdiagnostik zum Ausschluss organischer Ursachen</li>
+                    <li>Einordnung psychosomatischer Einflussfaktoren</li>
+                    <li>Beratung zu Entlastung, Schlaf, Bewegung</li>
+                    <li>ggf. Überweisung zu Psychotherapie / Spezialisten</li>
+                </ul>
+                <p>Frühe Ansprache kann chronische Verläufe verhindern und die Lebensqualität verbessern.</p>
             </div>
         </div>
     </div>

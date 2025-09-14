@@ -160,7 +160,18 @@ function applyAboutContent() {
     // Update team image
     if (cmsContent.about.teamImage) {
         const img = aboutSection.querySelector('.team-image');
-        if (img) img.src = cmsContent.about.teamImage;
+        if (img) {
+            img.src = cmsContent.about.teamImage;
+            if (!img.dataset.fallbackBound) {
+                img.dataset.fallbackBound = '1';
+                img.addEventListener('error', () => {
+                    if (img.src.includes('team02')) {
+                        console.warn('[TeamImage] team02.jpg nicht ladbar – Fallback auf ursprüngliches Team_Export.jpg');
+                        img.src = 'images/Team_Export.jpg';
+                    }
+                });
+            }
+        }
     }
 }
 
@@ -257,8 +268,17 @@ function applyVacationModal() {
         icon.innerHTML = '<i class="fas fa-umbrella-beach"></i>';
         const title = document.createElement('h2');
         title.textContent = cmsContent.vacation.title || 'Praxisurlaub';
-        header.appendChild(icon);
-        header.appendChild(title);
+    // Close X Button
+    const closeX = document.createElement('button');
+    closeX.type = 'button';
+    closeX.className = 'vacation-close-x';
+    closeX.setAttribute('aria-label','Fenster schließen');
+    closeX.innerHTML = '&times;';
+    closeX.addEventListener('click', closeVacationModal);
+
+    header.appendChild(icon);
+    header.appendChild(title);
+    header.appendChild(closeX);
 
         // Body
         const body = document.createElement('div');
@@ -327,8 +347,11 @@ function formatVacationMessage(message, startDate, endDate) {
 function closeVacationModal() {
     const modal = document.getElementById('vacation-modal');
     if (modal) {
-        modal.classList.remove('show');
-        setTimeout(() => modal.remove(), 300);
+        modal.classList.remove('active');
+        // optional: kleiner Fade-Out via inline style falls nötig
+        setTimeout(() => {
+            if (modal && !modal.classList.contains('active')) modal.remove();
+        }, 200);
     }
 }
 
@@ -368,7 +391,6 @@ function deriveModalKey(title) {
     const raw = title.toLowerCase().trim();
     // Direct matches to CMS modals keys
     const directMap = {
-        'hausarztmedizin': 'hausarzt',
         'vorsorgeuntersuchungen': 'vorsorge',
         'blutuntersuchungen & labor': 'labor',
         'blutuntersuchungen & labor.': 'labor',
@@ -376,12 +398,21 @@ function deriveModalKey(title) {
         'hausbesuche': 'hausbesuche',
         'disease management': 'dmp',
         'disease-management-programme (dmp)': 'dmp',
-        'disease-management-programme': 'dmp'
+        'disease-management-programme': 'dmp',
+        // Neue/ausgeweitete Einzelleistungen (statische Modals in index.html)
+        'ekg (elektrokardiogramm)': 'ekg',
+        'langzeit-ekg': 'langzeit-ekg',
+        'belastungs-ekg': 'belastungs-ekg',
+        'langzeit-blutdruckmessung': 'blutdruck',
+        'lungenfunktionstest': 'lungenfunktion',
+        'ultraschalldiagnostik': 'ultraschall',
+        'hautkrebsscreening': 'hautkrebsscreening',
+        'psychosomatische grundversorgung': 'psychosomatik'
     };
     if (directMap[raw]) return directMap[raw];
     // Fallback: remove non letters
     const simplified = raw.replace(/[^a-z0-9]+/g, '-');
-    if (['hausarzt','vorsorge','labor','diagnostik','hausbesuche','dmp'].includes(simplified)) return simplified;
+    if (['vorsorge','labor','diagnostik','hausbesuche','dmp','ekg','langzeit-ekg','belastungs-ekg','blutdruck','lungenfunktion','ultraschall','hautkrebsscreening','psychosomatik'].includes(simplified)) return simplified;
     return null;
 }
 
@@ -534,11 +565,18 @@ document.addEventListener('DOMContentLoaded', async function() {
     // ESC key closes the topmost active modal
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            const activeModals = Array.from(document.querySelectorAll('.modal.active'));
-            if (activeModals.length) {
-                const top = activeModals[activeModals.length - 1];
-                closeModal(top.id);
-            }
+                // Normale Service-Modals
+                const activeModals = Array.from(document.querySelectorAll('.modal.active'));
+                if (activeModals.length) {
+                    const top = activeModals[activeModals.length - 1];
+                    closeModal(top.id);
+                    return;
+                }
+                // Vacation Modal
+                const vacation = document.getElementById('vacation-modal');
+                if (vacation && vacation.classList.contains('active')) {
+                    closeVacationModal();
+                }
         }
     });
     
