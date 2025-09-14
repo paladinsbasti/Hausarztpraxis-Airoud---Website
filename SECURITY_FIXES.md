@@ -132,7 +132,7 @@
 | Fix ID | Beschreibung | Status | Commit Hash | Datum |
 |--------|-------------|--------|-------------|-------|
 | #1 | Session Management | ✅ **COMPLETED** | - | 14.09.2025 |
-| #2 | SSL/HTTPS Config | ❌ Pending | - | - |
+| #2 | SSL/HTTPS Config | ✅ **COMPLETED** | - | 14.09.2025 |
 | #3 | XSS Protection | ❌ Pending | - | - |
 | #4 | CSRF Protection | ❌ Pending | - | - |
 | #5 | Rate Limiting | ❌ Pending | - | - |

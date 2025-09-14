@@ -23,6 +23,16 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ limit: '512kb' }));
 app.use(express.urlencoded({ extended: true, limit: '512kb' }));
 
+// HTTPS Redirect Middleware (for production)
+app.use((req, res, next) => {
+    if (process.env.NODE_ENV === 'production' && process.env.HTTPS_ENABLED === 'true') {
+        if (req.header('x-forwarded-proto') !== 'https') {
+            return res.redirect(`https://${req.header('host')}${req.url}`);
+        }
+    }
+    next();
+});
+
 // Enhanced static file serving with caching
 app.use(express.static('.', {
     maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0,
@@ -42,6 +52,8 @@ app.use((req, res, next) => {
     res.setHeader('X-Frame-Options', 'DENY');
     res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    
+    // Content Security Policy
     res.setHeader('Content-Security-Policy', 
         "default-src 'self'; " +
         "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " +
@@ -50,9 +62,13 @@ app.use((req, res, next) => {
         "img-src 'self' data: https:; " +
         "connect-src 'self';"
     );
-    if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
-        res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    
+    // HTTPS/SSL Security Headers
+    if (process.env.HTTPS_ENABLED === 'true' || req.secure || req.headers['x-forwarded-proto'] === 'https') {
+        res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+        res.setHeader('X-Forwarded-Proto', 'https');
     }
+    
     next();
 });
 
@@ -1164,8 +1180,14 @@ app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-    if (process.env.NODE_ENV !== 'production') {
-        console.log(`Server running on port ${PORT}`);
+    console.log(`🚀 Hausarztpraxis Airoud Server started on port ${PORT}`);
+    console.log(`📋 Environment: ${process.env.NODE_ENV}`);
+    console.log(`🔒 HTTPS Enabled: ${process.env.HTTPS_ENABLED === 'true' ? 'Yes' : 'No'}`);
+    console.log(`🛡️  Security: Session secrets loaded, rate limiting active`);
+    
+    if (process.env.NODE_ENV === 'production' && process.env.HTTPS_ENABLED !== 'true') {
+        console.warn('⚠️  WARNING: Running in production without HTTPS enabled!');
+        console.warn('   Set HTTPS_ENABLED=true in .env when SSL certificate is ready');
     }
 });
 
