@@ -18,6 +18,7 @@ const { loadContent, saveContent } = require('./lib/contentService');
 const { loginTemplate, adminLayout } = require('./lib/templates');
 const csrfProtection = require('./lib/csrfProtection');
 const rateLimiter = require('./lib/enhancedRateLimit');
+const inputValidator = require('./lib/inputValidator');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -128,23 +129,19 @@ const upload = multer({
         files: 5 // Reduced file count
     },
     fileFilter: (req, file, cb) => {
-        // Stricter file type validation
-        const allowedTypes = /^image\/(jpeg|jpg|png|gif|webp)$/;
-        const allowedExtensions = /\.(jpeg|jpg|png|gif|webp)$/i;
+        // Enhanced file validation using inputValidator
+        const validation = inputValidator.validateFile(file, {
+            maxSize: 2 * 1024 * 1024 // 2MB
+        });
         
-        const extname = allowedExtensions.test(file.originalname);
-        const mimetype = allowedTypes.test(file.mimetype);
-        
-        // Additional security: check file size in filter
-        if (file.size && file.size > 2 * 1024 * 1024) {
-            return cb(new Error('Datei zu groß. Maximum 2MB erlaubt.'));
+        if (!validation.valid) {
+            const errorMsg = validation.errors.join('; ');
+            console.warn(`❌ File upload rejected: ${errorMsg} (${file.originalname})`);
+            return cb(new Error(errorMsg));
         }
         
-        if (mimetype && extname) {
-            return cb(null, true);
-        } else {
-            cb(new Error('Nur Bilder sind erlaubt (JPEG, JPG, PNG, GIF, WebP)'));
-        }
+        console.log(`✅ File upload accepted: ${file.originalname} (${file.mimetype})`);
+        cb(null, true);
     }
 });
 
@@ -207,14 +204,42 @@ app.get('/admin/login', (req, res) => {
     res.send(loginTemplate(!!req.query.error));
 });
 
-// Admin login handler with enhanced rate limiting
-app.post('/admin/login', rateLimiter.loginLimiter(), (req, res) => {
+// Admin login handler with enhanced validation and rate limiting
+app.post('/admin/login', (req, res) => {
     const { username, password } = req.body;
-    const ip = req.ip || req.connection.remoteAddress;
+    const ip = req.ip || req.connection.remoteAddress || 'unknown';
     const timestamp = new Date().toISOString();
     
     try {
+        // Check if IP is blocked for login failures
+        const blockedSeconds = rateLimiter.isLoginBlocked(ip);
+        if (blockedSeconds) {
+            console.warn(`🚫 Blocked login attempt from ${ip} (${blockedSeconds}s remaining)`);
+            return res.status(429).json({
+                error: 'Zu viele fehlgeschlagene Login-Versuche.'
+            });
+        }
+
+        // Validate input fields
+        const usernameValidation = inputValidator.validateField('username', username, { 
+            required: true, 
+            maxLength: 50 
+        });
+        const passwordValidation = inputValidator.validateField('password', password, { 
+            required: true, 
+            maxLength: 100 
+        });
+
+        if (!usernameValidation.valid || !passwordValidation.valid) {
+            console.warn(`❌ Invalid login data from ${ip}: ${usernameValidation.errors.join(', ')} ${passwordValidation.errors.join(', ')}`);
+            rateLimiter.trackLoginFailure(ip);
+            return res.redirect('/admin/login?error=1');
+        }
+
         if (username === DEFAULT_ADMIN.username && bcrypt.compareSync(password, DEFAULT_ADMIN.password)) {
+            // Successful login - clear any failure history
+            rateLimiter.clearLoginFailures(ip);
+            
             req.session.authenticated = true;
             req.session.loginTime = new Date().toISOString();
             
@@ -229,12 +254,23 @@ app.post('/admin/login', rateLimiter.loginLimiter(), (req, res) => {
                 res.redirect('/admin');
             });
         } else {
+            // Failed login - track failure
+            const isBlocked = rateLimiter.trackLoginFailure(ip);
+            
             // Log failed login attempt
             console.warn(`❌ Failed login attempt from ${ip} at ${timestamp} (username: ${username})`);
+            
+            if (isBlocked) {
+                return res.status(429).json({
+                    error: 'Zu viele fehlgeschlagene Login-Versuche.'
+                });
+            }
+            
             res.redirect('/admin/login?error=1');
         }
     } catch (error) {
         console.error('Login error:', error);
+        rateLimiter.trackLoginFailure(ip);
         res.redirect('/admin/login?error=1');
     }
 });
@@ -260,6 +296,26 @@ app.get('/admin/rate-limit-stats', requireAuth, (req, res) => {
             ...stats,
             uptime: process.uptime(),
             timestamp: new Date().toISOString()
+        }
+    });
+});
+
+// Input validation stats endpoint (admin only)
+app.get('/admin/validation-stats', requireAuth, (req, res) => {
+    res.json({
+        success: true,
+        validation: {
+            allowedFileTypes: inputValidator.allowedImageTypes,
+            allowedExtensions: inputValidator.allowedExtensions,
+            fieldLimits: inputValidator.fieldLimits,
+            maxFileSize: '2MB',
+            securityFeatures: [
+                'Magic byte validation',
+                'Script content detection',
+                'Path traversal protection',
+                'Double extension blocking',
+                'Dangerous signature detection'
+            ]
         }
     });
 });
@@ -1075,36 +1131,83 @@ app.get('/admin', requireAuth, (req, res) => {
     res.send(adminLayout(inner));
 });
 
-// Save content
-app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
+// Enhanced admin save with comprehensive input validation
+app.post('/admin/save', requireAuth, upload.any(), async (req, res) => {
     try {
+        console.log(`📝 Admin save request from ${req.ip}`);
+        
+        // Validate all form data
+        const validation = inputValidator.validateFormData(req.body);
+        
+        if (!validation.valid) {
+            console.warn('❌ Form validation failed:', validation.errors);
+            return res.status(400).json({
+                success: false,
+                error: 'Eingabedaten ungültig',
+                details: validation.errors
+            });
+        }
+
+        console.log('✅ Form validation passed');
+        
+        // Process uploaded files with enhanced validation
+        if (req.files && req.files.length > 0) {
+            for (const file of req.files) {
+                // Validate file path (prevent directory traversal)
+                const pathValidation = inputValidator.validateUploadPath(file.path);
+                if (!pathValidation.valid) {
+                    fs.unlinkSync(file.path); // Delete potentially dangerous file
+                    console.error('🚨 Path traversal attempt:', pathValidation.error);
+                    return res.status(400).json({
+                        success: false,
+                        error: 'Invalid file path'
+                    });
+                }
+
+                // Validate file content (magic bytes, embedded scripts)
+                const contentValidation = await inputValidator.validateFileContent(file.path);
+                if (!contentValidation.valid) {
+                    fs.unlinkSync(file.path); // Delete malicious file
+                    console.error('🚨 Malicious file detected:', contentValidation.error);
+                    return res.status(400).json({
+                        success: false,
+                        error: `File rejected: ${contentValidation.error}`
+                    });
+                }
+
+                console.log(`✅ File content validation passed: ${file.filename}`);
+            }
+        }
+
+        // Use validated data instead of raw req.body
+        const validData = validation.data;
         const content = loadContent();
         
-        // Update vacation section
+        // Update vacation section with validated data
         if (!content.vacation) content.vacation = {};
-        content.vacation.enabled = req.body.vacation_enabled === 'on';
-        if (req.body.vacation_title !== undefined) content.vacation.title = req.body.vacation_title;
-        if (req.body.vacation_message !== undefined) content.vacation.message = req.body.vacation_message;
-        if (req.body.vacation_startDate !== undefined) content.vacation.startDate = req.body.vacation_startDate;
-        if (req.body.vacation_endDate !== undefined) content.vacation.endDate = req.body.vacation_endDate;
-        if (req.body.vacation_emergencyTitle !== undefined) content.vacation.emergencyTitle = req.body.vacation_emergencyTitle;
-        if (req.body.vacation_emergencyInfo !== undefined) content.vacation.emergencyInfo = req.body.vacation_emergencyInfo;
-        if (req.body.vacation_buttonText !== undefined) content.vacation.buttonText = req.body.vacation_buttonText;
+        content.vacation.enabled = validData.vacation_enabled === 'on';
+        if (validData.vacation_title !== undefined) content.vacation.title = validData.vacation_title;
+        if (validData.vacation_message !== undefined) content.vacation.message = validData.vacation_message;
+        if (validData.vacation_startDate !== undefined) content.vacation.startDate = validData.vacation_startDate;
+        if (validData.vacation_endDate !== undefined) content.vacation.endDate = validData.vacation_endDate;
+        if (validData.vacation_emergencyTitle !== undefined) content.vacation.emergencyTitle = validData.vacation_emergencyTitle;
+        if (validData.vacation_emergencyInfo !== undefined) content.vacation.emergencyInfo = validData.vacation_emergencyInfo;
+        if (validData.vacation_buttonText !== undefined) content.vacation.buttonText = validData.vacation_buttonText;
         
-        // Update intro section
-        if (req.body.intro_title) content.intro.title = req.body.intro_title;
-        if (req.body.intro_subtitle) content.intro.subtitle = req.body.intro_subtitle;
-        if (req.body.intro_feature1) content.intro.feature1 = req.body.intro_feature1;
-        if (req.body.intro_feature2) content.intro.feature2 = req.body.intro_feature2;
-        if (req.body.intro_feature3) content.intro.feature3 = req.body.intro_feature3;
-        if (req.body.intro_description) content.intro.description = req.body.intro_description;
-        if (req.body.intro_cta) content.intro.cta = req.body.intro_cta;
+        // Update intro section with validated data
+        if (validData.intro_title) content.intro.title = validData.intro_title;
+        if (validData.intro_subtitle) content.intro.subtitle = validData.intro_subtitle;
+        if (validData.intro_feature1) content.intro.feature1 = validData.intro_feature1;
+        if (validData.intro_feature2) content.intro.feature2 = validData.intro_feature2;
+        if (validData.intro_feature3) content.intro.feature3 = validData.intro_feature3;
+        if (validData.intro_description) content.intro.description = validData.intro_description;
+        if (validData.intro_cta) content.intro.cta = validData.intro_cta;
         
-        // Update services section
-        if (req.body.services_title) content.services.title = req.body.services_title;
-        if (req.body.services_subtitle) content.services.subtitle = req.body.services_subtitle;
+        // Update services section with validated data
+        if (validData.services_title) content.services.title = validData.services_title;
+        if (validData.services_subtitle) content.services.subtitle = validData.services_subtitle;
         
-        // Update service cards
+        // Update service cards with validated data
         if (!content.services.items) content.services.items = [];
         
         // Process up to 6 service cards (typical number)
@@ -1113,16 +1216,16 @@ app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
             const titleField = `service_${i}_title`;
             const descField = `service_${i}_description`;
             
-            if (req.body[iconField] || req.body[titleField] || req.body[descField]) {
+            if (validData[iconField] || validData[titleField] || validData[descField]) {
                 // Ensure the service item exists
                 if (!content.services.items[i]) {
                     content.services.items[i] = {};
                 }
                 
-                // Update fields if provided
-                if (req.body[iconField]) content.services.items[i].icon = req.body[iconField];
-                if (req.body[titleField]) content.services.items[i].title = req.body[titleField];
-                if (req.body[descField]) content.services.items[i].description = req.body[descField];
+                // Update fields if provided (already validated)
+                if (validData[iconField]) content.services.items[i].icon = validData[iconField];
+                if (validData[titleField]) content.services.items[i].title = validData[titleField];
+                if (validData[descField]) content.services.items[i].description = validData[descField];
             }
         }
         
@@ -1194,14 +1297,33 @@ app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
         // Save content
         if (saveContent(content)) {
             updateHtmlFile();
+            console.log(`✅ Content saved successfully by ${req.ip}`);
             res.json({ success: true, message: 'Content updated successfully' });
         } else {
+            console.error('❌ Failed to save content to file');
             res.json({ success: false, error: 'Failed to save content' });
         }
         
     } catch (error) {
-        console.error('Error in save route:', error);
-        res.json({ success: false, error: error.message });
+        console.error('🚨 Error in save route:', error);
+        
+        // Clean up uploaded files on error
+        if (req.files && req.files.length > 0) {
+            req.files.forEach(file => {
+                try {
+                    fs.unlinkSync(file.path);
+                    console.log(`🧹 Cleaned up file: ${file.filename}`);
+                } catch (cleanupError) {
+                    console.error('Error cleaning up file:', cleanupError.message);
+                }
+            });
+        }
+        
+        res.status(500).json({ 
+            success: false, 
+            error: 'Server error during save operation',
+            details: error.message 
+        });
     }
 });
 
