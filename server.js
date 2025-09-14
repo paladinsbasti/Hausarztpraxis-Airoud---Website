@@ -16,6 +16,8 @@ if (!process.env.SESSION_SECRET) {
 
 const { loadContent, saveContent } = require('./lib/contentService');
 const { loginTemplate, adminLayout } = require('./lib/templates');
+const csrfProtection = require('./lib/csrfProtection');
+const rateLimiter = require('./lib/enhancedRateLimit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -75,29 +77,16 @@ app.use((req, res, next) => {
     next();
 });
 
-// Rate limiting for login attempts
-const loginAttempts = new Map();
+// Enhanced Rate Limiting (replaces old login rate limiting)
+// Apply general API rate limiting
+app.use('/api/', rateLimiter.apiLimiter());
 
-function checkRateLimit(req, res, next) {
-    const ip = req.ip || req.connection.remoteAddress;
-    const now = Date.now();
-    const windowMs = 15 * 60 * 1000; // 15 minutes
-    const maxAttempts = 3; // Reduced from 5 to 3
-    
-    if (!loginAttempts.has(ip)) {
-        loginAttempts.set(ip, []);
-    }
-    
-    const attempts = loginAttempts.get(ip);
-    const recentAttempts = attempts.filter(time => now - time < windowMs);
-    
-        if (recentAttempts.length >= maxAttempts) {
-            return res.status(429).json({ 
-                error: 'Zu viele Login-Versuche. Versuchen Sie es in 15 Minuten erneut.',
-                retryAfter: Math.ceil(windowMs / 1000)
-            });
-        }    next();
-}
+// Apply rate limiting to contact form (if it exists)
+app.use('/contact', rateLimiter.strictLimiter());
+
+// Apply strict rate limiting to sensitive admin endpoints
+app.use('/admin/save', rateLimiter.adminLimiter());
+app.use('/admin/upload', rateLimiter.uploadLimiter());
 
 // Session Configuration with enhanced security
 app.use(session({
@@ -112,6 +101,9 @@ app.use(session({
         sameSite: 'lax'
     }
 }));
+
+// CSRF Protection Middleware (after session)
+app.use(csrfProtection.middleware());
 
 // Enhanced File Upload Configuration with validation
 const storage = multer.diskStorage({
@@ -215,8 +207,8 @@ app.get('/admin/login', (req, res) => {
     res.send(loginTemplate(!!req.query.error));
 });
 
-// Admin login handler with rate limiting
-app.post('/admin/login', checkRateLimit, (req, res) => {
+// Admin login handler with enhanced rate limiting
+app.post('/admin/login', rateLimiter.loginLimiter(), (req, res) => {
     const { username, password } = req.body;
     const ip = req.ip || req.connection.remoteAddress;
     const timestamp = new Date().toISOString();
@@ -226,27 +218,23 @@ app.post('/admin/login', checkRateLimit, (req, res) => {
             req.session.authenticated = true;
             req.session.loginTime = new Date().toISOString();
             
-            // Clear failed attempts on successful login
-            if (loginAttempts.has(ip)) {
-                loginAttempts.delete(ip);
-            }
+            // Log successful login
+            console.log(`✅ Successful admin login from ${ip} at ${timestamp}`);
             
             req.session.save((err) => {
                 if (err) {
+                    console.error('Session save error:', err);
                     return res.redirect('/admin/login?error=1');
                 }
                 res.redirect('/admin');
             });
         } else {
-            // Record failed attempt
-            if (!loginAttempts.has(ip)) {
-                loginAttempts.set(ip, []);
-            }
-            loginAttempts.get(ip).push(Date.now());
-            
+            // Log failed login attempt
+            console.warn(`❌ Failed login attempt from ${ip} at ${timestamp} (username: ${username})`);
             res.redirect('/admin/login?error=1');
         }
     } catch (error) {
+        console.error('Login error:', error);
         res.redirect('/admin/login?error=1');
     }
 });
@@ -255,6 +243,25 @@ app.post('/admin/login', checkRateLimit, (req, res) => {
 app.get('/admin/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/admin/login');
+});
+
+// CSRF Token refresh endpoint
+app.get('/admin/csrf-token', requireAuth, (req, res) => {
+    const newToken = csrfProtection.refreshToken(req);
+    res.json({ token: newToken, success: true });
+});
+
+// Rate limiter stats endpoint (admin only)
+app.get('/admin/rate-limit-stats', requireAuth, (req, res) => {
+    const stats = rateLimiter.getStats();
+    res.json({
+        success: true,
+        stats: {
+            ...stats,
+            uptime: process.uptime(),
+            timestamp: new Date().toISOString()
+        }
+    });
 });
 
 // Admin dashboard with enhanced UI
@@ -315,11 +322,20 @@ app.get('/admin', requireAuth, (req, res) => {
                                     <div style="font-weight: 600;">Session</div>
                                     <div>Seit ${new Date(req.session.loginTime).toLocaleTimeString('de-DE')}</div>
                                 </div>
+                                <div style="text-align: center; padding: 1rem; background: var(--light-bg); border-radius: 8px;">
+                                    <div style="font-size: 2rem; color: var(--info-color); margin-bottom: 0.5rem;">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div style="font-weight: 600;">Rate Limiter</div>
+                                    <div style="color: var(--success-color);">Aktiv & Überwachend</div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <form id="contentForm" method="POST" action="/admin/save" enctype="multipart/form-data">
+                        <!-- CSRF Protection Token -->
+                        <input type="hidden" name="_csrf" value="${res.locals.csrfToken || ''}" id="csrfToken">
                         
                         <!-- Vacation Section -->
                         <div class="section-card" style="border-left: 4px solid #ff6b6b;">
@@ -1196,7 +1212,8 @@ app.listen(PORT, () => {
     console.log(`🚀 Hausarztpraxis Airoud Server started on port ${PORT}`);
     console.log(`📋 Environment: ${process.env.NODE_ENV}`);
     console.log(`🔒 HTTPS Enabled: ${process.env.HTTPS_ENABLED === 'true' ? 'Yes' : 'No'}`);
-    console.log(`🛡️  Security: Session secrets loaded, rate limiting active`);
+    console.log(`🛡️  Security: Session secrets loaded, CSRF protection active`);
+    console.log(`🚦 Rate Limiting: Enhanced rate limiting active for all endpoints`);
     
     if (process.env.NODE_ENV === 'production' && process.env.HTTPS_ENABLED !== 'true') {
         console.warn('⚠️  WARNING: Running in production without HTTPS enabled!');

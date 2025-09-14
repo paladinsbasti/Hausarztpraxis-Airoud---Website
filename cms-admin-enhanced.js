@@ -99,18 +99,41 @@ class CMSAdmin {
 
     setupKeyboardShortcuts() {
         document.addEventListener('keydown', (e) => {
-            // Ctrl+S oder Cmd+S zum Speichern
+            // Ctrl+S to save
             if ((e.ctrlKey || e.metaKey) && e.key === 's') {
                 e.preventDefault();
-                this.saveContent();
+                const form = document.getElementById('contentForm');
+                if (form) form.dispatchEvent(new Event('submit'));
             }
             
-            // Ctrl+P oder Cmd+P für Vorschau
+            // Ctrl+P for preview
             if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
                 e.preventDefault();
                 this.openPreview();
             }
         });
+    }
+
+    // Refresh CSRF token if needed
+    async refreshCSRFToken() {
+        try {
+            const response = await fetch('/admin/csrf-token', {
+                method: 'GET',
+                credentials: 'same-origin'
+            });
+            const data = await response.json();
+            
+            if (data.token) {
+                const csrfInput = document.getElementById('csrfToken');
+                if (csrfInput) {
+                    csrfInput.value = data.token;
+                }
+                return true;
+            }
+        } catch (error) {
+            console.error('Failed to refresh CSRF token:', error);
+        }
+        return false;
     }
 
     validateField(field) {
@@ -173,26 +196,61 @@ class CMSAdmin {
         textarea.style.height = (textarea.scrollHeight + 2) + 'px';
     }
 
-    async handleSubmit(e) {
+    handleSubmit(e) {
         e.preventDefault();
         
-        // Validate all fields
-        const form = e.target;
-        const inputs = form.querySelectorAll('input, textarea');
-        let isFormValid = true;
-        
-        inputs.forEach(input => {
-            if (!this.validateField(input)) {
-                isFormValid = false;
-            }
-        });
-        
-        if (!isFormValid) {
-            this.showMessage('Bitte korrigieren Sie die Eingabefehler.', 'error');
+        if (!this.validateForm()) {
+            this.showMessage('❌ Bitte füllen Sie alle Pflichtfelder aus', 'error');
             return;
         }
+
+        // Get CSRF token
+        const csrfToken = document.getElementById('csrfToken');
+        if (!csrfToken || !csrfToken.value) {
+            this.showMessage('❌ Sicherheitstoken fehlt. Bitte laden Sie die Seite neu.', 'error');
+            return;
+        }
+
+        this.updateSaveButton(true);
         
-        await this.saveContent();
+        const formData = new FormData(e.target);
+        
+        fetch('/admin/save', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-Token': csrfToken.value
+            }
+        })
+        .then(response => {
+            if (response.status === 403) {
+                // CSRF token expired, try to refresh
+                return this.refreshCSRFToken().then(success => {
+                    if (success) {
+                        this.showMessage('🔄 Sicherheitstoken erneuert. Bitte versuchen Sie es erneut.', 'warning');
+                        return { success: false, error: 'Token refreshed, please retry' };
+                    } else {
+                        throw new Error('CSRF-Token ungültig. Bitte laden Sie die Seite neu.');
+                    }
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                this.hasUnsavedChanges = false;
+                this.updateSaveButton();
+                this.showMessage('✅ Änderungen erfolgreich gespeichert', 'success');
+                this.clearDraft();
+            } else {
+                throw new Error(data.error || 'Unbekannter Fehler');
+            }
+        })
+        .catch(error => {
+            console.error('Save error:', error);
+            this.updateSaveButton();
+            this.showMessage(`❌ Fehler beim Speichern: ${error.message}`, 'error');
+        });
     }
 
     async saveContent() {
