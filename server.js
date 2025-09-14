@@ -8,6 +8,12 @@ const multer = require('multer');
 // Load environment variables
 require('dotenv').config();
 
+// Validate critical environment variables
+if (!process.env.SESSION_SECRET) {
+    console.error('FATAL ERROR: SESSION_SECRET not set in environment variables!');
+    process.exit(1);
+}
+
 const { loadContent, saveContent } = require('./lib/contentService');
 const { loginTemplate, adminLayout } = require('./lib/templates');
 
@@ -76,15 +82,15 @@ function checkRateLimit(req, res, next) {
 
 // Session Configuration with enhanced security
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'bBYOhT1vjPlWuwYnVdEMKVASnSFIM/YxsD3/aTzNKlU=',
+    secret: process.env.SESSION_SECRET,
     name: 'praxis.session',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // set true behind HTTPS / proxy
+        secure: process.env.HTTPS_ENABLED === 'true',
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        sameSite: 'lax' // Changed from 'strict' to 'lax' for better compatibility
+        sameSite: 'lax'
     }
 }));
 
@@ -131,10 +137,10 @@ const upload = multer({
     }
 });
 
-// Secure admin credentials
+// Secure admin credentials from environment
 const DEFAULT_ADMIN = {
-    username: 'admin',
-    password: '$2a$12$LLdavEchB6JMldr8xn02BeuAGt0dMi66iQJF7cJGi4qD1COUe0X36'
+    username: process.env.ADMIN_USERNAME || 'admin',
+    password: process.env.ADMIN_PASSWORD_HASH || '$2a$12$5QxYHwStUtiDU6GubpI16Oir20rLy0gxQJLWYq9S/ZpXLLxJSD5Uq'
 };
 
 // Default Content moved to contentService
