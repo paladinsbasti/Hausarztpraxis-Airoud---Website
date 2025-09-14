@@ -140,7 +140,13 @@ function applyAboutContent() {
     if (doctorName && cmsContent.about.doctorName) doctorName.textContent = cmsContent.about.doctorName;
     
     const qualification = aboutSection.querySelector('.qualification');
-    if (qualification && cmsContent.about.qualification) qualification.textContent = cmsContent.about.qualification;
+    if (qualification && cmsContent.about.qualification) {
+        // Unterstützt manuellen Zeilenumbruch aus JSON (\n)
+        qualification.innerHTML = cmsContent.about.qualification
+            .replace(/\n/g, '<br>')
+            // Sicherstellen, dass nach "Innere Medizin-" ein Zeilenumbruch steht, ohne die Großschreibung zu verlieren
+            .replace(/Innere Medizin-(?!<br>)/, 'Innere Medizin-<br>');
+    }
     
     const welcome = aboutSection.querySelector('.welcome-text');
     if (welcome && cmsContent.about.welcome) welcome.textContent = cmsContent.about.welcome;
