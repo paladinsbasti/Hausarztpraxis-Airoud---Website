@@ -229,62 +229,85 @@ function applyContactContent() {
 
 // Vacation Modal
 function applyVacationModal() {
-    if (!cmsContent.vacation || !cmsContent.vacation.enabled) return;
+    // Immer anzeigen – forcierter Modus
+    if (!cmsContent.vacation) return; // minimale Sicherung
+    try {
+        // Duplikate verhindern (z.B. bei Hot-Reload oder doppelten Aufrufen)
+        const existing = document.getElementById('vacation-modal');
+        if (existing) {
+            console.info('[VacationModal] Bereits vorhanden – erneutes Erstellen übersprungen.');
+            return;
+        }
 
-    const modal = document.createElement('div');
-    modal.id = 'vacation-modal';
-    modal.className = 'vacation-modal';
-    
-    // Create modal content safely without innerHTML
-    const content = document.createElement('div');
-    content.className = 'vacation-content';
-    
-    // Header
-    const header = document.createElement('div');
-    header.className = 'vacation-header';
-    const icon = document.createElement('i');
-    icon.className = 'fas fa-umbrella-beach';
-    const title = document.createElement('h2');
-    title.textContent = cmsContent.vacation.title || 'Praxisurlaub';
-    header.appendChild(icon);
-    header.appendChild(title);
-    
-    // Body
-    const body = document.createElement('div');
-    body.className = 'vacation-body';
-    
-    const message = document.createElement('p');
-    message.className = 'vacation-message';
-    message.textContent = formatVacationMessage(cmsContent.vacation.message, cmsContent.vacation.startDate, cmsContent.vacation.endDate);
-    
-    const emergency = document.createElement('div');
-    emergency.className = 'vacation-emergency';
-    const emergencyTitle = document.createElement('h3');
-    emergencyTitle.textContent = cmsContent.vacation.emergencyTitle || 'Im Notfall:';
-    const emergencyInfo = document.createElement('p');
-    emergencyInfo.textContent = cmsContent.vacation.emergencyInfo || 'Ärztlicher Bereitschaftsdienst: 116 117';
-    emergency.appendChild(emergencyTitle);
-    emergency.appendChild(emergencyInfo);
-    
-    body.appendChild(message);
-    body.appendChild(emergency);
-    
-    // Footer
-    const footer = document.createElement('div');
-    footer.className = 'vacation-footer';
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'vacation-close';
-    closeBtn.textContent = cmsContent.vacation.buttonText || 'Verstanden';
-    closeBtn.onclick = closeVacationModal;
-    footer.appendChild(closeBtn);
-    
-    content.appendChild(header);
-    content.appendChild(body);
-    content.appendChild(footer);
-    modal.appendChild(content);
+        console.info('[VacationModal] Erstelle Urlaubs-Popup...');
 
-    document.body.appendChild(modal);
-    setTimeout(() => modal.classList.add('show'), 100);
+        const modal = document.createElement('div');
+        modal.id = 'vacation-modal';
+        modal.className = 'vacation-modal';
+
+        // Content Wrapper entsprechend Styles (.vacation-modal-content in CSS)
+        const content = document.createElement('div');
+        content.className = 'vacation-modal-content';
+
+        // Header
+        const header = document.createElement('div');
+        header.className = 'vacation-modal-header';
+        const icon = document.createElement('div');
+        icon.className = 'vacation-icon';
+        icon.innerHTML = '<i class="fas fa-umbrella-beach"></i>';
+        const title = document.createElement('h2');
+        title.textContent = cmsContent.vacation.title || 'Praxisurlaub';
+        header.appendChild(icon);
+        header.appendChild(title);
+
+        // Body
+        const body = document.createElement('div');
+        body.className = 'vacation-modal-body';
+
+        const message = document.createElement('p');
+        message.className = 'vacation-message';
+        message.style.whiteSpace = 'pre-line';
+        message.textContent = formatVacationMessage(
+            cmsContent.vacation.message,
+            cmsContent.vacation.startDate,
+            cmsContent.vacation.endDate
+        );
+
+        const emergency = document.createElement('div');
+        emergency.className = 'vacation-emergency';
+        const emergencyTitle = document.createElement('h3');
+        emergencyTitle.textContent = cmsContent.vacation.emergencyTitle || 'Im Notfall:';
+        const emergencyInfo = document.createElement('p');
+        emergencyInfo.style.whiteSpace = 'pre-line';
+        emergencyInfo.textContent = cmsContent.vacation.emergencyInfo || 'Ärztlicher Bereitschaftsdienst: 116 117';
+        emergency.appendChild(emergencyTitle);
+        emergency.appendChild(emergencyInfo);
+
+        body.appendChild(message);
+        body.appendChild(emergency);
+
+        // Footer
+        const footer = document.createElement('div');
+        footer.className = 'vacation-modal-footer';
+        const closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'vacation-close';
+        closeBtn.textContent = cmsContent.vacation.buttonText || 'Verstanden';
+        closeBtn.addEventListener('click', closeVacationModal);
+        footer.appendChild(closeBtn);
+
+        content.appendChild(header);
+        content.appendChild(body);
+        content.appendChild(footer);
+        modal.appendChild(content);
+        document.body.appendChild(modal);
+
+        // Aktivieren (CSS nutzt .vacation-modal.active)
+        requestAnimationFrame(() => modal.classList.add('active'));
+        console.info('[VacationModal] Anzeige aktiviert.');
+    } catch (err) {
+        console.error('[VacationModal] Fehler beim Erstellen:', err);
+    }
 }
 
 function formatVacationMessage(message, startDate, endDate) {

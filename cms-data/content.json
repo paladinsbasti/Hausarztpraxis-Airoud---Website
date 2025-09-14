@@ -2,11 +2,11 @@
   "vacation": {
     "enabled": true,
     "title": "Praxisurlaub",
-    "message": "Unsere Praxis ist vom [STARTDATUM] bis [ENDDATUM] geschlossen.",
+  "message": "Unsere Praxis ist vom [STARTDATUM] bis [ENDDATUM] geschlossen. Vertretung während dieser Zeit:\n\nFrau Dr. med. Roth\nCarnaperstraße 73\n42283 Wuppertal\nTel: 0202 501060\n\nHerr Dr. med. Chereath\nWinklerstraße 15\n42283 Wuppertal\nTel: 0202 593035",
     "startDate": "2025-09-15",
     "endDate": "2025-09-19",
     "emergencyTitle": "Im Notfall wenden Sie sich bitte an:",
-    "emergencyInfo": "Ärztlicher Bereitschaftsdienst: 116 117\r\nNotfallambulanz: Ihr nächstes Krankenhaus",
+  "emergencyInfo": "Ärztlicher Bereitschaftsdienst: 116 117\nNotfallambulanz: Ihr nächstes Krankenhaus",
     "buttonText": "Verstanden"
   },
   "navigation": {
@@ -22,11 +22,11 @@
     "title": "Willkommen in der Hausarztpraxis Airoud",
     "subtitle": "Ihre Gesundheit liegt uns am Herzen",
     "feature1": "Flexible Sprechzeiten",
-    "feature2": "Erfahrenes Team",
+  "feature2": "Freundliches Team",
     "feature3": "Persönliche Betreuung",
     "description": "Wir stehen Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.",
     "cta": "Termin vereinbaren",
-  "doctorImage": "images/Portrait_Export_v02.jpg"
+    "doctorImage": "images/Portrait_Export_v02.jpg"
   },
   "services": {
     "title": "Unsere Leistungen",
@@ -151,14 +151,14 @@
     "languagesDesc": "Wir sprechen deutsch, englisch, arabisch und italienisch.",
     "teamTitle": "Unser Team",
     "teamDesc": "Unser engagiertes Team sorgt dafür, dass Sie sich in unserer Praxis wohlfühlen und optimal betreut werden. Wir nehmen uns Zeit für Ihre Anliegen und behandeln jeden Patienten individuell.",
-    "teamImage": "images/Team_Export.jpg"
+    "teamImage": "images/team02.jpg"
   },
   "contact": {
     "title": "Kontakt",
     "subtitle": "Wir sind für Sie da - kontaktieren Sie uns",
     "info": "Kontaktdaten",
     "address": "Adresse",
-    "addressValue": "Eschenstr. 138\r\n42283 Wuppertal",
+  "addressValue": "Eschenstraße 138\n42283 Wuppertal",
     "phone": "Telefon",
     "phoneValue": "0202 25 350 880",
     "email": "E-Mail",
