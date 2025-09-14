@@ -209,45 +209,6 @@ section {
     transform: translateY(-50%);
 }
 
-.language-switcher {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: rgba(74, 144, 164, 0.1);
-    padding: 5px;
-    border-radius: 20px;
-}
-
-.lang-btn {
-    background: transparent;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-weight: 500;
-    color: var(--text-dark);
-    transition: var(--transition);
-    font-size: 0.9rem;
-}
-
-.lang-btn:hover {
-    background: rgba(74, 144, 164, 0.2);
-}
-
-.lang-btn.active {
-    background: var(--primary-color);
-    color: var(--white);
-}
-
-.mobile-lang-switcher {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid var(--gray-light);
-}
-
 .contact-btn {
     background: var(--primary-color);
     color: var(--white);

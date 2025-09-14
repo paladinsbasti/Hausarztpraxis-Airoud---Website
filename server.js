@@ -66,15 +66,12 @@ function checkRateLimit(req, res, next) {
     const attempts = loginAttempts.get(ip);
     const recentAttempts = attempts.filter(time => now - time < windowMs);
     
-    if (recentAttempts.length >= maxAttempts) {
-        console.log(`Rate limit exceeded for IP: ${ip} at ${new Date().toISOString()}`);
-        return res.status(429).json({ 
-            error: 'Zu viele Login-Versuche. Versuchen Sie es in 15 Minuten erneut.',
-            retryAfter: Math.ceil(windowMs / 1000)
-        });
-    }
-    
-    next();
+        if (recentAttempts.length >= maxAttempts) {
+            return res.status(429).json({ 
+                error: 'Zu viele Login-Versuche. Versuchen Sie es in 15 Minuten erneut.',
+                retryAfter: Math.ceil(windowMs / 1000)
+            });
+        }    next();
 }
 
 // Session Configuration with enhanced security
@@ -134,17 +131,15 @@ const upload = multer({
     }
 });
 
-// Secure admin credentials - CHANGED FOR PRODUCTION
+// Secure admin credentials
 const DEFAULT_ADMIN = {
     username: 'admin',
-    password: '$2a$12$LLdavEchB6JMldr8xn02BeuAGt0dMi66iQJF7cJGi4qD1COUe0X36' // Password: Hausarztpraxis_Airoud_CMS_2025
+    password: '$2a$12$LLdavEchB6JMldr8xn02BeuAGt0dMi66iQJF7cJGi4qD1COUe0X36'
 };
 
 // Default Content moved to contentService
 
-// Helpers ausgelagert nach lib/
-
-// Lightweight HTML updater (kept for backward compatibility – now minimal)
+// HTML updater
 function updateHtmlFile() {
     try {
         const content = loadContent();
@@ -211,17 +206,10 @@ app.post('/admin/login', checkRateLimit, (req, res) => {
                 loginAttempts.delete(ip);
             }
             
-            // Log successful login
-            console.log(`[SECURITY] Successful admin login from IP: ${ip} at ${timestamp}`);
-            console.log(`[DEBUG] Session set - authenticated: ${req.session.authenticated}`);
-            
-            // Save session before redirect
             req.session.save((err) => {
                 if (err) {
-                    console.error('[ERROR] Session save failed:', err);
                     return res.redirect('/admin/login?error=1');
                 }
-                console.log('[DEBUG] Session saved successfully, redirecting to /admin');
                 res.redirect('/admin');
             });
         } else {
@@ -231,13 +219,9 @@ app.post('/admin/login', checkRateLimit, (req, res) => {
             }
             loginAttempts.get(ip).push(Date.now());
             
-            // Log failed login attempt
-            console.log(`[SECURITY] Failed admin login attempt from IP: ${ip} at ${timestamp} - Username: ${username}`);
-            
             res.redirect('/admin/login?error=1');
         }
     } catch (error) {
-        console.error(`[SECURITY] Login error from IP: ${ip} at ${timestamp}:`, error);
         res.redirect('/admin/login?error=1');
     }
 });
@@ -1174,11 +1158,9 @@ app.post('/admin/save', requireAuth, upload.any(), (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`🚀 CMS Server läuft auf http://localhost:${PORT}`);
-    console.log(`📊 Admin Panel: http://localhost:${PORT}/admin`);
-    console.log(`🔑 Login: admin / Hausarztpraxis_Airoud_CMS_2025`);
-    console.log(`✅ Sicherheit: Produktionsbereit mit verschärften Einstellungen`);
-    console.log(`📝 Session: Sichere Konfiguration aktiviert`);
+    if (process.env.NODE_ENV !== 'production') {
+        console.log(`Server running on port ${PORT}`);
+    }
 });
 
 module.exports = app;

@@ -1,6 +1,6 @@
 {
   "vacation": {
-    "enabled": false,
+    "enabled": true,
     "title": "Praxisurlaub",
     "message": "Unsere Praxis ist vom [STARTDATUM] bis [ENDDATUM] geschlossen.",
     "startDate": "2025-09-15",
@@ -26,7 +26,7 @@
     "feature3": "Persönliche Betreuung",
     "description": "Wir stehen Ihnen als kompetenter Partner für Ihre Gesundheit zur Seite. In unserer modernen Praxis verbinden wir medizinische Expertise mit persönlicher Betreuung und neuesten Behandlungsmethoden.",
     "cta": "Termin vereinbaren",
-  "doctorImage": "images/Portrait_Export.jpg"
+    "doctorImage": "images/Portrait_Export.jpg"
   },
   "services": {
     "title": "Unsere Leistungen",
@@ -151,7 +151,7 @@
     "languagesDesc": "Wir sprechen deutsch, englisch, arabisch und italienisch.",
     "teamTitle": "Unser Team",
     "teamDesc": "Unser engagiertes Team sorgt dafür, dass Sie sich in unserer Praxis wohlfühlen und optimal betreut werden. Wir nehmen uns Zeit für Ihre Anliegen und behandeln jeden Patienten individuell.",
-  "teamImage": "images/Team_Export.jpg"
+    "teamImage": "images/Team_Export.jpg"
   },
   "contact": {
     "title": "Kontakt",
