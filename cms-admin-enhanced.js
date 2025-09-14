@@ -324,15 +324,29 @@ class CMSAdmin {
         if (!saveBtn) return;
         
         if (loading) {
-            saveBtn.innerHTML = '<span class="loading-spinner"></span>Speichert...';
+            // Clear and set content safely
+            saveBtn.textContent = '';
+            const spinner = document.createElement('span');
+            spinner.className = 'loading-spinner';
+            saveBtn.appendChild(spinner);
+            saveBtn.appendChild(document.createTextNode('Speichert...'));
             saveBtn.disabled = true;
         } else {
-            saveBtn.innerHTML = '<i class="fas fa-save"></i>Änderungen speichern';
+            // Clear and set content safely
+            saveBtn.textContent = '';
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-save';
+            saveBtn.appendChild(icon);
+            saveBtn.appendChild(document.createTextNode('Änderungen speichern'));
             saveBtn.disabled = false;
             
             if (this.hasUnsavedChanges) {
                 saveBtn.style.background = 'var(--warning-color)';
-                saveBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>Ungespeicherte Änderungen';
+                saveBtn.textContent = '';
+                const warningIcon = document.createElement('i');
+                warningIcon.className = 'fas fa-exclamation-triangle';
+                saveBtn.appendChild(warningIcon);
+                saveBtn.appendChild(document.createTextNode('Ungespeicherte Änderungen'));
             } else {
                 saveBtn.style.background = 'var(--success-color)';
             }
@@ -347,8 +361,11 @@ class CMSAdmin {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${type}`;
         
-        const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
-        messageDiv.innerHTML = `<i class="${icon}"></i>${text}`;
+        // Create icon and text safely
+        const icon = document.createElement('i');
+        icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-triangle';
+        messageDiv.appendChild(icon);
+        messageDiv.appendChild(document.createTextNode(text));
         
         const container = document.querySelector('.admin-content');
         container.insertBefore(messageDiv, container.firstChild);
@@ -443,14 +460,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const exportBtn = document.createElement('button');
         exportBtn.id = 'exportBtn';
         exportBtn.className = 'btn btn-secondary';
-        exportBtn.innerHTML = '<i class="fas fa-download"></i>Export';
+        
+        // Create button content safely
+        const exportIcon = document.createElement('i');
+        exportIcon.className = 'fas fa-download';
+        exportBtn.appendChild(exportIcon);
+        exportBtn.appendChild(document.createTextNode('Export'));
         exportBtn.onclick = () => window.cmsAdmin.exportContent();
         header.appendChild(exportBtn);
         
         const importLabel = document.createElement('label');
         importLabel.className = 'btn btn-secondary';
-        importLabel.innerHTML = '<i class="fas fa-upload"></i>Import';
         importLabel.style.cursor = 'pointer';
+        
+        // Create label content safely
+        const importIcon = document.createElement('i');
+        importIcon.className = 'fas fa-upload';
+        importLabel.appendChild(importIcon);
+        importLabel.appendChild(document.createTextNode('Import'));
         
         const importInput = document.createElement('input');
         importInput.type = 'file';

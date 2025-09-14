@@ -53,14 +53,17 @@ app.use((req, res, next) => {
     res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     
-    // Content Security Policy
+    // Content Security Policy - Verschärft gegen XSS
     res.setHeader('Content-Security-Policy', 
         "default-src 'self'; " +
-        "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; " +
+        "script-src 'self' https://cdnjs.cloudflare.com; " +
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
         "font-src 'self' https://fonts.gstatic.com; " +
         "img-src 'self' data: https:; " +
-        "connect-src 'self';"
+        "connect-src 'self'; " +
+        "object-src 'none'; " +
+        "frame-src 'none'; " +
+        "base-uri 'self';"
     );
     
     // HTTPS/SSL Security Headers
@@ -399,7 +402,12 @@ app.get('/admin', requireAuth, (req, res) => {
                                                 toggleSwitch.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
                                                 statusText.style.color = '#28a745';
                                                 icon.className = 'fas fa-check-circle';
-                                                statusText.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i>Urlaub-Pop-up AKTIV';
+                                                statusText.textContent = '';
+                                                const iconEl = document.createElement('i');
+                                                iconEl.className = 'fas fa-check-circle';
+                                                iconEl.style.marginRight = '0.5rem';
+                                                statusText.appendChild(iconEl);
+                                                statusText.appendChild(document.createTextNode('Urlaub-Pop-up AKTIV'));
                                                 container.style.borderColor = '#28a745';
                                                 container.style.background = 'linear-gradient(135deg, #d4edda, #c3e6cb)';
                                             } else {
@@ -408,7 +416,12 @@ app.get('/admin', requireAuth, (req, res) => {
                                                 toggleSwitch.style.background = '#6c757d';
                                                 statusText.style.color = '#6c757d';
                                                 icon.className = 'fas fa-times-circle';
-                                                statusText.innerHTML = '<i class="fas fa-times-circle" style="margin-right: 0.5rem;"></i>Urlaub-Pop-up INAKTIV';
+                                                statusText.textContent = '';
+                                                const iconEl = document.createElement('i');
+                                                iconEl.className = 'fas fa-times-circle';
+                                                iconEl.style.marginRight = '0.5rem';
+                                                statusText.appendChild(iconEl);
+                                                statusText.appendChild(document.createTextNode('Urlaub-Pop-up INAKTIV'));
                                                 container.style.borderColor = '#dee2e6';
                                                 container.style.background = 'linear-gradient(135deg, #f8f9fa, #e9ecef)';
                                             }

@@ -84,17 +84,31 @@ function applyServicesContent() {
     if (cmsContent.services.items && Array.isArray(cmsContent.services.items)) {
         const serviceGrid = servicesSection.querySelector('.services-grid');
         if (serviceGrid) {
-            serviceGrid.innerHTML = '';
+            // Clear existing content safely
+            while (serviceGrid.firstChild) {
+                serviceGrid.removeChild(serviceGrid.firstChild);
+            }
+            
             cmsContent.services.items.forEach(service => {
                 const serviceElement = document.createElement('div');
                 serviceElement.className = 'service-card';
-                serviceElement.innerHTML = `
-                    <div class="service-icon">
-                        <i class="${service.icon || 'fas fa-heartbeat'}"></i>
-                    </div>
-                    <h3>${service.title || ''}</h3>
-                    <p>${service.description || ''}</p>
-                `;
+                
+                // Create elements safely without innerHTML
+                const iconDiv = document.createElement('div');
+                iconDiv.className = 'service-icon';
+                const icon = document.createElement('i');
+                icon.className = service.icon || 'fas fa-heartbeat';
+                iconDiv.appendChild(icon);
+                
+                const title = document.createElement('h3');
+                title.textContent = service.title || '';
+                
+                const description = document.createElement('p');
+                description.textContent = service.description || '';
+                
+                serviceElement.appendChild(iconDiv);
+                serviceElement.appendChild(title);
+                serviceElement.appendChild(description);
                 serviceGrid.appendChild(serviceElement);
             });
         }
@@ -153,7 +167,15 @@ function applyContactContent() {
     if (subtitle && cmsContent.contact.subtitle) subtitle.textContent = cmsContent.contact.subtitle;
     
     const address = contactSection.querySelector('.address');
-    if (address && cmsContent.contact.address) address.innerHTML = cmsContent.contact.address;
+    if (address && cmsContent.contact.address) {
+        // Safely handle address with line breaks
+        address.textContent = '';
+        const lines = cmsContent.contact.address.split('\n');
+        lines.forEach((line, index) => {
+            if (index > 0) address.appendChild(document.createElement('br'));
+            address.appendChild(document.createTextNode(line));
+        });
+    }
     
     const phone = contactSection.querySelector('.phone');
     if (phone && cmsContent.contact.phone) phone.textContent = cmsContent.contact.phone;
@@ -168,14 +190,26 @@ function applyContactContent() {
     if (cmsContent.contact.hours && Array.isArray(cmsContent.contact.hours)) {
         const hoursList = contactSection.querySelector('.hours-list');
         if (hoursList) {
-            hoursList.innerHTML = '';
+            // Clear existing content safely
+            while (hoursList.firstChild) {
+                hoursList.removeChild(hoursList.firstChild);
+            }
+            
             cmsContent.contact.hours.forEach(hour => {
                 const hourElement = document.createElement('div');
                 hourElement.className = 'hour-item';
-                hourElement.innerHTML = `
-                    <span class="day">${hour.day || ''}</span>
-                    <span class="time">${hour.time || ''}</span>
-                `;
+                
+                // Create elements safely without innerHTML
+                const daySpan = document.createElement('span');
+                daySpan.className = 'day';
+                daySpan.textContent = hour.day || '';
+                
+                const timeSpan = document.createElement('span');
+                timeSpan.className = 'time';
+                timeSpan.textContent = hour.time || '';
+                
+                hourElement.appendChild(daySpan);
+                hourElement.appendChild(timeSpan);
                 hoursList.appendChild(hourElement);
             });
         }
@@ -189,24 +223,54 @@ function applyVacationModal() {
     const modal = document.createElement('div');
     modal.id = 'vacation-modal';
     modal.className = 'vacation-modal';
-    modal.innerHTML = `
-        <div class="vacation-content">
-            <div class="vacation-header">
-                <i class="fas fa-umbrella-beach"></i>
-                <h2>${cmsContent.vacation.title || 'Praxisurlaub'}</h2>
-            </div>
-            <div class="vacation-body">
-                <p class="vacation-message">${formatVacationMessage(cmsContent.vacation.message, cmsContent.vacation.startDate, cmsContent.vacation.endDate)}</p>
-                <div class="vacation-emergency">
-                    <h3>${cmsContent.vacation.emergencyTitle || 'Im Notfall:'}</h3>
-                    <p>${cmsContent.vacation.emergencyInfo || 'Ärztlicher Bereitschaftsdienst: 116 117'}</p>
-                </div>
-            </div>
-            <div class="vacation-footer">
-                <button class="vacation-close" onclick="closeVacationModal()">${cmsContent.vacation.buttonText || 'Verstanden'}</button>
-            </div>
-        </div>
-    `;
+    
+    // Create modal content safely without innerHTML
+    const content = document.createElement('div');
+    content.className = 'vacation-content';
+    
+    // Header
+    const header = document.createElement('div');
+    header.className = 'vacation-header';
+    const icon = document.createElement('i');
+    icon.className = 'fas fa-umbrella-beach';
+    const title = document.createElement('h2');
+    title.textContent = cmsContent.vacation.title || 'Praxisurlaub';
+    header.appendChild(icon);
+    header.appendChild(title);
+    
+    // Body
+    const body = document.createElement('div');
+    body.className = 'vacation-body';
+    
+    const message = document.createElement('p');
+    message.className = 'vacation-message';
+    message.textContent = formatVacationMessage(cmsContent.vacation.message, cmsContent.vacation.startDate, cmsContent.vacation.endDate);
+    
+    const emergency = document.createElement('div');
+    emergency.className = 'vacation-emergency';
+    const emergencyTitle = document.createElement('h3');
+    emergencyTitle.textContent = cmsContent.vacation.emergencyTitle || 'Im Notfall:';
+    const emergencyInfo = document.createElement('p');
+    emergencyInfo.textContent = cmsContent.vacation.emergencyInfo || 'Ärztlicher Bereitschaftsdienst: 116 117';
+    emergency.appendChild(emergencyTitle);
+    emergency.appendChild(emergencyInfo);
+    
+    body.appendChild(message);
+    body.appendChild(emergency);
+    
+    // Footer
+    const footer = document.createElement('div');
+    footer.className = 'vacation-footer';
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'vacation-close';
+    closeBtn.textContent = cmsContent.vacation.buttonText || 'Verstanden';
+    closeBtn.onclick = closeVacationModal;
+    footer.appendChild(closeBtn);
+    
+    content.appendChild(header);
+    content.appendChild(body);
+    content.appendChild(footer);
+    modal.appendChild(content);
 
     document.body.appendChild(modal);
     setTimeout(() => modal.classList.add('show'), 100);
