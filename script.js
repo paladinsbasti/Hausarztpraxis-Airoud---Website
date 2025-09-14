@@ -84,32 +84,43 @@ function applyServicesContent() {
     if (cmsContent.services.items && Array.isArray(cmsContent.services.items)) {
         const serviceGrid = servicesSection.querySelector('.services-grid');
         if (serviceGrid) {
-            // Clear existing content safely
-            while (serviceGrid.firstChild) {
-                serviceGrid.removeChild(serviceGrid.firstChild);
-            }
-            
+            // Clear existing content safely (we lose inline onclick handlers, will re-add programmatically)
+            while (serviceGrid.firstChild) serviceGrid.removeChild(serviceGrid.firstChild);
+
             cmsContent.services.items.forEach(service => {
                 const serviceElement = document.createElement('div');
                 serviceElement.className = 'service-card';
-                
-                // Create elements safely without innerHTML
+
+                // Map service title to modal key/id
+                const modalKey = deriveModalKey(service.title);
+                if (modalKey) {
+                    serviceElement.dataset.modalKey = modalKey; // store for debugging
+                }
+
+                // Create elements
                 const iconDiv = document.createElement('div');
                 iconDiv.className = 'service-icon';
                 const icon = document.createElement('i');
                 icon.className = service.icon || 'fas fa-heartbeat';
                 iconDiv.appendChild(icon);
-                
-                const title = document.createElement('h3');
-                title.textContent = service.title || '';
-                
+
+                const titleEl = document.createElement('h3');
+                titleEl.textContent = service.title || '';
+
                 const description = document.createElement('p');
                 description.textContent = service.description || '';
-                
+
                 serviceElement.appendChild(iconDiv);
-                serviceElement.appendChild(title);
+                serviceElement.appendChild(titleEl);
                 serviceElement.appendChild(description);
                 serviceGrid.appendChild(serviceElement);
+
+                // Attach click handler if modal known
+                serviceElement.addEventListener('click', () => {
+                    if (!modalKey) return;
+                    ensureModalExists(modalKey);
+                    openModal('modal-' + modalKey);
+                });
             });
         }
     }
@@ -302,17 +313,115 @@ function closeVacationModal() {
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
-        modal.style.display = 'block';
+        // Use CSS class for consistent styling/centering
+        modal.classList.add('active');
+        // Remove any inline style remnants from previous implementation
+        if (modal.style.display === 'block') modal.style.removeProperty('display');
         document.body.style.overflow = 'hidden';
+        // Focus first heading for accessibility
+        const focusTarget = modal.querySelector('h3, h2, .close, button');
+        if (focusTarget) {
+            try { focusTarget.focus(); } catch (e) {}
+        }
     }
 }
 
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
-        modal.style.display = 'none';
+        modal.classList.remove('active');
+        // Small timeout allows CSS transitions if later added
+        setTimeout(() => {
+            // Ensure hidden (fallback)
+            if (!modal.classList.contains('active')) modal.style.display = 'none';
+        }, 10);
         document.body.style.overflow = 'auto';
     }
+}
+
+// Derive modal key from a service title (lowercase / simple mapping)
+function deriveModalKey(title) {
+    if (!title) return null;
+    const raw = title.toLowerCase().trim();
+    // Direct matches to CMS modals keys
+    const directMap = {
+        'hausarztmedizin': 'hausarzt',
+        'vorsorgeuntersuchungen': 'vorsorge',
+        'blutuntersuchungen & labor': 'labor',
+        'blutuntersuchungen & labor.': 'labor',
+        'diagnostik': 'diagnostik',
+        'hausbesuche': 'hausbesuche',
+        'disease management': 'dmp',
+        'disease-management-programme (dmp)': 'dmp',
+        'disease-management-programme': 'dmp'
+    };
+    if (directMap[raw]) return directMap[raw];
+    // Fallback: remove non letters
+    const simplified = raw.replace(/[^a-z0-9]+/g, '-');
+    if (['hausarzt','vorsorge','labor','diagnostik','hausbesuche','dmp'].includes(simplified)) return simplified;
+    return null;
+}
+
+// Ensure modal element exists in DOM for given modal key based on cmsContent.modals
+function ensureModalExists(modalKey) {
+    const existing = document.getElementById('modal-' + modalKey);
+    if (existing) return existing;
+    if (!cmsContent || !cmsContent.modals || !cmsContent.modals[modalKey]) return null;
+    const data = cmsContent.modals[modalKey];
+    const modal = document.createElement('div');
+    modal.id = 'modal-' + modalKey;
+    modal.className = 'modal';
+
+    const content = document.createElement('div');
+    content.className = 'modal-content';
+
+    const closeSpan = document.createElement('span');
+    closeSpan.className = 'close';
+    closeSpan.innerHTML = '&times;';
+    closeSpan.addEventListener('click', () => closeModal(modal.id));
+    content.appendChild(closeSpan);
+
+    const heading = document.createElement('h3');
+    heading.textContent = data.title || '';
+    content.appendChild(heading);
+
+    const body = document.createElement('div');
+    body.className = 'modal-body';
+
+    if (data.intro) {
+        const p = document.createElement('p');
+        p.textContent = data.intro;
+        body.appendChild(p);
+    }
+    if (data.listTitle) {
+        const h4 = document.createElement('h4');
+        h4.textContent = data.listTitle;
+        body.appendChild(h4);
+    }
+    if (Array.isArray(data.items)) {
+        const ul = document.createElement('ul');
+        data.items.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item.replace(/\r?\n/g,' ').trim();
+            ul.appendChild(li);
+        });
+        body.appendChild(ul);
+    }
+    if (data.note) {
+        const p = document.createElement('p');
+        p.textContent = data.note;
+        body.appendChild(p);
+    }
+    if (data.outro) {
+        const p = document.createElement('p');
+        p.textContent = data.outro;
+        body.appendChild(p);
+    }
+
+    content.appendChild(body);
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    return modal;
 }
 
 // Mobile menu toggle
@@ -391,15 +500,21 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Modal close functionality
     document.addEventListener('click', function(event) {
         if (event.target.classList.contains('modal')) {
-            event.target.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-        
-        if (event.target.classList.contains('close')) {
+            const id = event.target.id;
+            if (id) closeModal(id);
+        } else if (event.target.classList.contains('close')) {
             const modal = event.target.closest('.modal');
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+            if (modal && modal.id) closeModal(modal.id);
+        }
+    });
+
+    // ESC key closes the topmost active modal
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const activeModals = Array.from(document.querySelectorAll('.modal.active'));
+            if (activeModals.length) {
+                const top = activeModals[activeModals.length - 1];
+                closeModal(top.id);
             }
         }
     });
