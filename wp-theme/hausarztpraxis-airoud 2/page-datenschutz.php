@@ -1,0 +1,115 @@
+<?php
+/* Template Name: Datenschutz */
+get_header(); ?>
+<section class="legal-section">
+  <div class="container">
+    <h2>Datenschutzerklärung</h2>
+    <div class="legal-content">
+      <!-- Migrated content from original datenschutz.html (static) -->
+      <h3>1. Datenschutz auf einen Blick</h3>
+      <h4>Allgemeine Hinweise</h4>
+      <p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie unsere Praxis besuchen oder diese Website nutzen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können. Ausführliche Informationen zum Thema Datenschutz entnehmen Sie unserer unter diesem Text aufgeführten Datenschutzerklärung.</p>
+      <h4>Datenerfassung in unserer Praxis und auf dieser Website</h4>
+      <p><strong>Wer ist verantwortlich für die Datenerfassung?</strong></p>
+      <p>Die Datenverarbeitung erfolgt durch den Praxisinhaber. Dessen Kontaktdaten können Sie dem Impressum dieser Website entnehmen.</p>
+      <p><strong>Wie erfassen wir Ihre Daten?</strong></p>
+      <p>Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen (z.B. bei der Anmeldung, Anamnese). Andere Daten werden automatisch beim Besuch der Website durch unsere IT-Systeme erfasst. Das sind vor allem technische Daten (z.B. Internetbrowser, Betriebssystem oder Uhrzeit des Seitenaufrufs).</p>
+      <p><strong>Wofür nutzen wir Ihre Daten?</strong></p>
+      <p>Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden. In der Praxis dienen Ihre Daten der medizinischen Behandlung, Abrechnung und gesetzlichen Dokumentationspflichten.</p>
+      <h3>2. Verantwortliche Stelle</h3>
+      <p>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website und in unserer Praxis ist:</p>
+      <div class="contact-info-legal">
+        <p><strong>Abdullah Airoud</strong><br>Facharzt für Innere Medizin-<br>Notfallmedizin<br>Eschenstr. 138<br>42283 Wuppertal<br><br>Telefon: <a href="tel:+4920225350880">0202 25 350 880</a><br>E-Mail: <a href="mailto:info@hausarztpraxis-airoud.de">info@hausarztpraxis-airoud.de</a></p>
+      </div>
+      <p>Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten entscheidet.</p>
+      <h3>3. Datenverarbeitung in der Arztpraxis</h3>
+      <h4>Erhebung und Verarbeitung von Patientendaten</h4>
+      <p>Als Arztpraxis verarbeiten wir personenbezogene Daten unserer Patienten zur:</p>
+      <ul>
+        <li>Durchführung der Behandlung und Betreuung</li>
+        <li>Erfüllung der ärztlichen Dokumentationspflichten</li>
+        <li>Abrechnung mit Krankenkassen und Privatpatienten</li>
+        <li>Qualitätssicherung und Praxisorganisation</li>
+        <li>Erfüllung gesetzlicher Melde- und Aufbewahrungspflichten</li>
+      </ul>
+      <h4>Rechtsgrundlage der Verarbeitung</h4>
+      <p>Die Verarbeitung Ihrer Patientendaten erfolgt auf Grundlage von:</p>
+      <ul>
+        <li>Art. 9 Abs. 2 lit. h) DSGVO (Gesundheitsvorsorge oder Behandlung)</li>
+        <li>Art. 6 Abs. 1 lit. c) DSGVO (rechtliche Verpflichtung)</li>
+        <li>Art. 6 Abs. 1 lit. f) DSGVO (berechtigte Interessen)</li>
+        <li>§ 22 Abs. 1 Nr. 1 lit. b) BDSG (besondere Kategorien personenbezogener Daten)</li>
+      </ul>
+      <h4>Ärztliche Schweigepflicht und Datenschutz</h4>
+      <p>Alle Praxismitarbeiter sind zur Verschwiegenheit verpflichtet und wurden auf das Datengeheimnis nach Art. 5 Abs. 1 DSG-EKD bzw. § 6 LDSG verpflichtet. Die ärztliche Schweigepflicht nach § 203 StGB bleibt unberührt.</p>
+      <h4>Kategorien verarbeiteter Daten</h4>
+      <p>Wir verarbeiten folgende Kategorien von Patientendaten:</p>
+      <ul>
+        <li>Stammdaten (Name, Adresse, Geburtsdatum, Kontaktdaten)</li>
+        <li>Versichertendaten (Krankenkasse, Versichertennummer)</li>
+        <li>Anamnesedaten (Vorerkrankungen, Allergien, Medikation)</li>
+        <li>Untersuchungs- und Behandlungsdaten</li>
+        <li>Laborwerte und Befunde</li>
+        <li>Abrechnungsdaten</li>
+      </ul>
+      <h4>Empfänger der Daten</h4>
+      <p>Ihre Daten können an folgende Stellen weitergegeben werden:</p>
+      <ul>
+        <li>Krankenkassen (zur Abrechnung)</li>
+        <li>Kassenärztliche Vereinigung</li>
+        <li>Andere Ärzte (bei Überweisungen, mit Ihrer Einwilligung)</li>
+        <li>Labore (zur Befundauswertung)</li>
+        <li>Gesundheitsbehörden (bei Meldepflichten)</li>
+        <li>IT-Dienstleister (zur technischen Betreuung, unter Auftragsverarbeitung)</li>
+      </ul>
+      <h4>Speicherdauer</h4>
+      <p>Patientendaten werden entsprechend den gesetzlichen Aufbewahrungsfristen gespeichert:</p>
+      <ul>
+        <li>Behandlungsunterlagen: 10 Jahre nach Abschluss der Behandlung</li>
+        <li>Röntgenaufnahmen: 10 Jahre nach der Aufnahme</li>
+        <li>Aufzeichnungen über Betäubungsmittel: 3 Jahre</li>
+        <li>Abrechnungsunterlagen: 10 Jahre</li>
+      </ul>
+      <h3>4. Datenerfassung auf dieser Website</h3>
+      <h4>Cookies</h4>
+      <p>Unsere Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem Rechner abgelegt werden und die Ihr Browser speichert.</p>
+      <h4>Server-Log-Dateien</h4>
+      <p>Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt. Dies sind:</p>
+      <ul>
+        <li>Browsertyp und Browserversion</li>
+        <li>verwendetes Betriebssystem</li>
+        <li>Referrer URL</li>
+        <li>Hostname des zugreifenden Rechners</li>
+        <li>Uhrzeit der Serveranfrage</li>
+        <li>IP-Adresse</li>
+      </ul>
+      <p>Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen.</p>
+      <h4>Kontaktaufnahme</h4>
+      <p>Wenn Sie uns per E-Mail, Telefon oder über das Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben inklusive der von Ihnen angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.</p>
+      <h3>5. Ihre Rechte als Patient und betroffene Person</h3>
+      <p>Sie haben folgende Rechte bezüglich Ihrer personenbezogenen Daten:</p>
+      <ul>
+        <li><strong>Auskunftsrecht (Art. 15 DSGVO):</strong> Sie können Auskunft über die von uns verarbeiteten personenbezogenen Daten verlangen.</li>
+        <li><strong>Berichtigungsrecht (Art. 16 DSGVO):</strong> Sie können die Berichtigung unrichtiger Daten verlangen.</li>
+        <li><strong>Löschungsrecht (Art. 17 DSGVO):</strong> Sie können die Löschung Ihrer Daten verlangen, soweit gesetzliche Aufbewahrungspflichten nicht entgegenstehen.</li>
+        <li><strong>Einschränkungsrecht (Art. 18 DSGVO):</strong> Sie können die Einschränkung der Verarbeitung verlangen.</li>
+        <li><strong>Datenübertragbarkeit (Art. 20 DSGVO):</strong> Sie können verlangen, dass wir Ihnen Ihre Daten in einem strukturierten, gängigen und maschinenlesbaren Format zur Verfügung stellen.</li>
+        <li><strong>Widerspruchsrecht (Art. 21 DSGVO):</strong> Sie können der Verarbeitung Ihrer Daten widersprechen, soweit diese auf berechtigten Interessen beruht.</li>
+        <li><strong>Widerruf von Einwilligungen (Art. 7 Abs. 3 DSGVO):</strong> Soweit die Verarbeitung auf einer Einwilligung beruht, können Sie diese jederzeit widerrufen.</li>
+        <li><strong>Beschwerderecht (Art. 77 DSGVO):</strong> Sie haben das Recht, sich bei einer Aufsichtsbehörde über die Verarbeitung Ihrer Daten zu beschweren.</li>
+      </ul>
+      <h4>Zuständige Aufsichtsbehörde</h4>
+      <p>Bei datenschutzrechtlichen Fragen können Sie sich an die zuständige Aufsichtsbehörde wenden:</p>
+      <p><strong>Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen</strong><br>Kavalleriestraße 2-4<br>40213 Düsseldorf<br>Telefon: 0211/38424-0<br>E-Mail: poststelle@ldi.nrw.de</p>
+      <h3>6. Datensicherheit</h3>
+      <p>Wir verwenden innerhalb des Website-Besuchs das verbreitete SSL-Verfahren (Secure Socket Layer) in Verbindung mit der jeweils höchsten Verschlüsselungsstufe, die von Ihrem Browser unterstützt wird. In der Regel handelt es sich dabei um eine 256-Bit Verschlüsselung. Falls Ihr Browser keine 256-Bit Verschlüsselung unterstützt, greifen wir stattdessen auf 128-Bit v3 Technologie zurück.</p>
+      <p>Darüber hinaus setzen wir angemessene technische und organisatorische Sicherheitsmaßnahmen ein, um Ihre Daten gegen zufällige oder vorsätzliche Manipulationen, teilweisen oder vollständigen Verlust, Zerstörung oder gegen den unbefugten Zugriff Dritter zu schützen.</p>
+      <h3>7. Aktualität und Änderung dieser Datenschutzerklärung</h3>
+      <p>Diese Datenschutzerklärung ist aktuell gültig und hat den Stand August 2025. Durch die Weiterentwicklung unserer Website und Angebote darüber oder aufgrund geänderter gesetzlicher beziehungsweise behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern.</p>
+      <h3>8. Kontakt Datenschutz</h3>
+      <p>Bei Fragen zum Datenschutz wenden Sie sich bitte an:</p>
+      <div class="contact-info-legal"><p><strong>Abdullah Airoud</strong><br>Datenschutzverantwortlicher<br>Eschenstr. 138<br>42283 Wuppertal<br><br>Telefon: <a href="tel:+4920225350880">0202 25 350 880</a><br>E-Mail: <a href="mailto:datenschutz@hausarztpraxis-airoud.de">datenschutz@hausarztpraxis-airoud.de</a></p></div>
+    </div>
+  </div>
+</section>
+<?php get_footer();

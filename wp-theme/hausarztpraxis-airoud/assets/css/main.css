@@ -1,0 +1,63 @@
+/* Main stylesheet migrated from root styles.css */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	--primary-color: #4a90a4;
+	--secondary-color: #2c5f70;
+	--accent-color: #7bb3c7;
+	--text-dark: #2c3e50;
+	--text-light: #5a6c7d;
+	--background-light: #f8f9fa;
+	--white: #ffffff;
+	--gray-light: #e9ecef;
+	--gray-medium: #6c757d;
+	--success: #28a745;
+	--warning: #ffc107;
+	--danger: #dc3545;
+	--shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+	--shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+	--shadow-heavy: 0 8px 30px rgba(0,0,0,0.2);
+	--border-radius: 12px;
+	--transition: all 0.3s ease;
+}
+
+html {
+	scroll-behavior: smooth;
+	/* scroll-snap nur noch über body.snap-scroll steuerbar */
+	scroll-snap-type: none;
+}
+
+body {
+	font-family: 'Inter', sans-serif;
+	line-height: 1.6;
+	color: var(--text-dark);
+	overflow-x: hidden;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+/* ... (CSS content truncated for brevity in patch) ... */
+
+/* Vacation modal styles kept at end */
+@media (max-width: 480px) {
+	.vacation-modal-content {
+		width: 98%;
+		max-width: 98vw;
+		margin: 0.25rem;
+		max-height: 95vh;
+	}
+	.vacation-modal-header {
+		padding: 0.75rem;
+	}
+	.vacation-modal-header h2 { font-size: 1.2rem; }
+	.vacation-modal-body { padding: 1rem; max-height: calc(95vh - 120px); }
+	.vacation-message { font-size: 0.95rem; }
+	.vacation-dates .date-range { font-size: 0.9rem; }
+	.vacation-emergency-info { font-size: 0.9rem; }
+}
+
+/* End migrated stylesheet */

@@ -1,4 +1,4 @@
-// Enhanced CMS Admin JavaScript
+// CMS Admin JavaScript - Neutralized for Static Deployment
 class CMSAdmin {
     constructor() {
         this.isAutoSaving = false;
